@@ -1,1 +1,0 @@
-initSidebarItems({"struct":[["HWISigner","Custom signer for Hardware Wallets"]]});
