@@ -1,225 +1,592 @@
 <!DOCTYPE html>
-<html>
+<html class="no-js">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
     <title>Wallet</title>
     <link href="../../../images/logo-icon.svg" rel="icon" type="image/svg">
     <script>var pathToRoot = "../../../";</script>
+    <script>document.documentElement.classList.replace("no-js","js");</script>
     <script>const storage = localStorage.getItem("dokka-dark-mode")
-const savedDarkMode = storage ? JSON.parse(storage) : false
-if(savedDarkMode === true){
-    document.getElementsByTagName("html")[0].classList.add("theme-dark")
-}</script>
-<script src="https://unpkg.com/kotlin-playground@1"></script><script type="text/javascript" src="../../../scripts/sourceset_dependencies.js" async="async"></script>
+    if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    } else {
+        const savedDarkMode = JSON.parse(storage)
+        if(savedDarkMode === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    }
+    </script>
+<script type="text/javascript" src="https://unpkg.com/kotlin-playground@1/dist/playground.min.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/sourceset_dependencies.js" async="async"></script>
 <link href="../../../styles/style.css" rel="Stylesheet">
-<link href="../../../styles/jetbrains-mono.css" rel="Stylesheet">
 <link href="../../../styles/main.css" rel="Stylesheet">
 <link href="../../../styles/prism.css" rel="Stylesheet">
 <link href="../../../styles/logo-styles.css" rel="Stylesheet">
+<link href="../../../styles/font-jb-sans-auto.css" rel="Stylesheet">
 <script type="text/javascript" src="../../../scripts/clipboard.js" async="async"></script>
 <script type="text/javascript" src="../../../scripts/navigation-loader.js" async="async"></script>
 <script type="text/javascript" src="../../../scripts/platform-content-handler.js" async="async"></script>
 <script type="text/javascript" src="../../../scripts/main.js" defer="defer"></script>
 <script type="text/javascript" src="../../../scripts/prism.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/symbol-parameters-wrapper_deferred.js" defer="defer"></script>
 </head>
 <body>
-<div class="navigation-wrapper" id="navigation-wrapper">
-    <div id="leftToggler"><span class="icon-toggler"></span></div>
-    <div class="library-name">
-            <a href="../../../index.html">
-                    <span>bdk-jvm</span>
-            </a>
+    <div class="root">
+<nav class="navigation" id="navigation-wrapper">
+    <div class="navigation--inner">
+        <div class="navigation-title">
+            <button class="menu-toggle" id="menu-toggle" type="button">toggle menu</button>
+            <div class="library-name">
+                    <a class="library-name--link" href="../../../index.html">
+                            bdk-jvm
+                    </a>
+            </div>
+            <div class="library-version">
+1.0.0-beta.6            </div>
+        </div>
+        <div class="filter-section" id="filter-section">
+                <button class="platform-tag platform-selector jvm-like" data-active="" data-filter=":lib:dokkaHtml/main">jvm</button>
+        </div>
     </div>
-    <div>
-0.30.0    </div>
-    <div class="pull-right d-flex">
-        <button id="theme-toggle-button"><span id="theme-toggle"></span></button>
-        <div id="searchBar"></div>
+    <div class="navigation-controls">
+        <button class="navigation-controls--btn navigation-controls--theme" id="theme-toggle-button" type="button">switch theme</button>
+        <div class="navigation-controls--btn navigation-controls--search" id="searchBar" role="button">search in API</div>
     </div>
-</div>
-<div id="container">
-    <div id="leftColumn">
-        <div id="sideMenu"></div>
-    </div>
-    <div id="main">
-<div class="main-content" id="content" pageIds="bdk-jvm::org.bitcoindevkit/Wallet///PointingToDeclaration//769193423">
-  <div class="breadcrumbs"><a href="../../../index.html">bdk-jvm</a><span class="delimiter">/</span><a href="../index.html">org.bitcoindevkit</a><span class="delimiter">/</span><a href="index.html">Wallet</a></div>
+</nav>
+        <div id="container">
+            <div class="sidebar" id="leftColumn">
+                <div class="sidebar--inner" id="sideMenu"></div>
+            </div>
+            <div id="main">
+<div class="main-content" data-page-type="classlike" id="content" pageIds="bdk-jvm::org.bitcoindevkit/Wallet///PointingToDeclaration//1440829338">
+  <div class="breadcrumbs"><a href="../../../index.html">bdk-jvm</a><span class="delimiter">/</span><a href="../index.html">org.bitcoindevkit</a><span class="delimiter">/</span><span class="current">Wallet</span></div>
   <div class="cover ">
     <h1 class="cover"><span><span>Wallet</span></span></h1>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">class </span><a href="index.html">Wallet</a><span class="token punctuation">(</span><span class="parameters wrapped"><span class="parameter indented">&nbsp;&nbsp;&nbsp;&nbsp;descriptor<span class="token operator">: </span><a href="../-descriptor/index.html">Descriptor</a><span class="token punctuation">, </span></span><span class="parameter indented">&nbsp;&nbsp;&nbsp;&nbsp;changeDescriptor<span class="token operator">: </span><a href="../-descriptor/index.html">Descriptor</a><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter indented">&nbsp;&nbsp;&nbsp;&nbsp;network<span class="token operator">: </span><a href="../-network/index.html">Network</a><span class="token punctuation">, </span></span><span class="parameter indented">&nbsp;&nbsp;&nbsp;&nbsp;databaseConfig<span class="token operator">: </span><a href="../-database-config/index.html">DatabaseConfig</a></span></span><span class="token punctuation">)</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><p class="paragraph">A Bitcoin wallet. The Wallet acts as a way of coherently interfacing with output descriptors and related transactions. Its main components are:</p><ol><li><p class="paragraph">Output descriptors from which it can derive addresses.</p></li><li><p class="paragraph">A Database where it tracks transactions and utxos related to the descriptors.</p></li><li><p class="paragraph">Signers that can contribute signatures to addresses instantiated from the descriptors.</p></li></ol></div></div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":lib:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">class </span><a href="index.html">Wallet</a> : <a href="../-disposable/index.html">Disposable</a>, <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/AutoCloseable.html">AutoCloseable</a>, <a href="../-wallet-interface/index.html">WalletInterface</a></div></div></div>
   </div>
   <div class="tabbedcontent">
-    <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="Constructors">Constructors</button><button class="section-tab" data-togglable="Functions">Functions</button><button class="section-tab" data-togglable="Parameters">Parameters</button><button class="section-tab" data-togglable="Samples">Samples</button></div>
+    <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="CONSTRUCTOR,TYPE,PROPERTY,FUNCTION">Members</button></div>
     <div class="tabs-section-body">
-      <h2 class="">Samples</h2>
-      <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Samples"><div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="sample-container"><pre><code class="runnablesample monospace block lang-kotlin" theme="idea">
-fun main() { 
-   //sampleStart 
-   val externalDescriptor = &quot;wpkh(tprv8hwWMmPE4BVNxGdVt3HhEERZhondQvodUY7Ajyseyhudr4WabJqWKWLr4Wi2r26CDaNCQhhxEfVULesmhEfZYyBXdE/84h/1h/0h/0/*)&quot;
-val internalDescriptor = &quot;wpkh(tprv8hwWMmPE4BVNxGdVt3HhEERZhondQvodUY7Ajyseyhudr4WabJqWKWLr4Wi2r26CDaNCQhhxEfVULesmhEfZYyBXdE/84h/1h/0h/1/*)&quot;
-val sqliteDatabaseConfig = DatabaseConfig.Sqlite(SqliteDbConfiguration(&quot;bdk-sqlite&quot;))
-
-val wallet = Wallet(
-    descriptor = externalDescriptor,
-    changeDescriptor = internalDescriptor,
-    network = Network.TESTNET,
-    databaseConfig = sqliteDatabaseConfig,
-) 
-   //sampleEnd
-}</code></pre></div></div></div>
-      <h2 class="">Parameters</h2>
-      <div data-togglable="Parameters">
-        <div class="platform-hinted WithExtraAttributes" data-platform-hinted="data-platform-hinted" data-togglable="Parameters"><div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/main"><div data-togglable="Parameters"><div class="table" data-togglable="Parameters"><div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main"><div class="main-subrow keyValue WithExtraAttributes"><div class=""><span class="inline-flex"><div><span><span>descriptor</span></span></div></span></div><div><div class="title"><div data-togglable="Parameters"><p class="paragraph">The main (or &quot;external&quot;) descriptor.</p></div></div></div></div></div><div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main"><div class="main-subrow keyValue WithExtraAttributes"><div class=""><span class="inline-flex"><div><span>change</span><wbr></wbr><span><span>Descriptor</span></span></div></span></div><div><div class="title"><div data-togglable="Parameters"><p class="paragraph">? The change (or &quot;internal&quot;) descriptor.</p></div></div></div></div></div><div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main"><div class="main-subrow keyValue WithExtraAttributes"><div class=""><span class="inline-flex"><div><span><span>network</span></span></div></span></div><div><div class="title"><div data-togglable="Parameters"><p class="paragraph">The network to act on.</p></div></div></div></div></div><div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main"><div class="main-subrow keyValue WithExtraAttributes"><div class=""><span class="inline-flex"><div><span>database</span><wbr></wbr><span><span>Config</span></span></div></span></div><div><div class="title"><div data-togglable="Parameters"><p class="paragraph">The database configuration.</p></div></div></div></div></div></div></div></div></div>
-      </div>
-      <h2 class="tabbedcontent">Constructors</h2>
-      <div class="table" data-togglable="Constructors"><a data-name="-1261127729%2FConstructors%2F769193423" anchor-label="Wallet" id="-1261127729%2FConstructors%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
-        <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
-          <div class="main-subrow keyValue TabbedContent">
-            <div class=""><span class="inline-flex">
-                <div><a href="-wallet.html"><span><span>Wallet</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1261127729%2FConstructors%2F769193423"></span>
-                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                </span></span></div>
-            <div>
-              <div class="title">
-                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="-wallet.html"><span class="token function">Wallet</span></a><span class="token punctuation">(</span><span class="parameters wrapped"><span class="parameter indented">&nbsp;&nbsp;&nbsp;&nbsp;descriptor<span class="token operator">: </span><a href="../-descriptor/index.html">Descriptor</a><span class="token punctuation">, </span></span><span class="parameter indented">&nbsp;&nbsp;&nbsp;&nbsp;changeDescriptor<span class="token operator">: </span><a href="../-descriptor/index.html">Descriptor</a><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter indented">&nbsp;&nbsp;&nbsp;&nbsp;network<span class="token operator">: </span><a href="../-network/index.html">Network</a><span class="token punctuation">, </span></span><span class="parameter indented">&nbsp;&nbsp;&nbsp;&nbsp;databaseConfig<span class="token operator">: </span><a href="../-database-config/index.html">DatabaseConfig</a></span></span><span class="token punctuation">)</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><p class="paragraph">Create a BDK wallet.</p></div></div></div>
+      <div data-togglable="CONSTRUCTOR">
+        <h2 class="">Constructors</h2>
+        <div class="table"><a data-name="-723716540%2FConstructors%2F1440829338" anchor-label="Wallet" id="-723716540%2FConstructors%2F1440829338" data-filterable-set=":lib:dokkaHtml/main"></a>
+          <div class="table-row" data-togglable="CONSTRUCTOR" data-filterable-current=":lib:dokkaHtml/main" data-filterable-set=":lib:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-wallet.html"><span><span>Wallet</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-723716540%2FConstructors%2F1440829338"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":lib:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">constructor</span><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">pointer<span class="token operator">: </span><span data-unresolved-link="com.sun.jna/Pointer///PointingToDeclaration/">Pointer</span></span></span><span class="token punctuation">)</span></div><div class="symbol monospace"><span class="token keyword">constructor</span><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">noPointer<span class="token operator">: </span><a href="../-no-pointer/index.html">NoPointer</a></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">This constructor can be used to instantiate a fake object. Only used for tests. Any attempt to actually use an object constructed this way will fail as there is no connected Rust object.</p></div><div class="symbol monospace"><span class="token keyword">constructor</span><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">descriptor<span class="token operator">: </span><a href="../-descriptor/index.html">Descriptor</a><span class="token punctuation">, </span></span><span class="parameter ">changeDescriptor<span class="token operator">: </span><a href="../-descriptor/index.html">Descriptor</a><span class="token punctuation">, </span></span><span class="parameter ">network<span class="token operator">: </span><a href="../../org.rustbitcoin.bitcoin/-network/index.html">Network</a><span class="token punctuation">, </span></span><span class="parameter ">connection<span class="token operator">: </span><a href="../-connection/index.html">Connection</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-      <h2 class="">Functions</h2>
-      <div class="table" data-togglable="Functions"><a data-name="1120055564%2FFunctions%2F769193423" anchor-label="getAddress" id="1120055564%2FFunctions%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
-        <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
-          <div class="main-subrow keyValue ">
-            <div class=""><span class="inline-flex">
-                <div><a href="get-address.html"><span>get</span><wbr></wbr><span><span>Address</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1120055564%2FFunctions%2F769193423"></span>
-                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                </span></span></div>
-            <div>
-              <div class="title">
-                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="get-address.html"><span class="token function">getAddress</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">addressIndex<span class="token operator">: </span><a href="../-address-index/index.html">AddressIndex</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../-address-info/index.html">AddressInfo</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><p class="paragraph">Return a derived address using the external descriptor, see <a href="../-address-index/index.html">AddressIndex</a> for available address index selection strategies. If none of the keys in the descriptor are derivable (i.e. the descriptor does not end with a * character) then the same address will always be returned for any <a href="../-address-index/index.html">AddressIndex</a>.</p></div></div></div>
+      <div data-togglable="TYPE">
+        <h2 class="">Types</h2>
+        <div class="table"><a data-name="-376866592%2FClasslikes%2F1440829338" anchor-label="Companion" id="-376866592%2FClasslikes%2F1440829338" data-filterable-set=":lib:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":lib:dokkaHtml/main" data-filterable-set=":lib:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-companion/index.html"><span><span>Companion</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-376866592%2FClasslikes%2F1440829338"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":lib:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">object </span><a href="-companion/index.html">Companion</a></div></div></div>
+                </div>
               </div>
             </div>
           </div>
         </div>
-<a data-name="627873659%2FFunctions%2F769193423" anchor-label="getBalance" id="627873659%2FFunctions%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
-        <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
-          <div class="main-subrow keyValue ">
-            <div class=""><span class="inline-flex">
-                <div><a href="get-balance.html"><span>get</span><wbr></wbr><span><span>Balance</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="627873659%2FFunctions%2F769193423"></span>
-                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                </span></span></div>
-            <div>
-              <div class="title">
-                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="get-balance.html"><span class="token function">getBalance</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../-balance/index.html">Balance</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><p class="paragraph">Return the wallet's balance, across different categories. See <a href="../-balance/index.html">Balance</a> for the categories. Note that this method only operates on the internal database, which first needs to be <a href="sync.html">Wallet.sync</a> manually.</p></div></div></div>
+      </div>
+      <div data-togglable="FUNCTION">
+        <h2 class="">Functions</h2>
+        <div class="table"><a data-name="-475193312%2FFunctions%2F1440829338" anchor-label="applyUpdate" id="-475193312%2FFunctions%2F1440829338" data-filterable-set=":lib:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":lib:dokkaHtml/main" data-filterable-set=":lib:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="apply-update.html"><span>apply</span><wbr></wbr><span><span>Update</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-475193312%2FFunctions%2F1440829338"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":lib:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="apply-update.html"><span class="token function">applyUpdate</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">update<span class="token operator">: </span><a href="../-update/index.html">Update</a></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Applies an update to the wallet and stages the changes (but does not persist them).</p></div></div></div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-<a data-name="1136946473%2FFunctions%2F769193423" anchor-label="getInternalAddress" id="1136946473%2FFunctions%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
-        <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
-          <div class="main-subrow keyValue ">
-            <div class=""><span class="inline-flex">
-                <div><a href="get-internal-address.html"><span>get</span><wbr></wbr><span>Internal</span><wbr></wbr><span><span>Address</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1136946473%2FFunctions%2F769193423"></span>
-                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                </span></span></div>
-            <div>
-              <div class="title">
-                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="get-internal-address.html"><span class="token function">getInternalAddress</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">addressIndex<span class="token operator">: </span><a href="../-address-index/index.html">AddressIndex</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../-address-info/index.html">AddressInfo</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><p class="paragraph">Return a derived address using the internal (change) descriptor. If the wallet doesn't have an internal descriptor it will use the external descriptor. See <a href="../-address-index/index.html">AddressIndex</a> for available address index selection strategies. If none of the keys in the descriptor are derivable (i.e. does not end with /\*) then the same address will always be returned for any <a href="../-address-index/index.html">AddressIndex</a>.</p></div></div></div>
+<a data-name="-1801015491%2FFunctions%2F1440829338" anchor-label="balance" id="-1801015491%2FFunctions%2F1440829338" data-filterable-set=":lib:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":lib:dokkaHtml/main" data-filterable-set=":lib:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="balance.html"><span><span>balance</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1801015491%2FFunctions%2F1440829338"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":lib:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="balance.html"><span class="token function">balance</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../-balance/index.html">Balance</a></div><div class="brief "><p class="paragraph">Return the balance, separated into available, trusted-pending, untrusted-pending and immature values.</p></div></div></div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-<a data-name="-2054826848%2FFunctions%2F769193423" anchor-label="isMine" id="-2054826848%2FFunctions%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
-        <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
-          <div class="main-subrow keyValue ">
-            <div class=""><span class="inline-flex">
-                <div><a href="is-mine.html"><span>is</span><wbr></wbr><span><span>Mine</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2054826848%2FFunctions%2F769193423"></span>
-                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                </span></span></div>
-            <div>
-              <div class="title">
-                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="is-mine.html"><span class="token function">isMine</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">script<span class="token operator">: </span><a href="../-script/index.html">Script</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><p class="paragraph">Return whether or not a script is part of this wallet (either internal or external).</p></div></div></div>
+<a data-name="975203932%2FFunctions%2F1440829338" anchor-label="calculateFee" id="975203932%2FFunctions%2F1440829338" data-filterable-set=":lib:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":lib:dokkaHtml/main" data-filterable-set=":lib:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="calculate-fee.html"><span>calculate</span><wbr></wbr><span><span>Fee</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="975203932%2FFunctions%2F1440829338"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":lib:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="calculate-fee.html"><span class="token function">calculateFee</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">tx<span class="token operator">: </span><a href="../-transaction/index.html">Transaction</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../../org.rustbitcoin.bitcoin/-amount/index.html">Amount</a></div><div class="brief "><p class="paragraph">Calculates the fee of a given transaction. Returns `Amount::ZERO` if <code class="lang-kotlin">tx</code> is a coinbase transaction.</p></div></div></div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-<a data-name="-2140591757%2FFunctions%2F769193423" anchor-label="listTransactions" id="-2140591757%2FFunctions%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
-        <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
-          <div class="main-subrow keyValue ">
-            <div class=""><span class="inline-flex">
-                <div><a href="list-transactions.html"><span>list</span><wbr></wbr><span><span>Transactions</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2140591757%2FFunctions%2F769193423"></span>
-                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                </span></span></div>
-            <div>
-              <div class="title">
-                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="list-transactions.html"><span class="token function">listTransactions</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">includeRaw<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../-transaction-details/index.html">TransactionDetails</a><span class="token operator">&gt;</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><p class="paragraph">Return the list of transactions made and received by the wallet. Note that this method only operate on the internal database, which first needs to be <a href="sync.html">Wallet.sync</a> manually.</p></div></div></div>
+<a data-name="2077098332%2FFunctions%2F1440829338" anchor-label="calculateFeeRate" id="2077098332%2FFunctions%2F1440829338" data-filterable-set=":lib:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":lib:dokkaHtml/main" data-filterable-set=":lib:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="calculate-fee-rate.html"><span>calculate</span><wbr></wbr><span>Fee</span><wbr></wbr><span><span>Rate</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="2077098332%2FFunctions%2F1440829338"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":lib:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="calculate-fee-rate.html"><span class="token function">calculateFeeRate</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">tx<span class="token operator">: </span><a href="../-transaction/index.html">Transaction</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../../org.rustbitcoin.bitcoin/-fee-rate/index.html">FeeRate</a></div><div class="brief "><p class="paragraph">Calculate the `FeeRate` for a given transaction.</p></div></div></div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-<a data-name="717942914%2FFunctions%2F769193423" anchor-label="listUnspent" id="717942914%2FFunctions%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
-        <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
-          <div class="main-subrow keyValue ">
-            <div class=""><span class="inline-flex">
-                <div><a href="list-unspent.html"><span>list</span><wbr></wbr><span><span>Unspent</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="717942914%2FFunctions%2F769193423"></span>
-                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                </span></span></div>
-            <div>
-              <div class="title">
-                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="list-unspent.html"><span class="token function">listUnspent</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../-local-utxo/index.html">LocalUtxo</a><span class="token operator">&gt;</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><p class="paragraph">Return the list of unspent outputs of this wallet. Note that this method only operates on the internal database, which first needs to be <a href="sync.html">Wallet.sync</a> manually.</p></div></div></div>
+<a data-name="743308858%2FFunctions%2F1440829338" anchor-label="cancelTx" id="743308858%2FFunctions%2F1440829338" data-filterable-set=":lib:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":lib:dokkaHtml/main" data-filterable-set=":lib:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="cancel-tx.html"><span>cancel</span><wbr></wbr><span><span>Tx</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="743308858%2FFunctions%2F1440829338"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":lib:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="cancel-tx.html"><span class="token function">cancelTx</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">tx<span class="token operator">: </span><a href="../-transaction/index.html">Transaction</a></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Informs the wallet that you no longer intend to broadcast a tx that was built from it.</p></div></div></div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-<a data-name="880329771%2FFunctions%2F769193423" anchor-label="network" id="880329771%2FFunctions%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
-        <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
-          <div class="main-subrow keyValue ">
-            <div class=""><span class="inline-flex">
-                <div><a href="network.html"><span><span>network</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="880329771%2FFunctions%2F769193423"></span>
-                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                </span></span></div>
-            <div>
-              <div class="title">
-                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="network.html"><span class="token function">network</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../-network/index.html">Network</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><p class="paragraph">Get the Bitcoin network the wallet is using.</p></div></div></div>
+<a data-name="-1320796511%2FFunctions%2F1440829338" anchor-label="close" id="-1320796511%2FFunctions%2F1440829338" data-filterable-set=":lib:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":lib:dokkaHtml/main" data-filterable-set=":lib:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="close.html"><span><span>close</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1320796511%2FFunctions%2F1440829338"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":lib:dokkaHtml/main"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-synchronized/index.html"><span class="token annotation builtin">Synchronized</span></a></div></div><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="close.html"><span class="token function">close</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-<a data-name="-1722102767%2FFunctions%2F769193423" anchor-label="sign" id="-1722102767%2FFunctions%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
-        <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
-          <div class="main-subrow keyValue ">
-            <div class=""><span class="inline-flex">
-                <div><a href="sign.html"><span><span>sign</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1722102767%2FFunctions%2F769193423"></span>
-                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                </span></span></div>
-            <div>
-              <div class="title">
-                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="sign.html"><span class="token function">sign</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">psbt<span class="token operator">: </span><a href="../-partially-signed-transaction/index.html">PartiallySignedTransaction</a><span class="token punctuation">, </span></span><span class="parameter ">signOptions<span class="token operator">: </span><a href="../-sign-options/index.html">SignOptions</a><span class="token operator">?</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><p class="paragraph">Sign a transaction with all the wallet's signers, in the order specified by every signer's <code class="lang-kotlin">SignerOrdering</code>.</p></div></div></div>
+<a data-name="1382113999%2FFunctions%2F1440829338" anchor-label="derivationIndex" id="1382113999%2FFunctions%2F1440829338" data-filterable-set=":lib:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":lib:dokkaHtml/main" data-filterable-set=":lib:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="derivation-index.html"><span>derivation</span><wbr></wbr><span><span>Index</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1382113999%2FFunctions%2F1440829338"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":lib:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="derivation-index.html"><span class="token function">derivationIndex</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">keychain<span class="token operator">: </span><a href="../-keychain-kind/index.html">KeychainKind</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-u-int/index.html">UInt</a><span class="token operator">?</span></div><div class="brief "><p class="paragraph">The derivation index of this wallet. It will return <code class="lang-kotlin">None</code> if it has not derived any addresses. Otherwise, it will return the index of the highest address it has derived.</p></div></div></div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-<a data-name="1362525795%2FFunctions%2F769193423" anchor-label="sync" id="1362525795%2FFunctions%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
-        <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
-          <div class="main-subrow keyValue ">
-            <div class=""><span class="inline-flex">
-                <div><a href="sync.html"><span><span>sync</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1362525795%2FFunctions%2F769193423"></span>
-                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                </span></span></div>
-            <div>
-              <div class="title">
-                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="sync.html"><span class="token function">sync</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">blockchain<span class="token operator">: </span><a href="../-blockchain/index.html">Blockchain</a><span class="token punctuation">, </span></span><span class="parameter ">progress<span class="token operator">: </span><a href="../-progress/index.html">Progress</a><span class="token operator">?</span></span></span><span class="token punctuation">)</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><p class="paragraph">Sync the internal database with the blockchain.</p></div></div></div>
+<a data-name="-807619104%2FFunctions%2F1440829338" anchor-label="derivationOfSpk" id="-807619104%2FFunctions%2F1440829338" data-filterable-set=":lib:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":lib:dokkaHtml/main" data-filterable-set=":lib:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="derivation-of-spk.html"><span>derivation</span><wbr></wbr><span>Of</span><wbr></wbr><span><span>Spk</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-807619104%2FFunctions%2F1440829338"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":lib:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="derivation-of-spk.html"><span class="token function">derivationOfSpk</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">spk<span class="token operator">: </span><a href="../../org.rustbitcoin.bitcoin/-script/index.html">Script</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../-keychain-and-index/index.html">KeychainAndIndex</a><span class="token operator">?</span></div><div class="brief "><p class="paragraph">Finds how the wallet derived the script pubkey <code class="lang-kotlin">spk</code>.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-932903616%2FFunctions%2F1440829338" anchor-label="descriptorChecksum" id="-932903616%2FFunctions%2F1440829338" data-filterable-set=":lib:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":lib:dokkaHtml/main" data-filterable-set=":lib:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="descriptor-checksum.html"><span>descriptor</span><wbr></wbr><span><span>Checksum</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-932903616%2FFunctions%2F1440829338"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":lib:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="descriptor-checksum.html"><span class="token function">descriptorChecksum</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">keychain<span class="token operator">: </span><a href="../-keychain-kind/index.html">KeychainKind</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></div><div class="brief "><p class="paragraph">Return the checksum of the public descriptor associated to <code class="lang-kotlin">keychain</code></p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1503896609%2FFunctions%2F1440829338" anchor-label="destroy" id="-1503896609%2FFunctions%2F1440829338" data-filterable-set=":lib:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":lib:dokkaHtml/main" data-filterable-set=":lib:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="destroy.html"><span><span>destroy</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1503896609%2FFunctions%2F1440829338"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":lib:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="destroy.html"><span class="token function">destroy</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="85952288%2FFunctions%2F1440829338" anchor-label="finalizePsbt" id="85952288%2FFunctions%2F1440829338" data-filterable-set=":lib:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":lib:dokkaHtml/main" data-filterable-set=":lib:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="finalize-psbt.html"><span>finalize</span><wbr></wbr><span><span>Psbt</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="85952288%2FFunctions%2F1440829338"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":lib:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="finalize-psbt.html"><span class="token function">finalizePsbt</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">psbt<span class="token operator">: </span><a href="../-psbt/index.html">Psbt</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></div><div class="brief "><p class="paragraph">Finalize a PSBT, i.e., for each input determine if sufficient data is available to pass validation and construct the respective <code class="lang-kotlin">scriptSig</code> or <code class="lang-kotlin">scriptWitness</code>. Please refer to <a href="https://github.com/bitcoin/bips/blob/master/bip-0174.mediawiki#Input_Finalizer">BIP174</a>, and <a href="https://github.com/bitcoin/bips/blob/master/bip-0371.mediawiki">BIP371</a> for further information.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-373641979%2FFunctions%2F1440829338" anchor-label="getTx" id="-373641979%2FFunctions%2F1440829338" data-filterable-set=":lib:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":lib:dokkaHtml/main" data-filterable-set=":lib:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-tx.html"><span>get</span><wbr></wbr><span><span>Tx</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-373641979%2FFunctions%2F1440829338"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":lib:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="get-tx.html"><span class="token function">getTx</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">txid<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../-canonical-tx/index.html">CanonicalTx</a><span class="token operator">?</span></div><div class="brief "><p class="paragraph">Get a single transaction from the wallet as a `WalletTx` (if the transaction exists).</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1296590723%2FFunctions%2F1440829338" anchor-label="getUtxo" id="-1296590723%2FFunctions%2F1440829338" data-filterable-set=":lib:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":lib:dokkaHtml/main" data-filterable-set=":lib:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-utxo.html"><span>get</span><wbr></wbr><span><span>Utxo</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1296590723%2FFunctions%2F1440829338"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":lib:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="get-utxo.html"><span class="token function">getUtxo</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">op<span class="token operator">: </span><a href="../../org.rustbitcoin.bitcoin/-out-point/index.html">OutPoint</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../-local-output/index.html">LocalOutput</a><span class="token operator">?</span></div><div class="brief "><p class="paragraph">Returns the utxo owned by this wallet corresponding to <code class="lang-kotlin">outpoint</code> if it exists in the wallet's database.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-2051000501%2FFunctions%2F1440829338" anchor-label="isMine" id="-2051000501%2FFunctions%2F1440829338" data-filterable-set=":lib:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":lib:dokkaHtml/main" data-filterable-set=":lib:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="is-mine.html"><span>is</span><wbr></wbr><span><span>Mine</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2051000501%2FFunctions%2F1440829338"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":lib:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="is-mine.html"><span class="token function">isMine</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">script<span class="token operator">: </span><a href="../../org.rustbitcoin.bitcoin/-script/index.html">Script</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></div><div class="brief "><p class="paragraph">Return whether or not a <code class="lang-kotlin">script</code> is part of this wallet (either internal or external)</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-613471998%2FFunctions%2F1440829338" anchor-label="listOutput" id="-613471998%2FFunctions%2F1440829338" data-filterable-set=":lib:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":lib:dokkaHtml/main" data-filterable-set=":lib:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="list-output.html"><span>list</span><wbr></wbr><span><span>Output</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-613471998%2FFunctions%2F1440829338"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":lib:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="list-output.html"><span class="token function">listOutput</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../-local-output/index.html">LocalOutput</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">List all relevant outputs (includes both spent and unspent, confirmed and unconfirmed).</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="717942914%2FFunctions%2F1440829338" anchor-label="listUnspent" id="717942914%2FFunctions%2F1440829338" data-filterable-set=":lib:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":lib:dokkaHtml/main" data-filterable-set=":lib:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="list-unspent.html"><span>list</span><wbr></wbr><span><span>Unspent</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="717942914%2FFunctions%2F1440829338"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":lib:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="list-unspent.html"><span class="token function">listUnspent</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../-local-output/index.html">LocalOutput</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">Return the list of unspent outputs of this wallet</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1387546588%2FFunctions%2F1440829338" anchor-label="listUnusedAddresses" id="1387546588%2FFunctions%2F1440829338" data-filterable-set=":lib:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":lib:dokkaHtml/main" data-filterable-set=":lib:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="list-unused-addresses.html"><span>list</span><wbr></wbr><span>Unused</span><wbr></wbr><span><span>Addresses</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1387546588%2FFunctions%2F1440829338"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":lib:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="list-unused-addresses.html"><span class="token function">listUnusedAddresses</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">keychain<span class="token operator">: </span><a href="../-keychain-kind/index.html">KeychainKind</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../-address-info/index.html">AddressInfo</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">List addresses that are revealed but unused.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1424453828%2FFunctions%2F1440829338" anchor-label="markUsed" id="1424453828%2FFunctions%2F1440829338" data-filterable-set=":lib:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":lib:dokkaHtml/main" data-filterable-set=":lib:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="mark-used.html"><span>mark</span><wbr></wbr><span><span>Used</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1424453828%2FFunctions%2F1440829338"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":lib:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="mark-used.html"><span class="token function">markUsed</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">keychain<span class="token operator">: </span><a href="../-keychain-kind/index.html">KeychainKind</a><span class="token punctuation">, </span></span><span class="parameter ">index<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-u-int/index.html">UInt</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></div><div class="brief "><p class="paragraph">Marks an address used of the given <code class="lang-kotlin">keychain</code> at <code class="lang-kotlin">index</code>.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="880329771%2FFunctions%2F1440829338" anchor-label="network" id="880329771%2FFunctions%2F1440829338" data-filterable-set=":lib:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":lib:dokkaHtml/main" data-filterable-set=":lib:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="network.html"><span><span>network</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="880329771%2FFunctions%2F1440829338"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":lib:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="network.html"><span class="token function">network</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../../org.rustbitcoin.bitcoin/-network/index.html">Network</a></div><div class="brief "><p class="paragraph">Get the Bitcoin network the wallet is using.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1722404446%2FFunctions%2F1440829338" anchor-label="nextDerivationIndex" id="-1722404446%2FFunctions%2F1440829338" data-filterable-set=":lib:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":lib:dokkaHtml/main" data-filterable-set=":lib:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="next-derivation-index.html"><span>next</span><wbr></wbr><span>Derivation</span><wbr></wbr><span><span>Index</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1722404446%2FFunctions%2F1440829338"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":lib:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="next-derivation-index.html"><span class="token function">nextDerivationIndex</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">keychain<span class="token operator">: </span><a href="../-keychain-kind/index.html">KeychainKind</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-u-int/index.html">UInt</a></div><div class="brief "><p class="paragraph">The index of the next address that you would get if you were to ask the wallet for a new address</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="323811103%2FFunctions%2F1440829338" anchor-label="nextUnusedAddress" id="323811103%2FFunctions%2F1440829338" data-filterable-set=":lib:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":lib:dokkaHtml/main" data-filterable-set=":lib:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="next-unused-address.html"><span>next</span><wbr></wbr><span>Unused</span><wbr></wbr><span><span>Address</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="323811103%2FFunctions%2F1440829338"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":lib:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="next-unused-address.html"><span class="token function">nextUnusedAddress</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">keychain<span class="token operator">: </span><a href="../-keychain-kind/index.html">KeychainKind</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../-address-info/index.html">AddressInfo</a></div><div class="brief "><p class="paragraph">Get the next unused address for the given <code class="lang-kotlin">keychain</code>, i.e. the address with the lowest derivation index that hasn't been used.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1683999059%2FFunctions%2F1440829338" anchor-label="peekAddress" id="-1683999059%2FFunctions%2F1440829338" data-filterable-set=":lib:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":lib:dokkaHtml/main" data-filterable-set=":lib:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="peek-address.html"><span>peek</span><wbr></wbr><span><span>Address</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1683999059%2FFunctions%2F1440829338"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":lib:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="peek-address.html"><span class="token function">peekAddress</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">keychain<span class="token operator">: </span><a href="../-keychain-kind/index.html">KeychainKind</a><span class="token punctuation">, </span></span><span class="parameter ">index<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-u-int/index.html">UInt</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../-address-info/index.html">AddressInfo</a></div><div class="brief "><p class="paragraph">Peek an address of the given <code class="lang-kotlin">keychain</code> at <code class="lang-kotlin">index</code> without revealing it.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1408267122%2FFunctions%2F1440829338" anchor-label="persist" id="-1408267122%2FFunctions%2F1440829338" data-filterable-set=":lib:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":lib:dokkaHtml/main" data-filterable-set=":lib:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="persist.html"><span><span>persist</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1408267122%2FFunctions%2F1440829338"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":lib:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="persist.html"><span class="token function">persist</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">connection<span class="token operator">: </span><a href="../-connection/index.html">Connection</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-990785534%2FFunctions%2F1440829338" anchor-label="policies" id="-990785534%2FFunctions%2F1440829338" data-filterable-set=":lib:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":lib:dokkaHtml/main" data-filterable-set=":lib:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="policies.html"><span><span>policies</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-990785534%2FFunctions%2F1440829338"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":lib:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="policies.html"><span class="token function">policies</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">keychain<span class="token operator">: </span><a href="../-keychain-kind/index.html">KeychainKind</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../-policy/index.html">Policy</a><span class="token operator">?</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-65617738%2FFunctions%2F1440829338" anchor-label="revealAddressesTo" id="-65617738%2FFunctions%2F1440829338" data-filterable-set=":lib:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":lib:dokkaHtml/main" data-filterable-set=":lib:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="reveal-addresses-to.html"><span>reveal</span><wbr></wbr><span>Addresses</span><wbr></wbr><span><span>To</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-65617738%2FFunctions%2F1440829338"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":lib:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="reveal-addresses-to.html"><span class="token function">revealAddressesTo</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">keychain<span class="token operator">: </span><a href="../-keychain-kind/index.html">KeychainKind</a><span class="token punctuation">, </span></span><span class="parameter ">index<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-u-int/index.html">UInt</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../-address-info/index.html">AddressInfo</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">Reveal addresses up to and including the target <code class="lang-kotlin">index</code> and return an iterator of newly revealed addresses.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1359593110%2FFunctions%2F1440829338" anchor-label="revealNextAddress" id="1359593110%2FFunctions%2F1440829338" data-filterable-set=":lib:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":lib:dokkaHtml/main" data-filterable-set=":lib:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="reveal-next-address.html"><span>reveal</span><wbr></wbr><span>Next</span><wbr></wbr><span><span>Address</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1359593110%2FFunctions%2F1440829338"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":lib:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="reveal-next-address.html"><span class="token function">revealNextAddress</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">keychain<span class="token operator">: </span><a href="../-keychain-kind/index.html">KeychainKind</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../-address-info/index.html">AddressInfo</a></div><div class="brief "><p class="paragraph">Attempt to reveal the next address of the given <code class="lang-kotlin">keychain</code>.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="779214084%2FFunctions%2F1440829338" anchor-label="sentAndReceived" id="779214084%2FFunctions%2F1440829338" data-filterable-set=":lib:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":lib:dokkaHtml/main" data-filterable-set=":lib:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="sent-and-received.html"><span>sent</span><wbr></wbr><span>And</span><wbr></wbr><span><span>Received</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="779214084%2FFunctions%2F1440829338"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":lib:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="sent-and-received.html"><span class="token function">sentAndReceived</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">tx<span class="token operator">: </span><a href="../-transaction/index.html">Transaction</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../-sent-and-received-values/index.html">SentAndReceivedValues</a></div><div class="brief "><p class="paragraph">Compute the <code class="lang-kotlin">tx</code>'s sent and received `Amount`s.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-191595786%2FFunctions%2F1440829338" anchor-label="sign" id="-191595786%2FFunctions%2F1440829338" data-filterable-set=":lib:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":lib:dokkaHtml/main" data-filterable-set=":lib:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="sign.html"><span><span>sign</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-191595786%2FFunctions%2F1440829338"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":lib:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="sign.html"><span class="token function">sign</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">psbt<span class="token operator">: </span><a href="../-psbt/index.html">Psbt</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></div><div class="brief "><p class="paragraph">Sign a transaction with all the wallet's signers, in the order specified by every signer's `SignerOrdering`. This function returns the <code class="lang-kotlin">Result</code> type with an encapsulated <code class="lang-kotlin">bool</code> that has the value true if the PSBT was finalized, or false otherwise.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-354179797%2FFunctions%2F1440829338" anchor-label="startFullScan" id="-354179797%2FFunctions%2F1440829338" data-filterable-set=":lib:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":lib:dokkaHtml/main" data-filterable-set=":lib:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="start-full-scan.html"><span>start</span><wbr></wbr><span>Full</span><wbr></wbr><span><span>Scan</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-354179797%2FFunctions%2F1440829338"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":lib:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="start-full-scan.html"><span class="token function">startFullScan</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../-full-scan-request-builder/index.html">FullScanRequestBuilder</a></div><div class="brief "><p class="paragraph">Create a `FullScanRequest for this wallet.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-457107931%2FFunctions%2F1440829338" anchor-label="startSyncWithRevealedSpks" id="-457107931%2FFunctions%2F1440829338" data-filterable-set=":lib:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":lib:dokkaHtml/main" data-filterable-set=":lib:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="start-sync-with-revealed-spks.html"><span>start</span><wbr></wbr><span>Sync</span><wbr></wbr><span>With</span><wbr></wbr><span>Revealed</span><wbr></wbr><span><span>Spks</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-457107931%2FFunctions%2F1440829338"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":lib:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="start-sync-with-revealed-spks.html"><span class="token function">startSyncWithRevealedSpks</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../-sync-request-builder/index.html">SyncRequestBuilder</a></div><div class="brief "><p class="paragraph">Create a partial `SyncRequest` for this wallet for all revealed spks.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1552872108%2FFunctions%2F1440829338" anchor-label="transactions" id="1552872108%2FFunctions%2F1440829338" data-filterable-set=":lib:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":lib:dokkaHtml/main" data-filterable-set=":lib:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="transactions.html"><span><span>transactions</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1552872108%2FFunctions%2F1440829338"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":lib:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="transactions.html"><span class="token function">transactions</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../-canonical-tx/index.html">CanonicalTx</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">Iterate over the transactions in the wallet.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1175055352%2FFunctions%2F1440829338" anchor-label="uniffiClonePointer" id="-1175055352%2FFunctions%2F1440829338" data-filterable-set=":lib:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":lib:dokkaHtml/main" data-filterable-set=":lib:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="uniffi-clone-pointer.html"><span>uniffi</span><wbr></wbr><span>Clone</span><wbr></wbr><span><span>Pointer</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1175055352%2FFunctions%2F1440829338"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":lib:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="uniffi-clone-pointer.html"><span class="token function">uniffiClonePointer</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="com.sun.jna/Pointer///PointingToDeclaration/">Pointer</span></div></div></div>
+                </div>
               </div>
             </div>
           </div>
@@ -229,11 +596,12 @@ val wallet = Wallet(
   </div>
 </div>
       <div class="footer">
-        <span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>© 2023 Copyright</span><span
+        <span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>© 2025 Copyright</span><span
                 class="pull-right"><span>Generated by </span><a
                 href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span>
       </div>
+            </div>
+        </div>
     </div>
-</div>
 </body>
 </html>
