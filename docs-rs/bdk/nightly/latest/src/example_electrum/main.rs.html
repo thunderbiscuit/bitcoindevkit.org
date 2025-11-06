@@ -1,4 +1,5 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `example-crates/example_electrum/src/main.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>main.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-1f7d512b176f0f72.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Bold-124a1ca42af929b6.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-64f7dca12162a801.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../static.files/light-ebce58d0a40c3431.css"><link rel="stylesheet" disabled href="../../static.files/dark-f23faae4a2daf9a6.css"><link rel="stylesheet" disabled href="../../static.files/ayu-94f39d4346842c1e.css"><script id="default-settings" ></script><script src="../../static.files/storage-d43fa987303ecbbb.js"></script><script defer src="../../static.files/source-script-5cf2e01a42cc9858.js"></script><script defer src="../../source-files.js"></script><script defer src="../../static.files/main-a211dbb005fb8161.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><div class="width-limiter"><nav class="sub"><a class="sub-logo-container" href="../../example_electrum/index.html"><img class="rust-logo" src="../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-5ec35bf9ca753509.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `example-crates/example_electrum/src/main.rs`."><title>main.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../../static.files/rustdoc-e7950ecc.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="example_electrum" data-themes="" data-resource-suffix="" data-rustdoc-version="1.86.0-nightly (f85c6de55 2025-01-26)" data-channel="nightly" data-search-js="search-ccb196c1.js" data-settings-js="settings-0f613d39.js" ><script src="../../static.files/storage-59e33391.js"></script><script defer src="../../static.files/src-script-56102188.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-5f194d8c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-893ab5e7.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-6580c154.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-044be391.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">example_electrum/</div>main.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -280,78 +281,40 @@
 <a href="#280" id="280">280</a>
 <a href="#281" id="281">281</a>
 <a href="#282" id="282">282</a>
-<a href="#283" id="283">283</a>
-<a href="#284" id="284">284</a>
-<a href="#285" id="285">285</a>
-<a href="#286" id="286">286</a>
-<a href="#287" id="287">287</a>
-<a href="#288" id="288">288</a>
-<a href="#289" id="289">289</a>
-<a href="#290" id="290">290</a>
-<a href="#291" id="291">291</a>
-<a href="#292" id="292">292</a>
-<a href="#293" id="293">293</a>
-<a href="#294" id="294">294</a>
-<a href="#295" id="295">295</a>
-<a href="#296" id="296">296</a>
-<a href="#297" id="297">297</a>
-<a href="#298" id="298">298</a>
-<a href="#299" id="299">299</a>
-<a href="#300" id="300">300</a>
-<a href="#301" id="301">301</a>
-<a href="#302" id="302">302</a>
-<a href="#303" id="303">303</a>
-<a href="#304" id="304">304</a>
-<a href="#305" id="305">305</a>
-<a href="#306" id="306">306</a>
-<a href="#307" id="307">307</a>
-<a href="#308" id="308">308</a>
-<a href="#309" id="309">309</a>
-<a href="#310" id="310">310</a>
-<a href="#311" id="311">311</a>
-<a href="#312" id="312">312</a>
-<a href="#313" id="313">313</a>
-<a href="#314" id="314">314</a>
-<a href="#315" id="315">315</a>
-<a href="#316" id="316">316</a>
-<a href="#317" id="317">317</a>
-<a href="#318" id="318">318</a>
-</pre><pre class="rust"><code><span class="kw">use </span>std::{
-    collections::BTreeMap,
-    io::{<span class="self">self</span>, Write},
-    sync::Mutex,
-};
+<a href="#283" id="283">283</a></pre></div><pre class="rust"><code><span class="kw">use </span>std::io::{<span class="self">self</span>, Write};
 
 <span class="kw">use </span>bdk_chain::{
-    bitcoin::{Address, BlockHash, Network, OutPoint, Txid},
-    indexed_tx_graph::{IndexedAdditions, IndexedTxGraph},
-    keychain::LocalChangeSet,
-    local_chain::LocalChain,
-    Append, ConfirmationHeightAnchor,
+    bitcoin::Network,
+    collections::BTreeSet,
+    indexed_tx_graph,
+    spk_client::{FullScanRequest, SyncRequest},
+    ConfirmationBlockTime, Merge,
 };
 <span class="kw">use </span>bdk_electrum::{
-    electrum_client::{<span class="self">self</span>, ElectrumApi},
-    ElectrumExt, ElectrumUpdate,
+    electrum_client::{<span class="self">self</span>, Client, ElectrumApi},
+    BdkElectrumClient,
 };
 <span class="kw">use </span>example_cli::{
+    <span class="self">self</span>,
     anyhow::{<span class="self">self</span>, Context},
     clap::{<span class="self">self</span>, Parser, Subcommand},
-    Keychain,
+    ChangeSet, Keychain,
 };
 
-<span class="kw">const </span>DB_MAGIC: <span class="kw-2">&amp;</span>[u8] = <span class="string">b&quot;bdk_example_electrum&quot;</span>;
-<span class="kw">const </span>DB_PATH: <span class="kw-2">&amp;</span>str = <span class="string">&quot;.bdk_electrum_example.db&quot;</span>;
-<span class="kw">const </span>ASSUME_FINAL_DEPTH: usize = <span class="number">10</span>;
+<span class="kw">const </span>DB_MAGIC: <span class="kw-2">&amp;</span>[u8] = <span class="string">b"bdk_example_electrum"</span>;
+<span class="kw">const </span>DB_PATH: <span class="kw-2">&amp;</span>str = <span class="string">".bdk_example_electrum.db"</span>;
 
 <span class="attr">#[derive(Subcommand, Debug, Clone)]
 </span><span class="kw">enum </span>ElectrumCommands {
     <span class="doccomment">/// Scans the addresses in the wallet using the electrum API.
     </span>Scan {
         <span class="doccomment">/// When a gap this large has been found for a keychain, it will stop.
-        </span><span class="attr">#[clap(long, default_value = <span class="string">&quot;5&quot;</span>)]
+        </span><span class="attr">#[clap(long, default_value = <span class="string">"5"</span>)]
         </span>stop_gap: usize,
         <span class="attr">#[clap(flatten)]
         </span>scan_options: ScanOptions,
+        <span class="attr">#[clap(flatten)]
+        </span>electrum_args: ElectrumArgs,
     },
     <span class="doccomment">/// Scans particular addresses using the electrum API.
     </span>Sync {
@@ -369,130 +332,154 @@
         </span>unconfirmed: bool,
         <span class="attr">#[clap(flatten)]
         </span>scan_options: ScanOptions,
+        <span class="attr">#[clap(flatten)]
+        </span>electrum_args: ElectrumArgs,
     },
+}
+
+<span class="kw">impl </span>ElectrumCommands {
+    <span class="kw">fn </span>electrum_args(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; ElectrumArgs {
+        <span class="kw">match </span><span class="self">self </span>{
+            ElectrumCommands::Scan { electrum_args, .. } =&gt; electrum_args.clone(),
+            ElectrumCommands::Sync { electrum_args, .. } =&gt; electrum_args.clone(),
+        }
+    }
+}
+
+<span class="attr">#[derive(clap::Args, Debug, Clone)]
+</span><span class="kw">pub struct </span>ElectrumArgs {
+    <span class="doccomment">/// The electrum url to use to connect to. If not provided it will use a default electrum server
+    /// for your chosen network.
+    </span>electrum_url: <span class="prelude-ty">Option</span>&lt;String&gt;,
+}
+
+<span class="kw">impl </span>ElectrumArgs {
+    <span class="kw">pub fn </span>client(<span class="kw-2">&amp;</span><span class="self">self</span>, network: Network) -&gt; anyhow::Result&lt;Client&gt; {
+        <span class="kw">let </span>electrum_url = <span class="self">self</span>.electrum_url.as_deref().unwrap_or(<span class="kw">match </span>network {
+            Network::Bitcoin =&gt; <span class="string">"ssl://electrum.blockstream.info:50002"</span>,
+            Network::Testnet =&gt; <span class="string">"ssl://electrum.blockstream.info:60002"</span>,
+            Network::Regtest =&gt; <span class="string">"tcp://localhost:60401"</span>,
+            Network::Signet =&gt; <span class="string">"tcp://signet-electrumx.wakiyamap.dev:50001"</span>,
+            <span class="kw">_ </span>=&gt; <span class="macro">panic!</span>(<span class="string">"Unknown network"</span>),
+        });
+        <span class="kw">let </span>config = electrum_client::Config::builder()
+            .validate_domain(<span class="macro">matches!</span>(network, Network::Bitcoin))
+            .build();
+
+        <span class="prelude-val">Ok</span>(electrum_client::Client::from_config(electrum_url, config)<span class="question-mark">?</span>)
+    }
 }
 
 <span class="attr">#[derive(Parser, Debug, Clone, PartialEq)]
 </span><span class="kw">pub struct </span>ScanOptions {
     <span class="doccomment">/// Set batch size for each script_history call to electrum client.
-    </span><span class="attr">#[clap(long, default_value = <span class="string">&quot;25&quot;</span>)]
+    </span><span class="attr">#[clap(long, default_value = <span class="string">"25"</span>)]
     </span><span class="kw">pub </span>batch_size: usize,
 }
 
-<span class="kw">type </span>ChangeSet = LocalChangeSet&lt;Keychain, ConfirmationHeightAnchor&gt;;
-
 <span class="kw">fn </span>main() -&gt; anyhow::Result&lt;()&gt; {
-    <span class="kw">let </span>(args, keymap, index, db, init_changeset) =
-        example_cli::init::&lt;ElectrumCommands, ChangeSet&gt;(DB_MAGIC, DB_PATH)<span class="question-mark">?</span>;
-
-    <span class="kw">let </span>graph = Mutex::new({
-        <span class="kw">let </span><span class="kw-2">mut </span>graph = IndexedTxGraph::new(index);
-        graph.apply_additions(init_changeset.indexed_additions);
-        graph
-    });
-
-    <span class="kw">let </span>chain = Mutex::new({
-        <span class="kw">let </span><span class="kw-2">mut </span>chain = LocalChain::default();
-        chain.apply_changeset(init_changeset.chain_changeset);
-        chain
-    });
-
-    <span class="kw">let </span>electrum_url = <span class="kw">match </span>args.network {
-        Network::Bitcoin =&gt; <span class="string">&quot;ssl://electrum.blockstream.info:50002&quot;</span>,
-        Network::Testnet =&gt; <span class="string">&quot;ssl://electrum.blockstream.info:60002&quot;</span>,
-        Network::Regtest =&gt; <span class="string">&quot;tcp://localhost:60401&quot;</span>,
-        Network::Signet =&gt; <span class="string">&quot;tcp://signet-electrumx.wakiyamap.dev:50001&quot;</span>,
+    <span class="kw">let </span>example_cli::Init {
+        args,
+        graph,
+        chain,
+        db,
+        network,
+    } = <span class="kw">match </span>example_cli::init_or_load::&lt;ElectrumCommands, ElectrumArgs&gt;(DB_MAGIC, DB_PATH)<span class="question-mark">? </span>{
+        <span class="prelude-val">Some</span>(init) =&gt; init,
+        <span class="prelude-val">None </span>=&gt; <span class="kw">return </span><span class="prelude-val">Ok</span>(()),
     };
-    <span class="kw">let </span>config = electrum_client::Config::builder()
-        .validate_domain(<span class="macro">matches!</span>(args.network, Network::Bitcoin))
-        .build();
-
-    <span class="kw">let </span>client = electrum_client::Client::from_config(electrum_url, config)<span class="question-mark">?</span>;
 
     <span class="kw">let </span>electrum_cmd = <span class="kw">match </span><span class="kw-2">&amp;</span>args.command {
         example_cli::Commands::ChainSpecific(electrum_cmd) =&gt; electrum_cmd,
         general_cmd =&gt; {
-            <span class="kw">let </span>res = example_cli::handle_commands(
+            <span class="kw">return </span>example_cli::handle_commands(
                 <span class="kw-2">&amp;</span>graph,
-                <span class="kw-2">&amp;</span>db,
                 <span class="kw-2">&amp;</span>chain,
-                <span class="kw-2">&amp;</span>keymap,
-                args.network,
-                |tx| {
-                    client
-                        .transaction_broadcast(tx)
-                        .map(|<span class="kw">_</span>| ())
-                        .map_err(anyhow::Error::from)
+                <span class="kw-2">&amp;</span>db,
+                network,
+                |electrum_args, tx| {
+                    <span class="kw">let </span>client = electrum_args.client(network)<span class="question-mark">?</span>;
+                    client.transaction_broadcast(tx)<span class="question-mark">?</span>;
+                    <span class="prelude-val">Ok</span>(())
                 },
                 general_cmd.clone(),
             );
-
-            db.lock().unwrap().commit()<span class="question-mark">?</span>;
-            <span class="kw">return </span>res;
         }
     };
 
-    <span class="kw">let </span>response = <span class="kw">match </span>electrum_cmd.clone() {
+    <span class="kw">let </span>client = BdkElectrumClient::new(electrum_cmd.electrum_args().client(network)<span class="question-mark">?</span>);
+
+    <span class="comment">// Tell the electrum client about the txs we've already got locally so it doesn't re-download them
+    </span>client.populate_tx_cache(
+        graph
+            .lock()
+            .unwrap()
+            .graph()
+            .full_txs()
+            .map(|tx_node| tx_node.tx),
+    );
+
+    <span class="kw">let </span>(chain_update, tx_update, keychain_update) = <span class="kw">match </span>electrum_cmd.clone() {
         ElectrumCommands::Scan {
             stop_gap,
             scan_options,
+            ..
         } =&gt; {
-            <span class="kw">let </span>(keychain_spks, local_chain) = {
+            <span class="kw">let </span>request = {
                 <span class="kw">let </span>graph = <span class="kw-2">&amp;*</span>graph.lock().unwrap();
                 <span class="kw">let </span>chain = <span class="kw-2">&amp;*</span>chain.lock().unwrap();
 
-                <span class="kw">let </span>keychain_spks = graph
-                    .index
-                    .spks_of_all_keychains()
-                    .into_iter()
-                    .map(|(keychain, iter)| {
-                        <span class="kw">let </span><span class="kw-2">mut </span>first = <span class="bool-val">true</span>;
-                        <span class="kw">let </span>spk_iter = iter.inspect(<span class="kw">move </span>|(i, <span class="kw">_</span>)| {
-                            <span class="kw">if </span>first {
-                                <span class="macro">eprint!</span>(<span class="string">&quot;\nscanning {}: &quot;</span>, keychain);
-                                first = <span class="bool-val">false</span>;
+                FullScanRequest::builder()
+                    .chain_tip(chain.tip())
+                    .spks_for_keychain(
+                        Keychain::External,
+                        graph
+                            .index
+                            .unbounded_spk_iter(Keychain::External)
+                            .into_iter()
+                            .flatten(),
+                    )
+                    .spks_for_keychain(
+                        Keychain::Internal,
+                        graph
+                            .index
+                            .unbounded_spk_iter(Keychain::Internal)
+                            .into_iter()
+                            .flatten(),
+                    )
+                    .inspect({
+                        <span class="kw">let </span><span class="kw-2">mut </span>once = BTreeSet::new();
+                        <span class="kw">move </span>|k, spk_i, <span class="kw">_</span>| {
+                            <span class="kw">if </span>once.insert(k) {
+                                <span class="macro">eprint!</span>(<span class="string">"\nScanning {}: {} "</span>, k, spk_i);
+                            } <span class="kw">else </span>{
+                                <span class="macro">eprint!</span>(<span class="string">"{} "</span>, spk_i);
                             }
-
-                            <span class="macro">eprint!</span>(<span class="string">&quot;{} &quot;</span>, i);
-                            <span class="kw">let _ </span>= io::stdout().flush();
-                        });
-                        (keychain, spk_iter)
+                            io::stdout().flush().expect(<span class="string">"must flush"</span>);
+                        }
                     })
-                    .collect::&lt;BTreeMap&lt;<span class="kw">_</span>, <span class="kw">_</span>&gt;&gt;();
-
-                <span class="kw">let </span>c = chain
-                    .blocks()
-                    .iter()
-                    .rev()
-                    .take(ASSUME_FINAL_DEPTH)
-                    .map(|(k, v)| (<span class="kw-2">*</span>k, <span class="kw-2">*</span>v))
-                    .collect::&lt;BTreeMap&lt;u32, BlockHash&gt;&gt;();
-
-                (keychain_spks, c)
             };
 
-            client
-                .scan(
-                    <span class="kw-2">&amp;</span>local_chain,
-                    keychain_spks,
-                    core::iter::empty(),
-                    core::iter::empty(),
-                    stop_gap,
-                    scan_options.batch_size,
-                )
-                .context(<span class="string">&quot;scanning the blockchain&quot;</span>)<span class="question-mark">?
-        </span>}
+            <span class="kw">let </span>res = client
+                .full_scan::&lt;<span class="kw">_</span>&gt;(request, stop_gap, scan_options.batch_size, <span class="bool-val">false</span>)
+                .context(<span class="string">"scanning the blockchain"</span>)<span class="question-mark">?</span>;
+            (
+                res.chain_update,
+                res.tx_update,
+                <span class="prelude-val">Some</span>(res.last_active_indices),
+            )
+        }
         ElectrumCommands::Sync {
             <span class="kw-2">mut </span>unused_spks,
             all_spks,
             <span class="kw-2">mut </span>utxos,
             <span class="kw-2">mut </span>unconfirmed,
             scan_options,
+            ..
         } =&gt; {
-            <span class="comment">// Get a short lock on the tracker to get the spks we&#39;re interested in
+            <span class="comment">// Get a short lock on the tracker to get the spks we're interested in
             </span><span class="kw">let </span>graph = graph.lock().unwrap();
             <span class="kw">let </span>chain = chain.lock().unwrap();
-            <span class="kw">let </span>chain_tip = chain.tip().unwrap_or_default();
 
             <span class="kw">if </span>!(all_spks || unused_spks || utxos || unconfirmed) {
                 unused_spks = <span class="bool-val">true</span>;
@@ -502,137 +489,79 @@
                 unused_spks = <span class="bool-val">false</span>;
             }
 
-            <span class="kw">let </span><span class="kw-2">mut </span>spks: Box&lt;<span class="kw">dyn </span>Iterator&lt;Item = bdk_chain::bitcoin::Script&gt;&gt; =
-                Box::new(core::iter::empty());
+            <span class="kw">let </span>chain_tip = chain.tip();
+            <span class="kw">let </span><span class="kw-2">mut </span>request =
+                SyncRequest::builder()
+                    .chain_tip(chain_tip.clone())
+                    .inspect(|item, progress| {
+                        <span class="kw">let </span>pc = (<span class="number">100 </span>* progress.consumed()) <span class="kw">as </span>f32 / progress.total() <span class="kw">as </span>f32;
+                        <span class="macro">eprintln!</span>(<span class="string">"[ SCANNING {:03.0}% ] {}"</span>, pc, item);
+                    });
+
             <span class="kw">if </span>all_spks {
-                <span class="kw">let </span>all_spks = graph
-                    .index
-                    .all_spks()
-                    .iter()
-                    .map(|(k, v)| (<span class="kw-2">*</span>k, v.clone()))
-                    .collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
-                spks = Box::new(spks.chain(all_spks.into_iter().map(|(index, script)| {
-                    <span class="macro">eprintln!</span>(<span class="string">&quot;scanning {:?}&quot;</span>, index);
-                    script
-                })));
+                request = request.spks_with_indexes(graph.index.revealed_spks(..));
             }
             <span class="kw">if </span>unused_spks {
-                <span class="kw">let </span>unused_spks = graph
-                    .index
-                    .unused_spks(..)
-                    .map(|(k, v)| (<span class="kw-2">*</span>k, v.clone()))
-                    .collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
-                spks = Box::new(spks.chain(unused_spks.into_iter().map(|(index, script)| {
-                    <span class="macro">eprintln!</span>(
-                        <span class="string">&quot;Checking if address {} {:?} has been used&quot;</span>,
-                        Address::from_script(<span class="kw-2">&amp;</span>script, args.network).unwrap(),
-                        index
-                    );
-
-                    script
-                })));
+                request = request.spks_with_indexes(graph.index.unused_spks());
             }
-
-            <span class="kw">let </span><span class="kw-2">mut </span>outpoints: Box&lt;<span class="kw">dyn </span>Iterator&lt;Item = OutPoint&gt;&gt; = Box::new(core::iter::empty());
-
             <span class="kw">if </span>utxos {
-                <span class="kw">let </span>init_outpoints = graph.index.outpoints().iter().cloned();
-
-                <span class="kw">let </span>utxos = graph
-                    .graph()
-                    .filter_chain_unspents(<span class="kw-2">&amp;*</span>chain, chain_tip, init_outpoints)
-                    .map(|(<span class="kw">_</span>, utxo)| utxo)
-                    .collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
-
-                outpoints = Box::new(
-                    utxos
-                        .into_iter()
-                        .inspect(|utxo| {
-                            <span class="macro">eprintln!</span>(
-                                <span class="string">&quot;Checking if outpoint {} (value: {}) has been spent&quot;</span>,
-                                utxo.outpoint, utxo.txout.value
-                            );
-                        })
-                        .map(|utxo| utxo.outpoint),
+                <span class="kw">let </span>init_outpoints = graph.index.outpoints();
+                request = request.outpoints(
+                    graph
+                        .graph()
+                        .filter_chain_unspents(
+                            <span class="kw-2">&amp;*</span>chain,
+                            chain_tip.block_id(),
+                            init_outpoints.iter().cloned(),
+                        )
+                        .map(|(<span class="kw">_</span>, utxo)| utxo.outpoint),
                 );
             };
-
-            <span class="kw">let </span><span class="kw-2">mut </span>txids: Box&lt;<span class="kw">dyn </span>Iterator&lt;Item = Txid&gt;&gt; = Box::new(core::iter::empty());
-
             <span class="kw">if </span>unconfirmed {
-                <span class="kw">let </span>unconfirmed_txids = graph
-                    .graph()
-                    .list_chain_txs(<span class="kw-2">&amp;*</span>chain, chain_tip)
-                    .filter(|canonical_tx| !canonical_tx.observed_as.is_confirmed())
-                    .map(|canonical_tx| canonical_tx.node.txid)
-                    .collect::&lt;Vec&lt;Txid&gt;&gt;();
-
-                txids = Box::new(unconfirmed_txids.into_iter().inspect(|txid| {
-                    <span class="macro">eprintln!</span>(<span class="string">&quot;Checking if {} is confirmed yet&quot;</span>, txid);
-                }));
+                request = request.txids(
+                    graph
+                        .graph()
+                        .list_canonical_txs(<span class="kw-2">&amp;*</span>chain, chain_tip.block_id())
+                        .filter(|canonical_tx| !canonical_tx.chain_position.is_confirmed())
+                        .map(|canonical_tx| canonical_tx.tx_node.txid),
+                );
             }
 
-            <span class="kw">let </span>c = chain
-                .blocks()
-                .iter()
-                .rev()
-                .take(ASSUME_FINAL_DEPTH)
-                .map(|(k, v)| (<span class="kw-2">*</span>k, <span class="kw-2">*</span>v))
-                .collect::&lt;BTreeMap&lt;u32, BlockHash&gt;&gt;();
+            <span class="kw">let </span>res = client
+                .sync(request, scan_options.batch_size, <span class="bool-val">false</span>)
+                .context(<span class="string">"scanning the blockchain"</span>)<span class="question-mark">?</span>;
 
             <span class="comment">// drop lock on graph and chain
             </span>drop((graph, chain));
 
-            <span class="kw">let </span>update = client
-                .scan_without_keychain(<span class="kw-2">&amp;</span>c, spks, txids, outpoints, scan_options.batch_size)
-                .context(<span class="string">&quot;scanning the blockchain&quot;</span>)<span class="question-mark">?</span>;
-            ElectrumUpdate {
-                graph_update: update.graph_update,
-                chain_update: update.chain_update,
-                keychain_update: BTreeMap::new(),
-            }
+            (res.chain_update, res.tx_update, <span class="prelude-val">None</span>)
         }
     };
-
-    <span class="kw">let </span>missing_txids = {
-        <span class="kw">let </span>graph = <span class="kw-2">&amp;*</span>graph.lock().unwrap();
-        response.missing_full_txs(graph.graph())
-    };
-
-    <span class="kw">let </span>now = std::time::UNIX_EPOCH
-        .elapsed()
-        .expect(<span class="string">&quot;must get time&quot;</span>)
-        .as_secs();
-
-    <span class="kw">let </span>final_update = response.finalize(<span class="kw-2">&amp;</span>client, <span class="prelude-val">Some</span>(now), missing_txids)<span class="question-mark">?</span>;
 
     <span class="kw">let </span>db_changeset = {
         <span class="kw">let </span><span class="kw-2">mut </span>chain = chain.lock().unwrap();
         <span class="kw">let </span><span class="kw-2">mut </span>graph = graph.lock().unwrap();
 
-        <span class="kw">let </span>chain_changeset = chain.apply_update(final_update.chain)<span class="question-mark">?</span>;
+        <span class="kw">let </span>chain_changeset = chain.apply_update(chain_update.expect(<span class="string">"request has chain tip"</span>))<span class="question-mark">?</span>;
 
-        <span class="kw">let </span>indexed_additions = {
-            <span class="kw">let </span><span class="kw-2">mut </span>additions = IndexedAdditions::&lt;ConfirmationHeightAnchor, <span class="kw">_</span>&gt;::default();
-            <span class="kw">let </span>(<span class="kw">_</span>, index_additions) = graph.index.reveal_to_target_multi(<span class="kw-2">&amp;</span>final_update.keychain);
-            additions.append(IndexedAdditions {
-                index_additions,
-                ..Default::default()
-            });
-            additions.append(graph.apply_update(final_update.graph));
-            additions
-        };
+        <span class="kw">let </span><span class="kw-2">mut </span>indexed_tx_graph_changeset =
+            indexed_tx_graph::ChangeSet::&lt;ConfirmationBlockTime, <span class="kw">_</span>&gt;::default();
+        <span class="kw">if let </span><span class="prelude-val">Some</span>(keychain_update) = keychain_update {
+            <span class="kw">let </span>keychain_changeset = graph.index.reveal_to_target_multi(<span class="kw-2">&amp;</span>keychain_update);
+            indexed_tx_graph_changeset.merge(keychain_changeset.into());
+        }
+        indexed_tx_graph_changeset.merge(graph.apply_update(tx_update));
 
         ChangeSet {
-            indexed_additions,
-            chain_changeset,
+            local_chain: chain_changeset,
+            tx_graph: indexed_tx_graph_changeset.tx_graph,
+            indexer: indexed_tx_graph_changeset.indexer,
+            ..Default::default()
         }
     };
 
     <span class="kw">let </span><span class="kw-2">mut </span>db = db.lock().unwrap();
-    db.stage(db_changeset);
-    db.commit()<span class="question-mark">?</span>;
+    db.append_changeset(<span class="kw-2">&amp;</span>db_changeset)<span class="question-mark">?</span>;
     <span class="prelude-val">Ok</span>(())
 }
-</code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="example_electrum" data-themes="" data-resource-suffix="" data-rustdoc-version="1.68.0-nightly (0f529f0f4 2022-12-13)" data-search-js="search-444266647c4dba98.js" data-settings-js="settings-bebeae96e00e4617.js" data-settings-css="settings-af96d9e2fc13e081.css" ></div></body></html>
+</code></pre></div></section></main></body></html>

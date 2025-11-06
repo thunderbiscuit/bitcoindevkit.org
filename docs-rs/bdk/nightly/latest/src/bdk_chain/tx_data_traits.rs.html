@@ -1,4 +1,5 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `crates/chain/src/tx_data_traits.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>tx_data_traits.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-1f7d512b176f0f72.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Bold-124a1ca42af929b6.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-64f7dca12162a801.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../static.files/light-ebce58d0a40c3431.css"><link rel="stylesheet" disabled href="../../static.files/dark-f23faae4a2daf9a6.css"><link rel="stylesheet" disabled href="../../static.files/ayu-94f39d4346842c1e.css"><script id="default-settings" ></script><script src="../../static.files/storage-d43fa987303ecbbb.js"></script><script defer src="../../static.files/source-script-5cf2e01a42cc9858.js"></script><script defer src="../../source-files.js"></script><script defer src="../../static.files/main-a211dbb005fb8161.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><div class="width-limiter"><nav class="sub"><a class="sub-logo-container" href="../../bdk_chain/index.html"><img class="rust-logo" src="../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-5ec35bf9ca753509.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `crates/chain/src/tx_data_traits.rs`."><title>tx_data_traits.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../../static.files/rustdoc-e7950ecc.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="bdk_chain" data-themes="" data-resource-suffix="" data-rustdoc-version="1.86.0-nightly (f85c6de55 2025-01-26)" data-channel="nightly" data-search-js="search-ccb196c1.js" data-settings-js="settings-0f613d39.js" ><script src="../../static.files/storage-59e33391.js"></script><script defer src="../../static.files/src-script-56102188.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-5f194d8c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-893ab5e7.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-6580c154.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-044be391.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">bdk_chain/</div>tx_data_traits.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -118,55 +119,83 @@
 <a href="#118" id="118">118</a>
 <a href="#119" id="119">119</a>
 <a href="#120" id="120">120</a>
-</pre><pre class="rust"><code><span class="kw">use </span><span class="kw">crate</span>::collections::BTreeMap;
-<span class="kw">use </span><span class="kw">crate</span>::collections::BTreeSet;
-<span class="kw">use </span><span class="kw">crate</span>::BlockId;
-<span class="kw">use </span>alloc::vec::Vec;
-<span class="kw">use </span>bitcoin::{Block, OutPoint, Transaction, TxOut};
+<a href="#121" id="121">121</a>
+<a href="#122" id="122">122</a>
+<a href="#123" id="123">123</a>
+<a href="#124" id="124">124</a>
+<a href="#125" id="125">125</a>
+<a href="#126" id="126">126</a>
+<a href="#127" id="127">127</a>
+<a href="#128" id="128">128</a></pre></div><pre class="rust"><code><span class="kw">use crate</span>::{BlockId, ConfirmationBlockTime};
 
-<span class="doccomment">/// Trait to do something with every txout contained in a structure.
+<span class="doccomment">/// Trait that "anchors" blockchain data to a specific block of height and hash.
 ///
-/// We would prefer to just work with things that can give us an `Iterator&lt;Item=(OutPoint, &amp;TxOut)&gt;`
-/// here, but rust&#39;s type system makes it extremely hard to do this (without trait objects).
-</span><span class="kw">pub trait </span>ForEachTxOut {
-    <span class="doccomment">/// The provided closure `f` will be called with each `outpoint/txout` pair.
-    </span><span class="kw">fn </span>for_each_txout(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw">impl </span>FnMut((OutPoint, <span class="kw-2">&amp;</span>TxOut)));
-}
-
-<span class="kw">impl </span>ForEachTxOut <span class="kw">for </span>Block {
-    <span class="kw">fn </span>for_each_txout(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw-2">mut </span>f: <span class="kw">impl </span>FnMut((OutPoint, <span class="kw-2">&amp;</span>TxOut))) {
-        <span class="kw">for </span>tx <span class="kw">in </span><span class="self">self</span>.txdata.iter() {
-            tx.for_each_txout(<span class="kw-2">&amp;mut </span>f)
-        }
-    }
-}
-
-<span class="kw">impl </span>ForEachTxOut <span class="kw">for </span>Transaction {
-    <span class="kw">fn </span>for_each_txout(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw-2">mut </span>f: <span class="kw">impl </span>FnMut((OutPoint, <span class="kw-2">&amp;</span>TxOut))) {
-        <span class="kw">let </span>txid = <span class="self">self</span>.txid();
-        <span class="kw">for </span>(i, txout) <span class="kw">in </span><span class="self">self</span>.output.iter().enumerate() {
-            f((
-                OutPoint {
-                    txid,
-                    vout: i <span class="kw">as </span>u32,
-                },
-                txout,
-            ))
-        }
-    }
-}
-
-<span class="doccomment">/// Trait that &quot;anchors&quot; blockchain data to a specific block of height and hash.
-///
-/// I.e. If transaction A is anchored in block B, then if block B is in the best chain, we can
+/// If transaction A is anchored in block B, and block B is in the best chain, we can
 /// assume that transaction A is also confirmed in the best chain. This does not necessarily mean
 /// that transaction A is confirmed in block B. It could also mean transaction A is confirmed in a
 /// parent block of B.
+///
+/// Every [`Anchor`] implementation must contain a [`BlockId`] parameter, and must implement
+/// [`Ord`]. When implementing [`Ord`], the anchors' [`BlockId`]s should take precedence
+/// over other elements inside the [`Anchor`]s for comparison purposes, i.e., you should first
+/// compare the anchors' [`BlockId`]s and then care about the rest.
+///
+/// The example shows different types of anchors:
+/// ```
+/// # use bdk_chain::local_chain::LocalChain;
+/// # use bdk_chain::tx_graph::TxGraph;
+/// # use bdk_chain::BlockId;
+/// # use bdk_chain::ConfirmationBlockTime;
+/// # use bdk_chain::example_utils::*;
+/// # use bitcoin::hashes::Hash;
+/// // Initialize the local chain with two blocks.
+/// let chain = LocalChain::from_blocks(
+///     [
+///         (1, Hash::hash("first".as_bytes())),
+///         (2, Hash::hash("second".as_bytes())),
+///     ]
+///     .into_iter()
+///     .collect(),
+/// );
+///
+/// // Transaction to be inserted into `TxGraph`s with different anchor types.
+/// let tx = tx_from_hex(RAW_TX_1);
+///
+/// // Insert `tx` into a `TxGraph` that uses `BlockId` as the anchor type.
+/// // When a transaction is anchored with `BlockId`, the anchor block and the confirmation block of
+/// // the transaction is the same block.
+/// let mut graph_a = TxGraph::&lt;BlockId&gt;::default();
+/// let _ = graph_a.insert_tx(tx.clone());
+/// graph_a.insert_anchor(
+///     tx.compute_txid(),
+///     BlockId {
+///         height: 1,
+///         hash: Hash::hash("first".as_bytes()),
+///     },
+/// );
+///
+/// // Insert `tx` into a `TxGraph` that uses `ConfirmationBlockTime` as the anchor type.
+/// // This anchor records the anchor block and the confirmation time of the transaction. When a
+/// // transaction is anchored with `ConfirmationBlockTime`, the anchor block and confirmation block
+/// // of the transaction is the same block.
+/// let mut graph_c = TxGraph::&lt;ConfirmationBlockTime&gt;::default();
+/// let _ = graph_c.insert_tx(tx.clone());
+/// graph_c.insert_anchor(
+///     tx.compute_txid(),
+///     ConfirmationBlockTime {
+///         block_id: BlockId {
+///             height: 2,
+///             hash: Hash::hash("third".as_bytes()),
+///         },
+///         confirmation_time: 123,
+///     },
+/// );
+/// ```
 </span><span class="kw">pub trait </span>Anchor: core::fmt::Debug + Clone + Eq + PartialOrd + Ord + core::hash::Hash {
-    <span class="doccomment">/// Returns the [`BlockId`] that the associated blockchain data is &quot;anchored&quot; in.
+    <span class="doccomment">/// Returns the [`BlockId`] that the associated blockchain data is "anchored" in.
     </span><span class="kw">fn </span>anchor_block(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; BlockId;
 
-    <span class="doccomment">/// Get the upper bound of the chain data&#39;s confirmation height.
+    <span class="doccomment">/// Get the upper bound of the chain data's confirmation height.
     ///
     /// The default definition gives a pessimistic answer. This can be overridden by the `Anchor`
     /// implementation for a more accurate value.
@@ -175,68 +204,54 @@
     }
 }
 
-<span class="kw">impl</span>&lt;A: Anchor&gt; Anchor <span class="kw">for </span><span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>A {
+<span class="kw">impl</span>&lt;A: Anchor&gt; Anchor <span class="kw">for </span><span class="kw-2">&amp;</span>A {
     <span class="kw">fn </span>anchor_block(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; BlockId {
         &lt;A <span class="kw">as </span>Anchor&gt;::anchor_block(<span class="self">self</span>)
     }
 }
 
-<span class="doccomment">/// Trait that makes an object appendable.
-</span><span class="kw">pub trait </span>Append {
-    <span class="doccomment">/// Append another object of the same type onto `self`.
-    </span><span class="kw">fn </span>append(<span class="kw-2">&amp;mut </span><span class="self">self</span>, other: <span class="self">Self</span>);
-
-    <span class="doccomment">/// Returns whether the structure is considered empty.
-    </span><span class="kw">fn </span>is_empty(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool;
-}
-
-<span class="kw">impl </span>Append <span class="kw">for </span>() {
-    <span class="kw">fn </span>append(<span class="kw-2">&amp;mut </span><span class="self">self</span>, _other: <span class="self">Self</span>) {}
-
-    <span class="kw">fn </span>is_empty(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
-        <span class="bool-val">true
+<span class="kw">impl </span>Anchor <span class="kw">for </span>BlockId {
+    <span class="kw">fn </span>anchor_block(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="self">Self </span>{
+        <span class="kw-2">*</span><span class="self">self
     </span>}
 }
 
-<span class="kw">impl</span>&lt;K: Ord, V&gt; Append <span class="kw">for </span>BTreeMap&lt;K, V&gt; {
-    <span class="kw">fn </span>append(<span class="kw-2">&amp;mut </span><span class="self">self</span>, <span class="kw-2">mut </span>other: <span class="self">Self</span>) {
-        BTreeMap::append(<span class="self">self</span>, <span class="kw-2">&amp;mut </span>other)
+<span class="kw">impl </span>Anchor <span class="kw">for </span>ConfirmationBlockTime {
+    <span class="kw">fn </span>anchor_block(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; BlockId {
+        <span class="self">self</span>.block_id
     }
 
-    <span class="kw">fn </span>is_empty(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
-        BTreeMap::is_empty(<span class="self">self</span>)
+    <span class="kw">fn </span>confirmation_height_upper_bound(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; u32 {
+        <span class="self">self</span>.block_id.height
     }
 }
 
-<span class="kw">impl</span>&lt;T: Ord&gt; Append <span class="kw">for </span>BTreeSet&lt;T&gt; {
-    <span class="kw">fn </span>append(<span class="kw-2">&amp;mut </span><span class="self">self</span>, <span class="kw-2">mut </span>other: <span class="self">Self</span>) {
-        BTreeSet::append(<span class="self">self</span>, <span class="kw-2">&amp;mut </span>other)
-    }
+<span class="doccomment">/// Set of parameters sufficient to construct an [`Anchor`].
+///
+/// Typically used as an additional constraint on anchor:
+/// `for&lt;'b&gt; A: Anchor + From&lt;TxPosInBlock&lt;'b&gt;&gt;`.
+</span><span class="attr">#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+</span><span class="kw">pub struct </span>TxPosInBlock&lt;<span class="lifetime">'b</span>&gt; {
+    <span class="doccomment">/// Block in which the transaction appeared.
+    </span><span class="kw">pub </span>block: <span class="kw-2">&amp;</span><span class="lifetime">'b </span>bitcoin::Block,
+    <span class="doccomment">/// Block's [`BlockId`].
+    </span><span class="kw">pub </span>block_id: BlockId,
+    <span class="doccomment">/// Position in the block on which the transaction appeared.
+    </span><span class="kw">pub </span>tx_pos: usize,
+}
 
-    <span class="kw">fn </span>is_empty(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
-        BTreeSet::is_empty(<span class="self">self</span>)
+<span class="kw">impl </span>From&lt;TxPosInBlock&lt;<span class="lifetime">'_</span>&gt;&gt; <span class="kw">for </span>BlockId {
+    <span class="kw">fn </span>from(pos: TxPosInBlock) -&gt; <span class="self">Self </span>{
+        pos.block_id
     }
 }
 
-<span class="kw">impl</span>&lt;T&gt; Append <span class="kw">for </span>Vec&lt;T&gt; {
-    <span class="kw">fn </span>append(<span class="kw-2">&amp;mut </span><span class="self">self</span>, <span class="kw-2">mut </span>other: <span class="self">Self</span>) {
-        Vec::append(<span class="self">self</span>, <span class="kw-2">&amp;mut </span>other)
-    }
-
-    <span class="kw">fn </span>is_empty(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
-        Vec::is_empty(<span class="self">self</span>)
-    }
-}
-
-<span class="kw">impl</span>&lt;A: Append, B: Append&gt; Append <span class="kw">for </span>(A, B) {
-    <span class="kw">fn </span>append(<span class="kw-2">&amp;mut </span><span class="self">self</span>, other: <span class="self">Self</span>) {
-        Append::append(<span class="kw-2">&amp;mut </span><span class="self">self</span>.<span class="number">0</span>, other.<span class="number">0</span>);
-        Append::append(<span class="kw-2">&amp;mut </span><span class="self">self</span>.<span class="number">1</span>, other.<span class="number">1</span>);
-    }
-
-    <span class="kw">fn </span>is_empty(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
-        Append::is_empty(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">0</span>) &amp;&amp; Append::is_empty(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">1</span>)
+<span class="kw">impl </span>From&lt;TxPosInBlock&lt;<span class="lifetime">'_</span>&gt;&gt; <span class="kw">for </span>ConfirmationBlockTime {
+    <span class="kw">fn </span>from(pos: TxPosInBlock) -&gt; <span class="self">Self </span>{
+        <span class="self">Self </span>{
+            block_id: pos.block_id,
+            confirmation_time: pos.block.header.time <span class="kw">as _</span>,
+        }
     }
 }
-</code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="bdk_chain" data-themes="" data-resource-suffix="" data-rustdoc-version="1.68.0-nightly (0f529f0f4 2022-12-13)" data-search-js="search-444266647c4dba98.js" data-settings-js="settings-bebeae96e00e4617.js" data-settings-css="settings-af96d9e2fc13e081.css" ></div></body></html>
+</code></pre></div></section></main></body></html>

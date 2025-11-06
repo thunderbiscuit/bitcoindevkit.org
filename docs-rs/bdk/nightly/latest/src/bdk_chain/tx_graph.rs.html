@@ -1,4 +1,5 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `crates/chain/src/tx_graph.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>tx_graph.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-1f7d512b176f0f72.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Bold-124a1ca42af929b6.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-64f7dca12162a801.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../static.files/light-ebce58d0a40c3431.css"><link rel="stylesheet" disabled href="../../static.files/dark-f23faae4a2daf9a6.css"><link rel="stylesheet" disabled href="../../static.files/ayu-94f39d4346842c1e.css"><script id="default-settings" ></script><script src="../../static.files/storage-d43fa987303ecbbb.js"></script><script defer src="../../static.files/source-script-5cf2e01a42cc9858.js"></script><script defer src="../../source-files.js"></script><script defer src="../../static.files/main-a211dbb005fb8161.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><div class="width-limiter"><nav class="sub"><a class="sub-logo-container" href="../../bdk_chain/index.html"><img class="rust-logo" src="../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-5ec35bf9ca753509.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `crates/chain/src/tx_graph.rs`."><title>tx_graph.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../../static.files/rustdoc-e7950ecc.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="bdk_chain" data-themes="" data-resource-suffix="" data-rustdoc-version="1.86.0-nightly (f85c6de55 2025-01-26)" data-channel="nightly" data-search-js="search-ccb196c1.js" data-settings-js="settings-0f613d39.js" ><script src="../../static.files/storage-59e33391.js"></script><script defer src="../../static.files/src-script-56102188.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-5f194d8c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-893ab5e7.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-6580c154.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-044be391.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">bdk_chain/</div>tx_graph.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -1183,41 +1184,366 @@
 <a href="#1183" id="1183">1183</a>
 <a href="#1184" id="1184">1184</a>
 <a href="#1185" id="1185">1185</a>
-</pre><pre class="rust"><code><span class="doccomment">//! Module for structures that store and traverse transactions.
+<a href="#1186" id="1186">1186</a>
+<a href="#1187" id="1187">1187</a>
+<a href="#1188" id="1188">1188</a>
+<a href="#1189" id="1189">1189</a>
+<a href="#1190" id="1190">1190</a>
+<a href="#1191" id="1191">1191</a>
+<a href="#1192" id="1192">1192</a>
+<a href="#1193" id="1193">1193</a>
+<a href="#1194" id="1194">1194</a>
+<a href="#1195" id="1195">1195</a>
+<a href="#1196" id="1196">1196</a>
+<a href="#1197" id="1197">1197</a>
+<a href="#1198" id="1198">1198</a>
+<a href="#1199" id="1199">1199</a>
+<a href="#1200" id="1200">1200</a>
+<a href="#1201" id="1201">1201</a>
+<a href="#1202" id="1202">1202</a>
+<a href="#1203" id="1203">1203</a>
+<a href="#1204" id="1204">1204</a>
+<a href="#1205" id="1205">1205</a>
+<a href="#1206" id="1206">1206</a>
+<a href="#1207" id="1207">1207</a>
+<a href="#1208" id="1208">1208</a>
+<a href="#1209" id="1209">1209</a>
+<a href="#1210" id="1210">1210</a>
+<a href="#1211" id="1211">1211</a>
+<a href="#1212" id="1212">1212</a>
+<a href="#1213" id="1213">1213</a>
+<a href="#1214" id="1214">1214</a>
+<a href="#1215" id="1215">1215</a>
+<a href="#1216" id="1216">1216</a>
+<a href="#1217" id="1217">1217</a>
+<a href="#1218" id="1218">1218</a>
+<a href="#1219" id="1219">1219</a>
+<a href="#1220" id="1220">1220</a>
+<a href="#1221" id="1221">1221</a>
+<a href="#1222" id="1222">1222</a>
+<a href="#1223" id="1223">1223</a>
+<a href="#1224" id="1224">1224</a>
+<a href="#1225" id="1225">1225</a>
+<a href="#1226" id="1226">1226</a>
+<a href="#1227" id="1227">1227</a>
+<a href="#1228" id="1228">1228</a>
+<a href="#1229" id="1229">1229</a>
+<a href="#1230" id="1230">1230</a>
+<a href="#1231" id="1231">1231</a>
+<a href="#1232" id="1232">1232</a>
+<a href="#1233" id="1233">1233</a>
+<a href="#1234" id="1234">1234</a>
+<a href="#1235" id="1235">1235</a>
+<a href="#1236" id="1236">1236</a>
+<a href="#1237" id="1237">1237</a>
+<a href="#1238" id="1238">1238</a>
+<a href="#1239" id="1239">1239</a>
+<a href="#1240" id="1240">1240</a>
+<a href="#1241" id="1241">1241</a>
+<a href="#1242" id="1242">1242</a>
+<a href="#1243" id="1243">1243</a>
+<a href="#1244" id="1244">1244</a>
+<a href="#1245" id="1245">1245</a>
+<a href="#1246" id="1246">1246</a>
+<a href="#1247" id="1247">1247</a>
+<a href="#1248" id="1248">1248</a>
+<a href="#1249" id="1249">1249</a>
+<a href="#1250" id="1250">1250</a>
+<a href="#1251" id="1251">1251</a>
+<a href="#1252" id="1252">1252</a>
+<a href="#1253" id="1253">1253</a>
+<a href="#1254" id="1254">1254</a>
+<a href="#1255" id="1255">1255</a>
+<a href="#1256" id="1256">1256</a>
+<a href="#1257" id="1257">1257</a>
+<a href="#1258" id="1258">1258</a>
+<a href="#1259" id="1259">1259</a>
+<a href="#1260" id="1260">1260</a>
+<a href="#1261" id="1261">1261</a>
+<a href="#1262" id="1262">1262</a>
+<a href="#1263" id="1263">1263</a>
+<a href="#1264" id="1264">1264</a>
+<a href="#1265" id="1265">1265</a>
+<a href="#1266" id="1266">1266</a>
+<a href="#1267" id="1267">1267</a>
+<a href="#1268" id="1268">1268</a>
+<a href="#1269" id="1269">1269</a>
+<a href="#1270" id="1270">1270</a>
+<a href="#1271" id="1271">1271</a>
+<a href="#1272" id="1272">1272</a>
+<a href="#1273" id="1273">1273</a>
+<a href="#1274" id="1274">1274</a>
+<a href="#1275" id="1275">1275</a>
+<a href="#1276" id="1276">1276</a>
+<a href="#1277" id="1277">1277</a>
+<a href="#1278" id="1278">1278</a>
+<a href="#1279" id="1279">1279</a>
+<a href="#1280" id="1280">1280</a>
+<a href="#1281" id="1281">1281</a>
+<a href="#1282" id="1282">1282</a>
+<a href="#1283" id="1283">1283</a>
+<a href="#1284" id="1284">1284</a>
+<a href="#1285" id="1285">1285</a>
+<a href="#1286" id="1286">1286</a>
+<a href="#1287" id="1287">1287</a>
+<a href="#1288" id="1288">1288</a>
+<a href="#1289" id="1289">1289</a>
+<a href="#1290" id="1290">1290</a>
+<a href="#1291" id="1291">1291</a>
+<a href="#1292" id="1292">1292</a>
+<a href="#1293" id="1293">1293</a>
+<a href="#1294" id="1294">1294</a>
+<a href="#1295" id="1295">1295</a>
+<a href="#1296" id="1296">1296</a>
+<a href="#1297" id="1297">1297</a>
+<a href="#1298" id="1298">1298</a>
+<a href="#1299" id="1299">1299</a>
+<a href="#1300" id="1300">1300</a>
+<a href="#1301" id="1301">1301</a>
+<a href="#1302" id="1302">1302</a>
+<a href="#1303" id="1303">1303</a>
+<a href="#1304" id="1304">1304</a>
+<a href="#1305" id="1305">1305</a>
+<a href="#1306" id="1306">1306</a>
+<a href="#1307" id="1307">1307</a>
+<a href="#1308" id="1308">1308</a>
+<a href="#1309" id="1309">1309</a>
+<a href="#1310" id="1310">1310</a>
+<a href="#1311" id="1311">1311</a>
+<a href="#1312" id="1312">1312</a>
+<a href="#1313" id="1313">1313</a>
+<a href="#1314" id="1314">1314</a>
+<a href="#1315" id="1315">1315</a>
+<a href="#1316" id="1316">1316</a>
+<a href="#1317" id="1317">1317</a>
+<a href="#1318" id="1318">1318</a>
+<a href="#1319" id="1319">1319</a>
+<a href="#1320" id="1320">1320</a>
+<a href="#1321" id="1321">1321</a>
+<a href="#1322" id="1322">1322</a>
+<a href="#1323" id="1323">1323</a>
+<a href="#1324" id="1324">1324</a>
+<a href="#1325" id="1325">1325</a>
+<a href="#1326" id="1326">1326</a>
+<a href="#1327" id="1327">1327</a>
+<a href="#1328" id="1328">1328</a>
+<a href="#1329" id="1329">1329</a>
+<a href="#1330" id="1330">1330</a>
+<a href="#1331" id="1331">1331</a>
+<a href="#1332" id="1332">1332</a>
+<a href="#1333" id="1333">1333</a>
+<a href="#1334" id="1334">1334</a>
+<a href="#1335" id="1335">1335</a>
+<a href="#1336" id="1336">1336</a>
+<a href="#1337" id="1337">1337</a>
+<a href="#1338" id="1338">1338</a>
+<a href="#1339" id="1339">1339</a>
+<a href="#1340" id="1340">1340</a>
+<a href="#1341" id="1341">1341</a>
+<a href="#1342" id="1342">1342</a>
+<a href="#1343" id="1343">1343</a>
+<a href="#1344" id="1344">1344</a>
+<a href="#1345" id="1345">1345</a>
+<a href="#1346" id="1346">1346</a>
+<a href="#1347" id="1347">1347</a>
+<a href="#1348" id="1348">1348</a>
+<a href="#1349" id="1349">1349</a>
+<a href="#1350" id="1350">1350</a>
+<a href="#1351" id="1351">1351</a>
+<a href="#1352" id="1352">1352</a>
+<a href="#1353" id="1353">1353</a>
+<a href="#1354" id="1354">1354</a>
+<a href="#1355" id="1355">1355</a>
+<a href="#1356" id="1356">1356</a>
+<a href="#1357" id="1357">1357</a>
+<a href="#1358" id="1358">1358</a>
+<a href="#1359" id="1359">1359</a>
+<a href="#1360" id="1360">1360</a>
+<a href="#1361" id="1361">1361</a>
+<a href="#1362" id="1362">1362</a>
+<a href="#1363" id="1363">1363</a>
+<a href="#1364" id="1364">1364</a>
+<a href="#1365" id="1365">1365</a>
+<a href="#1366" id="1366">1366</a>
+<a href="#1367" id="1367">1367</a>
+<a href="#1368" id="1368">1368</a>
+<a href="#1369" id="1369">1369</a>
+<a href="#1370" id="1370">1370</a>
+<a href="#1371" id="1371">1371</a>
+<a href="#1372" id="1372">1372</a>
+<a href="#1373" id="1373">1373</a>
+<a href="#1374" id="1374">1374</a>
+<a href="#1375" id="1375">1375</a>
+<a href="#1376" id="1376">1376</a>
+<a href="#1377" id="1377">1377</a>
+<a href="#1378" id="1378">1378</a>
+<a href="#1379" id="1379">1379</a>
+<a href="#1380" id="1380">1380</a>
+<a href="#1381" id="1381">1381</a>
+<a href="#1382" id="1382">1382</a>
+<a href="#1383" id="1383">1383</a>
+<a href="#1384" id="1384">1384</a>
+<a href="#1385" id="1385">1385</a>
+<a href="#1386" id="1386">1386</a>
+<a href="#1387" id="1387">1387</a>
+<a href="#1388" id="1388">1388</a>
+<a href="#1389" id="1389">1389</a>
+<a href="#1390" id="1390">1390</a>
+<a href="#1391" id="1391">1391</a>
+<a href="#1392" id="1392">1392</a>
+<a href="#1393" id="1393">1393</a>
+<a href="#1394" id="1394">1394</a>
+<a href="#1395" id="1395">1395</a>
+<a href="#1396" id="1396">1396</a>
+<a href="#1397" id="1397">1397</a>
+<a href="#1398" id="1398">1398</a>
+<a href="#1399" id="1399">1399</a>
+<a href="#1400" id="1400">1400</a>
+<a href="#1401" id="1401">1401</a>
+<a href="#1402" id="1402">1402</a>
+<a href="#1403" id="1403">1403</a>
+<a href="#1404" id="1404">1404</a>
+<a href="#1405" id="1405">1405</a>
+<a href="#1406" id="1406">1406</a>
+<a href="#1407" id="1407">1407</a>
+<a href="#1408" id="1408">1408</a>
+<a href="#1409" id="1409">1409</a>
+<a href="#1410" id="1410">1410</a>
+<a href="#1411" id="1411">1411</a>
+<a href="#1412" id="1412">1412</a>
+<a href="#1413" id="1413">1413</a>
+<a href="#1414" id="1414">1414</a>
+<a href="#1415" id="1415">1415</a>
+<a href="#1416" id="1416">1416</a>
+<a href="#1417" id="1417">1417</a>
+<a href="#1418" id="1418">1418</a>
+<a href="#1419" id="1419">1419</a>
+<a href="#1420" id="1420">1420</a>
+<a href="#1421" id="1421">1421</a>
+<a href="#1422" id="1422">1422</a>
+<a href="#1423" id="1423">1423</a>
+<a href="#1424" id="1424">1424</a>
+<a href="#1425" id="1425">1425</a>
+<a href="#1426" id="1426">1426</a>
+<a href="#1427" id="1427">1427</a>
+<a href="#1428" id="1428">1428</a>
+<a href="#1429" id="1429">1429</a>
+<a href="#1430" id="1430">1430</a>
+<a href="#1431" id="1431">1431</a>
+<a href="#1432" id="1432">1432</a>
+<a href="#1433" id="1433">1433</a>
+<a href="#1434" id="1434">1434</a>
+<a href="#1435" id="1435">1435</a>
+<a href="#1436" id="1436">1436</a>
+<a href="#1437" id="1437">1437</a>
+<a href="#1438" id="1438">1438</a>
+<a href="#1439" id="1439">1439</a>
+<a href="#1440" id="1440">1440</a>
+<a href="#1441" id="1441">1441</a>
+<a href="#1442" id="1442">1442</a>
+<a href="#1443" id="1443">1443</a>
+<a href="#1444" id="1444">1444</a>
+<a href="#1445" id="1445">1445</a>
+<a href="#1446" id="1446">1446</a>
+<a href="#1447" id="1447">1447</a>
+<a href="#1448" id="1448">1448</a>
+<a href="#1449" id="1449">1449</a>
+<a href="#1450" id="1450">1450</a>
+<a href="#1451" id="1451">1451</a>
+<a href="#1452" id="1452">1452</a>
+<a href="#1453" id="1453">1453</a>
+<a href="#1454" id="1454">1454</a>
+<a href="#1455" id="1455">1455</a>
+<a href="#1456" id="1456">1456</a>
+<a href="#1457" id="1457">1457</a>
+<a href="#1458" id="1458">1458</a>
+<a href="#1459" id="1459">1459</a>
+<a href="#1460" id="1460">1460</a>
+<a href="#1461" id="1461">1461</a>
+<a href="#1462" id="1462">1462</a>
+<a href="#1463" id="1463">1463</a>
+<a href="#1464" id="1464">1464</a>
+<a href="#1465" id="1465">1465</a>
+<a href="#1466" id="1466">1466</a>
+<a href="#1467" id="1467">1467</a>
+<a href="#1468" id="1468">1468</a>
+<a href="#1469" id="1469">1469</a>
+<a href="#1470" id="1470">1470</a>
+<a href="#1471" id="1471">1471</a>
+<a href="#1472" id="1472">1472</a>
+<a href="#1473" id="1473">1473</a>
+<a href="#1474" id="1474">1474</a>
+<a href="#1475" id="1475">1475</a>
+<a href="#1476" id="1476">1476</a>
+<a href="#1477" id="1477">1477</a>
+<a href="#1478" id="1478">1478</a>
+<a href="#1479" id="1479">1479</a>
+<a href="#1480" id="1480">1480</a>
+<a href="#1481" id="1481">1481</a>
+<a href="#1482" id="1482">1482</a>
+<a href="#1483" id="1483">1483</a>
+<a href="#1484" id="1484">1484</a>
+<a href="#1485" id="1485">1485</a>
+<a href="#1486" id="1486">1486</a>
+<a href="#1487" id="1487">1487</a>
+<a href="#1488" id="1488">1488</a>
+<a href="#1489" id="1489">1489</a>
+<a href="#1490" id="1490">1490</a>
+<a href="#1491" id="1491">1491</a>
+<a href="#1492" id="1492">1492</a>
+<a href="#1493" id="1493">1493</a>
+<a href="#1494" id="1494">1494</a>
+<a href="#1495" id="1495">1495</a>
+<a href="#1496" id="1496">1496</a>
+<a href="#1497" id="1497">1497</a>
+<a href="#1498" id="1498">1498</a>
+<a href="#1499" id="1499">1499</a></pre></div><pre class="rust"><code><span class="doccomment">//! Module for structures that store and traverse transactions.
 //!
-//! [`TxGraph`] is a monotone structure that inserts transactions and indexes the spends. The
-//! [`Additions`] structure reports changes of [`TxGraph`] but can also be applied to a
-//! [`TxGraph`] as well. Lastly, [`TxDescendants`] is an [`Iterator`] that traverses descendants of
-//! a given transaction.
+//! [`TxGraph`] contains transactions and indexes them so you can easily traverse the graph of
+//! those transactions. `TxGraph` is *monotone* in that you can always insert a transaction -- it
+//! does not care whether that transaction is in the current best chain or whether it conflicts with
+//! any of the existing transactions or what order you insert the transactions. This means that you
+//! can always combine two [`TxGraph`]s together, without resulting in inconsistencies. Furthermore,
+//! there is currently no way to delete a transaction.
+//!
+//! Transactions can be either whole or partial (i.e., transactions for which we only know some
+//! outputs, which we usually call "floating outputs"; these are usually inserted using the
+//! [`insert_txout`] method.).
+//!
+//! The graph contains transactions in the form of [`TxNode`]s. Each node contains the txid, the
+//! transaction (whole or partial), the blocks that it is anchored to (see the [`Anchor`]
+//! documentation for more details), and the timestamp of the last time we saw the transaction as
+//! unconfirmed.
 //!
 //! Conflicting transactions are allowed to coexist within a [`TxGraph`]. This is useful for
-//! identifying and traversing conflicts and descendants of a given transaction.
+//! identifying and traversing conflicts and descendants of a given transaction. Some [`TxGraph`]
+//! methods only consider transactions that are "canonical" (i.e., in the best chain or in mempool).
+//! We decide which transactions are canonical based on the transaction's anchors and the
+//! `last_seen` (as unconfirmed) timestamp.
 //!
-//! # Previewing and applying changes
+//! The [`ChangeSet`] reports changes made to a [`TxGraph`]; it can be used to either save to
+//! persistent storage, or to be applied to another [`TxGraph`].
 //!
-//! Methods that either preview or apply changes to [`TxGraph`] will return [`Additions`].
-//! [`Additions`] can be applied back to a [`TxGraph`] or be used to inform persistent storage
+//! Lastly, you can use [`TxAncestors`]/[`TxDescendants`] to traverse ancestors and descendants of
+//! a given transaction, respectively.
+//!
+//! # Applying changes
+//!
+//! Methods that change the state of [`TxGraph`] will return [`ChangeSet`]s.
+//! [`ChangeSet`]s can be applied back to a [`TxGraph`] or be used to inform persistent storage
 //! of the changes to [`TxGraph`].
 //!
-//! ```
-//! # use bdk_chain::BlockId;
-//! # use bdk_chain::tx_graph::TxGraph;
-//! # use bdk_chain::example_utils::*;
-//! # use bitcoin::Transaction;
-//! # let tx_a = tx_from_hex(RAW_TX_1);
-//! # let tx_b = tx_from_hex(RAW_TX_2);
-//! let mut graph: TxGraph = TxGraph::default();
+//! # Generics
 //!
-//! // preview a transaction insertion (not actually inserted)
-//! let additions = graph.insert_tx_preview(tx_a);
-//! // apply the insertion
-//! graph.apply_additions(additions);
+//! Anchors are represented as generics within `TxGraph&lt;A&gt;`. To make use of all functionality of the
+//! `TxGraph`, anchors (`A`) should implement [`Anchor`].
 //!
-//! // you can also insert a transaction directly
-//! let already_applied_additions = graph.insert_tx(tx_b);
-//! ```
-//!
-//! A [`TxGraph`] can also be updated with another [`TxGraph`].
+//! Anchors are made generic so that different types of data can be stored with how a transaction is
+//! *anchored* to a given block. An example of this is storing a merkle proof of the transaction to
+//! the confirmation block - this can be done with a custom [`Anchor`] type. The minimal [`Anchor`]
+//! type would just be a [`BlockId`] which just represents the height and hash of the block which
+//! the transaction is contained in. Note that a transaction can be contained in multiple
+//! conflicting blocks (by nature of the Bitcoin network).
 //!
 //! ```
 //! # use bdk_chain::BlockId;
@@ -1225,31 +1551,87 @@
 //! # use bdk_chain::example_utils::*;
 //! # use bitcoin::Transaction;
 //! # let tx_a = tx_from_hex(RAW_TX_1);
+//! let mut tx_graph: TxGraph = TxGraph::default();
+//!
+//! // insert a transaction
+//! let changeset = tx_graph.insert_tx(tx_a);
+//!
+//! // We can restore the state of the `tx_graph` by applying all
+//! // the changesets obtained by mutating the original (the order doesn't matter).
+//! let mut restored_tx_graph: TxGraph = TxGraph::default();
+//! restored_tx_graph.apply_changeset(changeset);
+//!
+//! assert_eq!(tx_graph, restored_tx_graph);
+//! ```
+//!
+//! A [`TxGraph`] can also be updated with another [`TxGraph`] which merges them together.
+//!
+//! ```
+//! # use bdk_chain::{Merge, BlockId};
+//! # use bdk_chain::tx_graph::{self, TxGraph};
+//! # use bdk_chain::example_utils::*;
+//! # use bitcoin::Transaction;
+//! # use std::sync::Arc;
+//! # let tx_a = tx_from_hex(RAW_TX_1);
 //! # let tx_b = tx_from_hex(RAW_TX_2);
 //! let mut graph: TxGraph = TxGraph::default();
-//! let update = TxGraph::new(vec![tx_a, tx_b]);
 //!
-//! // preview additions as the result of the update
-//! let additions = graph.determine_additions(&amp;update);
-//! // apply the additions
-//! graph.apply_additions(additions);
+//! let mut update = tx_graph::TxUpdate::default();
+//! update.txs.push(Arc::new(tx_a));
+//! update.txs.push(Arc::new(tx_b));
 //!
-//! // we can also apply the update graph directly
-//! // the additions will be empty as we have already applied the same update above
-//! let additions = graph.apply_update(update);
-//! assert!(additions.is_empty());
+//! // apply the update graph
+//! let changeset = graph.apply_update(update.clone());
+//!
+//! // if we apply it again, the resulting changeset will be empty
+//! let changeset = graph.apply_update(update);
+//! assert!(changeset.is_empty());
 //! ```
+//! [`insert_txout`]: TxGraph::insert_txout
 
-</span><span class="kw">use crate</span>::{
-    collections::<span class="kw-2">*</span>, keychain::Balance, Anchor, Append, BlockId, ChainOracle, ChainPosition,
-    ForEachTxOut, FullTxOut,
-};
+</span><span class="kw">use </span><span class="kw">crate</span>::collections::<span class="kw-2">*</span>;
+<span class="kw">use </span><span class="kw">crate</span>::BlockId;
+<span class="kw">use </span><span class="kw">crate</span>::CanonicalIter;
+<span class="kw">use </span><span class="kw">crate</span>::CanonicalReason;
+<span class="kw">use </span><span class="kw">crate</span>::ObservedIn;
+<span class="kw">use crate</span>::{Anchor, Balance, ChainOracle, ChainPosition, FullTxOut, Merge};
+<span class="kw">use </span>alloc::collections::vec_deque::VecDeque;
+<span class="kw">use </span>alloc::sync::Arc;
 <span class="kw">use </span>alloc::vec::Vec;
-<span class="kw">use </span>bitcoin::{OutPoint, Script, Transaction, TxOut, Txid};
+<span class="kw">use </span>bdk_core::ConfirmationBlockTime;
+<span class="kw">pub use </span>bdk_core::TxUpdate;
+<span class="kw">use </span>bitcoin::{Amount, OutPoint, ScriptBuf, SignedAmount, Transaction, TxOut, Txid};
+<span class="kw">use </span>core::fmt::{<span class="self">self</span>, Formatter};
 <span class="kw">use </span>core::{
     convert::Infallible,
     ops::{Deref, RangeInclusive},
 };
+
+<span class="kw">impl</span>&lt;A: Ord&gt; From&lt;TxGraph&lt;A&gt;&gt; <span class="kw">for </span>TxUpdate&lt;A&gt; {
+    <span class="kw">fn </span>from(graph: TxGraph&lt;A&gt;) -&gt; <span class="self">Self </span>{
+        <span class="self">Self </span>{
+            txs: graph.full_txs().map(|tx_node| tx_node.tx).collect(),
+            txouts: graph
+                .floating_txouts()
+                .map(|(op, txo)| (op, txo.clone()))
+                .collect(),
+            anchors: graph
+                .anchors
+                .into_iter()
+                .flat_map(|(txid, anchors)| anchors.into_iter().map(<span class="kw">move </span>|a| (a, txid)))
+                .collect(),
+            seen_ats: graph.last_seen.into_iter().collect(),
+        }
+    }
+}
+
+<span class="kw">impl</span>&lt;A: Anchor&gt; From&lt;TxUpdate&lt;A&gt;&gt; <span class="kw">for </span>TxGraph&lt;A&gt; {
+    <span class="kw">fn </span>from(update: TxUpdate&lt;A&gt;) -&gt; <span class="self">Self </span>{
+        <span class="kw">let </span><span class="kw-2">mut </span>graph = TxGraph::&lt;A&gt;::default();
+        <span class="kw">let _ </span>= graph.apply_update_at(update, <span class="prelude-val">None</span>);
+        graph
+    }
+}
 
 <span class="doccomment">/// A graph of transactions and spends.
 ///
@@ -1257,15 +1639,19 @@
 ///
 /// [module-level documentation]: crate::tx_graph
 </span><span class="attr">#[derive(Clone, Debug, PartialEq)]
-</span><span class="kw">pub struct </span>TxGraph&lt;A = ()&gt; {
-    <span class="comment">// all transactions that the graph is aware of in format: `(tx_node, tx_anchors, tx_last_seen)`
-    </span>txs: HashMap&lt;Txid, (TxNodeInternal, BTreeSet&lt;A&gt;, u64)&gt;,
+</span><span class="kw">pub struct </span>TxGraph&lt;A = ConfirmationBlockTime&gt; {
+    txs: HashMap&lt;Txid, TxNodeInternal&gt;,
     spends: BTreeMap&lt;OutPoint, HashSet&lt;Txid&gt;&gt;,
-    anchors: BTreeSet&lt;(A, Txid)&gt;,
+    anchors: HashMap&lt;Txid, BTreeSet&lt;A&gt;&gt;,
+    last_seen: HashMap&lt;Txid, u64&gt;,
 
-    <span class="comment">// This atrocity exists so that `TxGraph::outspends()` can return a reference.
-    // FIXME: This can be removed once `HashSet::new` is a const fn.
+    txs_by_highest_conf_heights: BTreeSet&lt;(u32, Txid)&gt;,
+    txs_by_last_seen: BTreeSet&lt;(u64, Txid)&gt;,
+
+    <span class="comment">// The following fields exist so that methods can return references to empty sets.
+    // FIXME: This can be removed once `HashSet::new` and `BTreeSet::new` are const fns.
     </span>empty_outspends: HashSet&lt;Txid&gt;,
+    empty_anchors: BTreeSet&lt;A&gt;,
 }
 
 <span class="kw">impl</span>&lt;A&gt; Default <span class="kw">for </span>TxGraph&lt;A&gt; {
@@ -1274,29 +1660,33 @@
             txs: Default::default(),
             spends: Default::default(),
             anchors: Default::default(),
+            last_seen: Default::default(),
+            txs_by_highest_conf_heights: Default::default(),
+            txs_by_last_seen: Default::default(),
             empty_outspends: Default::default(),
+            empty_anchors: Default::default(),
         }
     }
 }
 
-<span class="doccomment">/// An outward-facing view of a (transaction) node in the [`TxGraph`].
+<span class="doccomment">/// A transaction node in the [`TxGraph`].
 </span><span class="attr">#[derive(Clone, Debug, PartialEq, Eq, PartialOrd, Ord)]
-</span><span class="kw">pub struct </span>TxNode&lt;<span class="lifetime">&#39;a</span>, T, A&gt; {
+</span><span class="kw">pub struct </span>TxNode&lt;<span class="lifetime">'a</span>, T, A&gt; {
     <span class="doccomment">/// Txid of the transaction.
     </span><span class="kw">pub </span>txid: Txid,
     <span class="doccomment">/// A partial or full representation of the transaction.
-    </span><span class="kw">pub </span>tx: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>T,
-    <span class="doccomment">/// The blocks that the transaction is &quot;anchored&quot; in.
-    </span><span class="kw">pub </span>anchors: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>BTreeSet&lt;A&gt;,
+    </span><span class="kw">pub </span>tx: T,
+    <span class="doccomment">/// The blocks that the transaction is "anchored" in.
+    </span><span class="kw">pub </span>anchors: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>BTreeSet&lt;A&gt;,
     <span class="doccomment">/// The last-seen unix timestamp of the transaction as unconfirmed.
-    </span><span class="kw">pub </span>last_seen_unconfirmed: u64,
+    </span><span class="kw">pub </span>last_seen_unconfirmed: <span class="prelude-ty">Option</span>&lt;u64&gt;,
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>, T, A&gt; Deref <span class="kw">for </span>TxNode&lt;<span class="lifetime">&#39;a</span>, T, A&gt; {
+<span class="kw">impl</span>&lt;T, A&gt; Deref <span class="kw">for </span>TxNode&lt;<span class="lifetime">'_</span>, T, A&gt; {
     <span class="kw">type </span>Target = T;
 
     <span class="kw">fn </span>deref(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="self">Self</span>::Target {
-        <span class="self">self</span>.tx
+        <span class="kw-2">&amp;</span><span class="self">self</span>.tx
     }
 }
 
@@ -1306,7 +1696,7 @@
 /// outputs).
 </span><span class="attr">#[derive(Clone, Debug, PartialEq)]
 </span><span class="kw">enum </span>TxNodeInternal {
-    Whole(Transaction),
+    Whole(Arc&lt;Transaction&gt;),
     Partial(BTreeMap&lt;u32, TxOut&gt;),
 }
 
@@ -1316,22 +1706,52 @@
     }
 }
 
-<span class="doccomment">/// An outwards-facing view of a transaction that is part of the *best chain*&#39;s history.
+<span class="doccomment">/// A transaction that is deemed to be part of the canonical history.
 </span><span class="attr">#[derive(Clone, Debug, PartialEq, Eq, PartialOrd, Ord)]
-</span><span class="kw">pub struct </span>CanonicalTx&lt;<span class="lifetime">&#39;a</span>, T, A&gt; {
-    <span class="doccomment">/// How the transaction is observed as (confirmed or unconfirmed).
-    </span><span class="kw">pub </span>observed_as: ChainPosition&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>A&gt;,
+</span><span class="kw">pub struct </span>CanonicalTx&lt;<span class="lifetime">'a</span>, T, A&gt; {
+    <span class="doccomment">/// How the transaction is observed in the canonical chain (confirmed or unconfirmed).
+    </span><span class="kw">pub </span>chain_position: ChainPosition&lt;A&gt;,
     <span class="doccomment">/// The transaction node (as part of the graph).
-    </span><span class="kw">pub </span>node: TxNode&lt;<span class="lifetime">&#39;a</span>, T, A&gt;,
+    </span><span class="kw">pub </span>tx_node: TxNode&lt;<span class="lifetime">'a</span>, T, A&gt;,
 }
+
+<span class="doccomment">/// Errors returned by `TxGraph::calculate_fee`.
+</span><span class="attr">#[derive(Debug, PartialEq, Eq)]
+</span><span class="kw">pub enum </span>CalculateFeeError {
+    <span class="doccomment">/// Missing `TxOut` for one or more of the inputs of the tx
+    </span>MissingTxOut(Vec&lt;OutPoint&gt;),
+    <span class="doccomment">/// When the transaction is invalid according to the graph it has a negative fee
+    </span>NegativeFee(SignedAmount),
+}
+
+<span class="kw">impl </span>fmt::Display <span class="kw">for </span>CalculateFeeError {
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; fmt::Result {
+        <span class="kw">match </span><span class="self">self </span>{
+            CalculateFeeError::MissingTxOut(outpoints) =&gt; <span class="macro">write!</span>(
+                f,
+                <span class="string">"missing `TxOut` for one or more of the inputs of the tx: {:?}"</span>,
+                outpoints
+            ),
+            CalculateFeeError::NegativeFee(fee) =&gt; <span class="macro">write!</span>(
+                f,
+                <span class="string">"transaction is invalid according to the graph and has negative fee: {}"</span>,
+                fee.display_dynamic()
+            ),
+        }
+    }
+}
+
+<span class="attr">#[cfg(feature = <span class="string">"std"</span>)]
+</span><span class="kw">impl </span>std::error::Error <span class="kw">for </span>CalculateFeeError {}
 
 <span class="kw">impl</span>&lt;A&gt; TxGraph&lt;A&gt; {
     <span class="doccomment">/// Iterate over all tx outputs known by [`TxGraph`].
     ///
     /// This includes txouts of both full transactions as well as floating transactions.
     </span><span class="kw">pub fn </span>all_txouts(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw">impl </span>Iterator&lt;Item = (OutPoint, <span class="kw-2">&amp;</span>TxOut)&gt; {
-        <span class="self">self</span>.txs.iter().flat_map(|(txid, (tx, <span class="kw">_</span>, <span class="kw">_</span>))| <span class="kw">match </span>tx {
+        <span class="self">self</span>.txs.iter().flat_map(|(txid, tx)| <span class="kw">match </span>tx {
             TxNodeInternal::Whole(tx) =&gt; tx
+                .as_ref()
                 .output
                 .iter()
                 .enumerate()
@@ -1351,7 +1771,7 @@
     </span><span class="kw">pub fn </span>floating_txouts(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw">impl </span>Iterator&lt;Item = (OutPoint, <span class="kw-2">&amp;</span>TxOut)&gt; {
         <span class="self">self</span>.txs
             .iter()
-            .filter_map(|(txid, (tx_node, <span class="kw">_</span>, <span class="kw">_</span>))| <span class="kw">match </span>tx_node {
+            .filter_map(|(txid, tx_node)| <span class="kw">match </span>tx_node {
                 TxNodeInternal::Whole(<span class="kw">_</span>) =&gt; <span class="prelude-val">None</span>,
                 TxNodeInternal::Partial(txouts) =&gt; <span class="prelude-val">Some</span>(
                     txouts
@@ -1363,18 +1783,29 @@
     }
 
     <span class="doccomment">/// Iterate over all full transactions in the graph.
-    </span><span class="kw">pub fn </span>full_txs(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw">impl </span>Iterator&lt;Item = TxNode&lt;<span class="lifetime">&#39;_</span>, Transaction, A&gt;&gt; {
-        <span class="self">self</span>.txs
-            .iter()
-            .filter_map(|(<span class="kw-2">&amp;</span>txid, (tx, anchors, last_seen))| <span class="kw">match </span>tx {
-                TxNodeInternal::Whole(tx) =&gt; <span class="prelude-val">Some</span>(TxNode {
-                    txid,
-                    tx,
-                    anchors,
-                    last_seen_unconfirmed: <span class="kw-2">*</span>last_seen,
-                }),
-                TxNodeInternal::Partial(<span class="kw">_</span>) =&gt; <span class="prelude-val">None</span>,
-            })
+    </span><span class="kw">pub fn </span>full_txs(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw">impl </span>Iterator&lt;Item = TxNode&lt;<span class="lifetime">'_</span>, Arc&lt;Transaction&gt;, A&gt;&gt; {
+        <span class="self">self</span>.txs.iter().filter_map(|(<span class="kw-2">&amp;</span>txid, tx)| <span class="kw">match </span>tx {
+            TxNodeInternal::Whole(tx) =&gt; <span class="prelude-val">Some</span>(TxNode {
+                txid,
+                tx: tx.clone(),
+                anchors: <span class="self">self</span>.anchors.get(<span class="kw-2">&amp;</span>txid).unwrap_or(<span class="kw-2">&amp;</span><span class="self">self</span>.empty_anchors),
+                last_seen_unconfirmed: <span class="self">self</span>.last_seen.get(<span class="kw-2">&amp;</span>txid).copied(),
+            }),
+            TxNodeInternal::Partial(<span class="kw">_</span>) =&gt; <span class="prelude-val">None</span>,
+        })
+    }
+
+    <span class="doccomment">/// Iterate over graph transactions with no anchors or last-seen.
+    </span><span class="kw">pub fn </span>txs_with_no_anchor_or_last_seen(
+        <span class="kw-2">&amp;</span><span class="self">self</span>,
+    ) -&gt; <span class="kw">impl </span>Iterator&lt;Item = TxNode&lt;<span class="lifetime">'_</span>, Arc&lt;Transaction&gt;, A&gt;&gt; {
+        <span class="self">self</span>.full_txs().filter_map(|tx| {
+            <span class="kw">if </span>tx.anchors.is_empty() &amp;&amp; tx.last_seen_unconfirmed.is_none() {
+                <span class="prelude-val">Some</span>(tx)
+            } <span class="kw">else </span>{
+                <span class="prelude-val">None
+            </span>}
+        })
     }
 
     <span class="doccomment">/// Get a transaction by txid. This only returns `Some` for full transactions.
@@ -1382,18 +1813,18 @@
     /// Refer to [`get_txout`] for getting a specific [`TxOut`].
     ///
     /// [`get_txout`]: Self::get_txout
-    </span><span class="kw">pub fn </span>get_tx(<span class="kw-2">&amp;</span><span class="self">self</span>, txid: Txid) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>Transaction&gt; {
+    </span><span class="kw">pub fn </span>get_tx(<span class="kw-2">&amp;</span><span class="self">self</span>, txid: Txid) -&gt; <span class="prelude-ty">Option</span>&lt;Arc&lt;Transaction&gt;&gt; {
         <span class="self">self</span>.get_tx_node(txid).map(|n| n.tx)
     }
 
     <span class="doccomment">/// Get a transaction node by txid. This only returns `Some` for full transactions.
-    </span><span class="kw">pub fn </span>get_tx_node(<span class="kw-2">&amp;</span><span class="self">self</span>, txid: Txid) -&gt; <span class="prelude-ty">Option</span>&lt;TxNode&lt;<span class="lifetime">&#39;_</span>, Transaction, A&gt;&gt; {
+    </span><span class="kw">pub fn </span>get_tx_node(<span class="kw-2">&amp;</span><span class="self">self</span>, txid: Txid) -&gt; <span class="prelude-ty">Option</span>&lt;TxNode&lt;<span class="lifetime">'_</span>, Arc&lt;Transaction&gt;, A&gt;&gt; {
         <span class="kw">match </span><span class="kw-2">&amp;</span><span class="self">self</span>.txs.get(<span class="kw-2">&amp;</span>txid)<span class="question-mark">? </span>{
-            (TxNodeInternal::Whole(tx), anchors, last_seen) =&gt; <span class="prelude-val">Some</span>(TxNode {
+            TxNodeInternal::Whole(tx) =&gt; <span class="prelude-val">Some</span>(TxNode {
                 txid,
-                tx,
-                anchors,
-                last_seen_unconfirmed: <span class="kw-2">*</span>last_seen,
+                tx: tx.clone(),
+                anchors: <span class="self">self</span>.anchors.get(<span class="kw-2">&amp;</span>txid).unwrap_or(<span class="kw-2">&amp;</span><span class="self">self</span>.empty_anchors),
+                last_seen_unconfirmed: <span class="self">self</span>.last_seen.get(<span class="kw-2">&amp;</span>txid).copied(),
             }),
             <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
         }
@@ -1401,8 +1832,8 @@
 
     <span class="doccomment">/// Obtains a single tx output (if any) at the specified outpoint.
     </span><span class="kw">pub fn </span>get_txout(<span class="kw-2">&amp;</span><span class="self">self</span>, outpoint: OutPoint) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>TxOut&gt; {
-        <span class="kw">match </span><span class="kw-2">&amp;</span><span class="self">self</span>.txs.get(<span class="kw-2">&amp;</span>outpoint.txid)<span class="question-mark">?</span>.<span class="number">0 </span>{
-            TxNodeInternal::Whole(tx) =&gt; tx.output.get(outpoint.vout <span class="kw">as </span>usize),
+        <span class="kw">match </span><span class="kw-2">&amp;</span><span class="self">self</span>.txs.get(<span class="kw-2">&amp;</span>outpoint.txid)<span class="question-mark">? </span>{
+            TxNodeInternal::Whole(tx) =&gt; tx.as_ref().output.get(outpoint.vout <span class="kw">as </span>usize),
             TxNodeInternal::Partial(txouts) =&gt; txouts.get(<span class="kw-2">&amp;</span>outpoint.vout),
         }
     }
@@ -1411,8 +1842,9 @@
     ///
     /// Returns a [`BTreeMap`] of vout to output of the provided `txid`.
     </span><span class="kw">pub fn </span>tx_outputs(<span class="kw-2">&amp;</span><span class="self">self</span>, txid: Txid) -&gt; <span class="prelude-ty">Option</span>&lt;BTreeMap&lt;u32, <span class="kw-2">&amp;</span>TxOut&gt;&gt; {
-        <span class="prelude-val">Some</span>(<span class="kw">match </span><span class="kw-2">&amp;</span><span class="self">self</span>.txs.get(<span class="kw-2">&amp;</span>txid)<span class="question-mark">?</span>.<span class="number">0 </span>{
+        <span class="prelude-val">Some</span>(<span class="kw">match </span><span class="kw-2">&amp;</span><span class="self">self</span>.txs.get(<span class="kw-2">&amp;</span>txid)<span class="question-mark">? </span>{
             TxNodeInternal::Whole(tx) =&gt; tx
+                .as_ref()
                 .output
                 .iter()
                 .enumerate()
@@ -1425,39 +1857,53 @@
         })
     }
 
-    <span class="doccomment">/// Calculates the fee of a given transaction. Returns 0 if `tx` is a coinbase transaction.
-    /// Returns `Some(_)` if we have all the `TxOut`s being spent by `tx` in the graph (either as
-    /// the full transactions or individual txouts). If the returned value is negative, then the
-    /// transaction is invalid according to the graph.
+    <span class="doccomment">/// Calculates the fee of a given transaction. Returns [`Amount::ZERO`] if `tx` is a coinbase transaction.
+    /// Returns `OK(_)` if we have all the [`TxOut`]s being spent by `tx` in the graph (either as
+    /// the full transactions or individual txouts).
     ///
-    /// Returns `None` if we&#39;re missing an input for the tx in the graph.
+    /// To calculate the fee for a [`Transaction`] that depends on foreign [`TxOut`] values you must
+    /// first manually insert the foreign TxOuts into the tx graph using the [`insert_txout`] function.
+    /// Only insert TxOuts you trust the values for!
     ///
     /// Note `tx` does not have to be in the graph for this to work.
-    </span><span class="kw">pub fn </span>calculate_fee(<span class="kw-2">&amp;</span><span class="self">self</span>, tx: <span class="kw-2">&amp;</span>Transaction) -&gt; <span class="prelude-ty">Option</span>&lt;i64&gt; {
-        <span class="kw">if </span>tx.is_coin_base() {
-            <span class="kw">return </span><span class="prelude-val">Some</span>(<span class="number">0</span>);
+    ///
+    /// [`insert_txout`]: Self::insert_txout
+    </span><span class="kw">pub fn </span>calculate_fee(<span class="kw-2">&amp;</span><span class="self">self</span>, tx: <span class="kw-2">&amp;</span>Transaction) -&gt; <span class="prelude-ty">Result</span>&lt;Amount, CalculateFeeError&gt; {
+        <span class="kw">if </span>tx.is_coinbase() {
+            <span class="kw">return </span><span class="prelude-val">Ok</span>(Amount::ZERO);
         }
-        <span class="kw">let </span>inputs_sum = tx
-            .input
-            .iter()
-            .map(|txin| {
-                <span class="self">self</span>.get_txout(txin.previous_output)
-                    .map(|txout| txout.value <span class="kw">as </span>i64)
-            })
-            .sum::&lt;<span class="prelude-ty">Option</span>&lt;i64&gt;&gt;()<span class="question-mark">?</span>;
+
+        <span class="kw">let </span>(inputs_sum, missing_outputs) = tx.input.iter().fold(
+            (SignedAmount::ZERO, Vec::new()),
+            |(<span class="kw-2">mut </span>sum, <span class="kw-2">mut </span>missing_outpoints), txin| <span class="kw">match </span><span class="self">self</span>.get_txout(txin.previous_output) {
+                <span class="prelude-val">None </span>=&gt; {
+                    missing_outpoints.push(txin.previous_output);
+                    (sum, missing_outpoints)
+                }
+                <span class="prelude-val">Some</span>(txout) =&gt; {
+                    sum += txout.value.to_signed().expect(<span class="string">"valid `SignedAmount`"</span>);
+                    (sum, missing_outpoints)
+                }
+            },
+        );
+        <span class="kw">if </span>!missing_outputs.is_empty() {
+            <span class="kw">return </span><span class="prelude-val">Err</span>(CalculateFeeError::MissingTxOut(missing_outputs));
+        }
 
         <span class="kw">let </span>outputs_sum = tx
             .output
             .iter()
-            .map(|txout| txout.value <span class="kw">as </span>i64)
-            .sum::&lt;i64&gt;();
+            .map(|txout| txout.value.to_signed().expect(<span class="string">"valid `SignedAmount`"</span>))
+            .sum::&lt;SignedAmount&gt;();
 
-        <span class="prelude-val">Some</span>(inputs_sum - outputs_sum)
+        <span class="kw">let </span>fee = inputs_sum - outputs_sum;
+        fee.to_unsigned()
+            .map_err(|<span class="kw">_</span>| CalculateFeeError::NegativeFee(fee))
     }
 
     <span class="doccomment">/// The transactions spending from this output.
     ///
-    /// `TxGraph` allows conflicting transactions within the graph. Obviously the transactions in
+    /// [`TxGraph`] allows conflicting transactions within the graph. Obviously the transactions in
     /// the returned set will never be in the same active-chain.
     </span><span class="kw">pub fn </span>outspends(<span class="kw-2">&amp;</span><span class="self">self</span>, outpoint: OutPoint) -&gt; <span class="kw-2">&amp;</span>HashSet&lt;Txid&gt; {
         <span class="self">self</span>.spends.get(<span class="kw-2">&amp;</span>outpoint).unwrap_or(<span class="kw-2">&amp;</span><span class="self">self</span>.empty_outspends)
@@ -1467,20 +1913,40 @@
     ///
     /// The iterator item is a union of `(vout, txid-set)` where:
     ///
-    /// - `vout` is the provided `txid`&#39;s outpoint that is being spent
+    /// - `vout` is the provided `txid`'s outpoint that is being spent
     /// - `txid-set` is the set of txids spending the `vout`.
     </span><span class="kw">pub fn </span>tx_spends(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         txid: Txid,
-    ) -&gt; <span class="kw">impl </span>DoubleEndedIterator&lt;Item = (u32, <span class="kw-2">&amp;</span>HashSet&lt;Txid&gt;)&gt; + <span class="lifetime">&#39;_ </span>{
-        <span class="kw">let </span>start = OutPoint { txid, vout: <span class="number">0 </span>};
-        <span class="kw">let </span>end = OutPoint {
-            txid,
-            vout: u32::MAX,
-        };
+    ) -&gt; <span class="kw">impl </span>DoubleEndedIterator&lt;Item = (u32, <span class="kw-2">&amp;</span>HashSet&lt;Txid&gt;)&gt; + <span class="lifetime">'_ </span>{
+        <span class="kw">let </span>start = OutPoint::new(txid, <span class="number">0</span>);
+        <span class="kw">let </span>end = OutPoint::new(txid, u32::MAX);
         <span class="self">self</span>.spends
             .range(start..=end)
             .map(|(outpoint, spends)| (outpoint.vout, spends))
+    }
+}
+
+<span class="kw">impl</span>&lt;A: Clone + Ord&gt; TxGraph&lt;A&gt; {
+    <span class="doccomment">/// Creates an iterator that filters and maps ancestor transactions.
+    ///
+    /// The iterator starts with the ancestors of the supplied `tx` (ancestor transactions of `tx`
+    /// are transactions spent by `tx`). The supplied transaction is excluded from the iterator.
+    ///
+    /// The supplied closure takes in two inputs `(depth, ancestor_tx)`:
+    ///
+    /// * `depth` is the distance between the starting `Transaction` and the `ancestor_tx`. I.e., if
+    ///    the `Transaction` is spending an output of the `ancestor_tx` then `depth` will be 1.
+    /// * `ancestor_tx` is the `Transaction`'s ancestor which we are considering to walk.
+    ///
+    /// The supplied closure returns an `Option&lt;T&gt;`, allowing the caller to map each `Transaction`
+    /// it visits and decide whether to visit ancestors.
+    </span><span class="kw">pub fn </span>walk_ancestors&lt;<span class="lifetime">'g</span>, T, F, O&gt;(<span class="kw-2">&amp;</span><span class="lifetime">'g </span><span class="self">self</span>, tx: T, walk_map: F) -&gt; TxAncestors&lt;<span class="lifetime">'g</span>, A, F, O&gt;
+    <span class="kw">where
+        </span>T: Into&lt;Arc&lt;Transaction&gt;&gt;,
+        F: FnMut(usize, Arc&lt;Transaction&gt;) -&gt; <span class="prelude-ty">Option</span>&lt;O&gt; + <span class="lifetime">'g</span>,
+    {
+        TxAncestors::new_exclude_root(<span class="self">self</span>, tx, walk_map)
     }
 
     <span class="doccomment">/// Creates an iterator that filters and maps descendants from the starting `txid`.
@@ -1488,45 +1954,52 @@
     /// The supplied closure takes in two inputs `(depth, descendant_txid)`:
     ///
     /// * `depth` is the distance between the starting `txid` and the `descendant_txid`. I.e., if the
-    ///     descendant is spending an output of the starting `txid`; the `depth` will be 1.
-    /// * `descendant_txid` is the descendant&#39;s txid which we are considering to walk.
+    ///     descendant is spending an output of the starting `txid` then `depth` will be 1.
+    /// * `descendant_txid` is the descendant's txid which we are considering to walk.
     ///
-    /// The supplied closure returns an `Option&lt;T&gt;`, allowing the caller to map each node it vists
+    /// The supplied closure returns an `Option&lt;T&gt;`, allowing the caller to map each node it visits
     /// and decide whether to visit descendants.
-    </span><span class="kw">pub fn </span>walk_descendants&lt;<span class="lifetime">&#39;g</span>, F, O&gt;(<span class="kw-2">&amp;</span><span class="lifetime">&#39;g </span><span class="self">self</span>, txid: Txid, walk_map: F) -&gt; TxDescendants&lt;A, F&gt;
+    </span><span class="kw">pub fn </span>walk_descendants&lt;<span class="lifetime">'g</span>, F, O&gt;(
+        <span class="kw-2">&amp;</span><span class="lifetime">'g </span><span class="self">self</span>,
+        txid: Txid,
+        walk_map: F,
+    ) -&gt; TxDescendants&lt;<span class="lifetime">'g</span>, A, F, O&gt;
     <span class="kw">where
-        </span>F: FnMut(usize, Txid) -&gt; <span class="prelude-ty">Option</span>&lt;O&gt; + <span class="lifetime">&#39;g</span>,
+        </span>F: FnMut(usize, Txid) -&gt; <span class="prelude-ty">Option</span>&lt;O&gt; + <span class="lifetime">'g</span>,
     {
         TxDescendants::new_exclude_root(<span class="self">self</span>, txid, walk_map)
     }
+}
 
+<span class="kw">impl</span>&lt;A&gt; TxGraph&lt;A&gt; {
     <span class="doccomment">/// Creates an iterator that both filters and maps conflicting transactions (this includes
     /// descendants of directly-conflicting transactions, which are also considered conflicts).
     ///
     /// Refer to [`Self::walk_descendants`] for `walk_map` usage.
-    </span><span class="kw">pub fn </span>walk_conflicts&lt;<span class="lifetime">&#39;g</span>, F, O&gt;(
-        <span class="kw-2">&amp;</span><span class="lifetime">&#39;g </span><span class="self">self</span>,
-        tx: <span class="kw-2">&amp;</span><span class="lifetime">&#39;g </span>Transaction,
+    </span><span class="kw">pub fn </span>walk_conflicts&lt;<span class="lifetime">'g</span>, F, O&gt;(
+        <span class="kw-2">&amp;</span><span class="lifetime">'g </span><span class="self">self</span>,
+        tx: <span class="kw-2">&amp;</span><span class="lifetime">'g </span>Transaction,
         walk_map: F,
-    ) -&gt; TxDescendants&lt;A, F&gt;
+    ) -&gt; TxDescendants&lt;<span class="lifetime">'g</span>, A, F, O&gt;
     <span class="kw">where
-        </span>F: FnMut(usize, Txid) -&gt; <span class="prelude-ty">Option</span>&lt;O&gt; + <span class="lifetime">&#39;g</span>,
+        </span>F: FnMut(usize, Txid) -&gt; <span class="prelude-ty">Option</span>&lt;O&gt; + <span class="lifetime">'g</span>,
     {
-        <span class="kw">let </span>txids = <span class="self">self</span>.direct_conflicts_of_tx(tx).map(|(<span class="kw">_</span>, txid)| txid);
+        <span class="kw">let </span>txids = <span class="self">self</span>.direct_conflicts(tx).map(|(<span class="kw">_</span>, txid)| txid);
         TxDescendants::from_multiple_include_root(<span class="self">self</span>, txids, walk_map)
     }
 
     <span class="doccomment">/// Given a transaction, return an iterator of txids that directly conflict with the given
-    /// transaction&#39;s inputs (spends). The conflicting txids are returned with the given
-    /// transaction&#39;s vin (in which it conflicts).
+    /// transaction's inputs (spends). The conflicting txids are returned with the given
+    /// transaction's vin (in which it conflicts).
     ///
-    /// Note that this only returns directly conflicting txids and does not include descendants of
-    /// those txids (which are technically also conflicting).
-    </span><span class="kw">pub fn </span>direct_conflicts_of_tx&lt;<span class="lifetime">&#39;g</span>&gt;(
-        <span class="kw-2">&amp;</span><span class="lifetime">&#39;g </span><span class="self">self</span>,
-        tx: <span class="kw-2">&amp;</span><span class="lifetime">&#39;g </span>Transaction,
-    ) -&gt; <span class="kw">impl </span>Iterator&lt;Item = (usize, Txid)&gt; + <span class="lifetime">&#39;_ </span>{
-        <span class="kw">let </span>txid = tx.txid();
+    /// Note that this only returns directly conflicting txids and won't include:
+    /// - descendants of conflicting transactions (which are technically also conflicting)
+    /// - transactions conflicting with the given transaction's ancestors
+    </span><span class="kw">pub fn </span>direct_conflicts&lt;<span class="lifetime">'g</span>&gt;(
+        <span class="kw-2">&amp;</span><span class="lifetime">'g </span><span class="self">self</span>,
+        tx: <span class="kw-2">&amp;</span><span class="lifetime">'g </span>Transaction,
+    ) -&gt; <span class="kw">impl </span>Iterator&lt;Item = (usize, Txid)&gt; + <span class="lifetime">'g </span>{
+        <span class="kw">let </span>txid = tx.compute_txid();
         tx.input
             .iter()
             .enumerate()
@@ -1536,7 +2009,7 @@
     }
 
     <span class="doccomment">/// Get all transaction anchors known by [`TxGraph`].
-    </span><span class="kw">pub fn </span>all_anchors(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>BTreeSet&lt;(A, Txid)&gt; {
+    </span><span class="kw">pub fn </span>all_anchors(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>HashMap&lt;Txid, BTreeSet&lt;A&gt;&gt; {
         <span class="kw-2">&amp;</span><span class="self">self</span>.anchors
     }
 
@@ -1546,7 +2019,20 @@
     }
 }
 
-<span class="kw">impl</span>&lt;A: Clone + Ord&gt; TxGraph&lt;A&gt; {
+<span class="kw">impl</span>&lt;A: Anchor&gt; TxGraph&lt;A&gt; {
+    <span class="doccomment">/// Transform the [`TxGraph`] to have [`Anchor`]s of another type.
+    ///
+    /// This takes in a closure of signature `FnMut(A) -&gt; A2` which is called for each [`Anchor`] to
+    /// transform it.
+    </span><span class="kw">pub fn </span>map_anchors&lt;A2: Anchor, F&gt;(<span class="self">self</span>, f: F) -&gt; TxGraph&lt;A2&gt;
+    <span class="kw">where
+        </span>F: FnMut(A) -&gt; A2,
+    {
+        <span class="kw">let </span><span class="kw-2">mut </span>new_graph = TxGraph::&lt;A2&gt;::default();
+        new_graph.apply_changeset(<span class="self">self</span>.initial_changeset().map_anchors(f));
+        new_graph
+    }
+
     <span class="doccomment">/// Construct a new [`TxGraph`] from a list of transactions.
     </span><span class="kw">pub fn </span>new(txs: <span class="kw">impl </span>IntoIterator&lt;Item = Transaction&gt;) -&gt; <span class="self">Self </span>{
         <span class="kw">let </span><span class="kw-2">mut </span>new = <span class="self">Self</span>::default();
@@ -1556,354 +2042,266 @@
         new
     }
 
-    <span class="doccomment">/// Returns the resultant [`Additions`] if the given `txout` is inserted at `outpoint`. Does not
-    /// mutate `self`.
+    <span class="doccomment">/// Inserts the given [`TxOut`] at [`OutPoint`].
     ///
     /// Inserting floating txouts are useful for determining fee/feerate of transactions we care
     /// about.
     ///
-    /// The [`Additions`] result will be empty if the `outpoint` (or a full transaction containing
+    /// The [`ChangeSet`] result will be empty if the `outpoint` (or a full transaction containing
     /// the `outpoint`) already existed in `self`.
-    </span><span class="kw">pub fn </span>insert_txout_preview(<span class="kw-2">&amp;</span><span class="self">self</span>, outpoint: OutPoint, txout: TxOut) -&gt; Additions&lt;A&gt; {
-        <span class="kw">let </span><span class="kw-2">mut </span>update = <span class="self">Self</span>::default();
-        update.txs.insert(
-            outpoint.txid,
-            (
-                TxNodeInternal::Partial([(outpoint.vout, txout)].into()),
-                BTreeSet::new(),
-                <span class="number">0</span>,
-            ),
-        );
-        <span class="self">self</span>.determine_additions(<span class="kw-2">&amp;</span>update)
-    }
-
-    <span class="doccomment">/// Inserts the given [`TxOut`] at [`OutPoint`].
     ///
-    /// This is equivalent to calling [`insert_txout_preview`] and [`apply_additions`] in sequence.
-    ///
-    /// [`insert_txout_preview`]: Self::insert_txout_preview
-    /// [`apply_additions`]: Self::apply_additions
-    </span><span class="kw">pub fn </span>insert_txout(<span class="kw-2">&amp;mut </span><span class="self">self</span>, outpoint: OutPoint, txout: TxOut) -&gt; Additions&lt;A&gt; {
-        <span class="kw">let </span>additions = <span class="self">self</span>.insert_txout_preview(outpoint, txout);
-        <span class="self">self</span>.apply_additions(additions.clone());
-        additions
-    }
-
-    <span class="doccomment">/// Returns the resultant [`Additions`] if the given transaction is inserted. Does not actually
-    /// mutate [`Self`].
-    ///
-    /// The [`Additions`] result will be empty if `tx` already exists in `self`.
-    </span><span class="kw">pub fn </span>insert_tx_preview(<span class="kw-2">&amp;</span><span class="self">self</span>, tx: Transaction) -&gt; Additions&lt;A&gt; {
-        <span class="kw">let </span><span class="kw-2">mut </span>update = <span class="self">Self</span>::default();
-        update
-            .txs
-            .insert(tx.txid(), (TxNodeInternal::Whole(tx), BTreeSet::new(), <span class="number">0</span>));
-        <span class="self">self</span>.determine_additions(<span class="kw-2">&amp;</span>update)
+    /// [`apply_changeset`]: Self::apply_changeset
+    </span><span class="kw">pub fn </span>insert_txout(<span class="kw-2">&amp;mut </span><span class="self">self</span>, outpoint: OutPoint, txout: TxOut) -&gt; ChangeSet&lt;A&gt; {
+        <span class="kw">let </span><span class="kw-2">mut </span>changeset = ChangeSet::&lt;A&gt;::default();
+        <span class="kw">let </span>tx_node = <span class="self">self</span>.txs.entry(outpoint.txid).or_default();
+        <span class="kw">match </span>tx_node {
+            TxNodeInternal::Whole(<span class="kw">_</span>) =&gt; {
+                <span class="comment">// ignore this txout we have the full one already.
+                // NOTE: You might think putting a debug_assert! here to check the output being
+                // replaced was actually correct is a good idea but the tests have already been
+                // written assuming this never panics.
+            </span>}
+            TxNodeInternal::Partial(partial_tx) =&gt; {
+                <span class="kw">match </span>partial_tx.insert(outpoint.vout, txout.clone()) {
+                    <span class="prelude-val">Some</span>(old_txout) =&gt; {
+                        <span class="macro">debug_assert_eq!</span>(
+                            txout, old_txout,
+                            <span class="string">"txout of the same outpoint should never change"
+                        </span>);
+                    }
+                    <span class="prelude-val">None </span>=&gt; {
+                        changeset.txouts.insert(outpoint, txout);
+                    }
+                }
+            }
+        }
+        changeset
     }
 
     <span class="doccomment">/// Inserts the given transaction into [`TxGraph`].
     ///
-    /// The [`Additions`] returned will be empty if `tx` already exists.
-    </span><span class="kw">pub fn </span>insert_tx(<span class="kw-2">&amp;mut </span><span class="self">self</span>, tx: Transaction) -&gt; Additions&lt;A&gt; {
-        <span class="kw">let </span>additions = <span class="self">self</span>.insert_tx_preview(tx);
-        <span class="self">self</span>.apply_additions(additions.clone());
-        additions
+    /// The [`ChangeSet`] returned will be empty if `tx` already exists.
+    </span><span class="kw">pub fn </span>insert_tx&lt;T: Into&lt;Arc&lt;Transaction&gt;&gt;&gt;(<span class="kw-2">&amp;mut </span><span class="self">self</span>, tx: T) -&gt; ChangeSet&lt;A&gt; {
+        <span class="kw">let </span>tx: Arc&lt;Transaction&gt; = tx.into();
+        <span class="kw">let </span>txid = tx.compute_txid();
+        <span class="kw">let </span><span class="kw-2">mut </span>changeset = ChangeSet::&lt;A&gt;::default();
+
+        <span class="kw">let </span>tx_node = <span class="self">self</span>.txs.entry(txid).or_default();
+        <span class="kw">match </span>tx_node {
+            TxNodeInternal::Whole(existing_tx) =&gt; {
+                <span class="macro">debug_assert_eq!</span>(
+                    existing_tx.as_ref(),
+                    tx.as_ref(),
+                    <span class="string">"tx of same txid should never change"
+                </span>);
+            }
+            partial_tx =&gt; {
+                <span class="kw">for </span>txin <span class="kw">in </span><span class="kw-2">&amp;</span>tx.input {
+                    <span class="comment">// this means the tx is coinbase so there is no previous output
+                    </span><span class="kw">if </span>txin.previous_output.is_null() {
+                        <span class="kw">continue</span>;
+                    }
+                    <span class="self">self</span>.spends
+                        .entry(txin.previous_output)
+                        .or_default()
+                        .insert(txid);
+                }
+                <span class="kw-2">*</span>partial_tx = TxNodeInternal::Whole(tx.clone());
+                changeset.txs.insert(tx);
+            }
+        }
+
+        changeset
     }
 
-    <span class="doccomment">/// Returns the resultant [`Additions`] if the `txid` is set in `anchor`.
-    </span><span class="kw">pub fn </span>insert_anchor_preview(<span class="kw-2">&amp;</span><span class="self">self</span>, txid: Txid, anchor: A) -&gt; Additions&lt;A&gt; {
-        <span class="kw">let </span><span class="kw-2">mut </span>update = <span class="self">Self</span>::default();
-        update.anchors.insert((anchor, txid));
-        <span class="self">self</span>.determine_additions(<span class="kw-2">&amp;</span>update)
+    <span class="doccomment">/// Batch insert unconfirmed transactions.
+    ///
+    /// Items of `txs` are tuples containing the transaction and a *last seen* timestamp. The
+    /// *last seen* communicates when the transaction is last seen in mempool which is used for
+    /// conflict-resolution (refer to [`TxGraph::insert_seen_at`] for details).
+    </span><span class="kw">pub fn </span>batch_insert_unconfirmed&lt;T: Into&lt;Arc&lt;Transaction&gt;&gt;&gt;(
+        <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+        txs: <span class="kw">impl </span>IntoIterator&lt;Item = (T, u64)&gt;,
+    ) -&gt; ChangeSet&lt;A&gt; {
+        <span class="kw">let </span><span class="kw-2">mut </span>changeset = ChangeSet::&lt;A&gt;::default();
+        <span class="kw">for </span>(tx, seen_at) <span class="kw">in </span>txs {
+            <span class="kw">let </span>tx: Arc&lt;Transaction&gt; = tx.into();
+            changeset.merge(<span class="self">self</span>.insert_seen_at(tx.compute_txid(), seen_at));
+            changeset.merge(<span class="self">self</span>.insert_tx(tx));
+        }
+        changeset
     }
 
     <span class="doccomment">/// Inserts the given `anchor` into [`TxGraph`].
     ///
-    /// This is equivalent to calling [`insert_anchor_preview`] and [`apply_additions`] in sequence.
-    /// The [`Additions`] returned will be empty if graph already knows that `txid` exists in
+    /// The [`ChangeSet`] returned will be empty if graph already knows that `txid` exists in
     /// `anchor`.
-    ///
-    /// [`insert_anchor_preview`]: Self::insert_anchor_preview
-    /// [`apply_additions`]: Self::apply_additions
-    </span><span class="kw">pub fn </span>insert_anchor(<span class="kw-2">&amp;mut </span><span class="self">self</span>, txid: Txid, anchor: A) -&gt; Additions&lt;A&gt; {
-        <span class="kw">let </span>additions = <span class="self">self</span>.insert_anchor_preview(txid, anchor);
-        <span class="self">self</span>.apply_additions(additions.clone());
-        additions
-    }
+    </span><span class="kw">pub fn </span>insert_anchor(<span class="kw-2">&amp;mut </span><span class="self">self</span>, txid: Txid, anchor: A) -&gt; ChangeSet&lt;A&gt; {
+        <span class="comment">// These two variables are used to determine how to modify the `txid`'s entry in
+        // `txs_by_highest_conf_heights`.
+        // We want to remove `(old_top_h?, txid)` and insert `(new_top_h?, txid)`.
+        </span><span class="kw">let </span><span class="kw-2">mut </span>old_top_h = <span class="prelude-val">None</span>;
+        <span class="kw">let </span><span class="kw-2">mut </span>new_top_h = anchor.confirmation_height_upper_bound();
 
-    <span class="doccomment">/// Returns the resultant [`Additions`] if the `txid` is set to `seen_at`.
-    ///
-    /// Note that [`TxGraph`] only keeps track of the lastest `seen_at`.
-    </span><span class="kw">pub fn </span>insert_seen_at_preview(<span class="kw-2">&amp;</span><span class="self">self</span>, txid: Txid, seen_at: u64) -&gt; Additions&lt;A&gt; {
-        <span class="kw">let </span><span class="kw-2">mut </span>update = <span class="self">Self</span>::default();
-        <span class="kw">let </span>(<span class="kw">_</span>, <span class="kw">_</span>, update_last_seen) = update.txs.entry(txid).or_default();
-        <span class="kw-2">*</span>update_last_seen = seen_at;
-        <span class="self">self</span>.determine_additions(<span class="kw-2">&amp;</span>update)
-    }
-
-    <span class="doccomment">/// Inserts the given `seen_at` into [`TxGraph`].
-    ///
-    /// This is equivalent to calling [`insert_seen_at_preview`] and [`apply_additions`] in
-    /// sequence.
-    ///
-    /// [`insert_seen_at_preview`]: Self::insert_seen_at_preview
-    /// [`apply_additions`]: Self::apply_additions
-    </span><span class="kw">pub fn </span>insert_seen_at(<span class="kw-2">&amp;mut </span><span class="self">self</span>, txid: Txid, seen_at: u64) -&gt; Additions&lt;A&gt; {
-        <span class="kw">let </span>additions = <span class="self">self</span>.insert_seen_at_preview(txid, seen_at);
-        <span class="self">self</span>.apply_additions(additions.clone());
-        additions
-    }
-
-    <span class="doccomment">/// Extends this graph with another so that `self` becomes the union of the two sets of
-    /// transactions.
-    ///
-    /// The returned [`Additions`] is the set difference between `update` and `self` (transactions that
-    /// exist in `update` but not in `self`).
-    </span><span class="kw">pub fn </span>apply_update(<span class="kw-2">&amp;mut </span><span class="self">self</span>, update: TxGraph&lt;A&gt;) -&gt; Additions&lt;A&gt; {
-        <span class="kw">let </span>additions = <span class="self">self</span>.determine_additions(<span class="kw-2">&amp;</span>update);
-        <span class="self">self</span>.apply_additions(additions.clone());
-        additions
-    }
-
-    <span class="doccomment">/// Applies [`Additions`] to [`TxGraph`].
-    </span><span class="kw">pub fn </span>apply_additions(<span class="kw-2">&amp;mut </span><span class="self">self</span>, additions: Additions&lt;A&gt;) {
-        <span class="kw">for </span>tx <span class="kw">in </span>additions.txs {
-            <span class="kw">let </span>txid = tx.txid();
-
-            tx.input
-                .iter()
-                .map(|txin| txin.previous_output)
-                <span class="comment">// coinbase spends are not to be counted
-                </span>.filter(|outpoint| !outpoint.is_null())
-                <span class="comment">// record spend as this tx has spent this outpoint
-                </span>.for_each(|outpoint| {
-                    <span class="self">self</span>.spends.entry(outpoint).or_default().insert(txid);
-                });
-
-            <span class="kw">match </span><span class="self">self</span>.txs.get_mut(<span class="kw-2">&amp;</span>txid) {
-                <span class="prelude-val">Some</span>((tx_node @ TxNodeInternal::Partial(<span class="kw">_</span>), <span class="kw">_</span>, <span class="kw">_</span>)) =&gt; {
-                    <span class="kw-2">*</span>tx_node = TxNodeInternal::Whole(tx);
+        <span class="kw">let </span>is_changed = <span class="kw">match </span><span class="self">self</span>.anchors.entry(txid) {
+            hash_map::Entry::Occupied(<span class="kw-2">mut </span>e) =&gt; {
+                old_top_h = e
+                    .get()
+                    .iter()
+                    .last()
+                    .map(Anchor::confirmation_height_upper_bound);
+                <span class="kw">if let </span><span class="prelude-val">Some</span>(old_top_h) = old_top_h {
+                    <span class="kw">if </span>old_top_h &gt; new_top_h {
+                        new_top_h = old_top_h;
+                    }
                 }
-                <span class="prelude-val">Some</span>((TxNodeInternal::Whole(tx), <span class="kw">_</span>, <span class="kw">_</span>)) =&gt; {
-                    <span class="macro">debug_assert_eq!</span>(
-                        tx.txid(),
-                        txid,
-                        <span class="string">&quot;tx should produce txid that is same as key&quot;
-                    </span>);
-                }
-                <span class="prelude-val">None </span>=&gt; {
-                    <span class="self">self</span>.txs
-                        .insert(txid, (TxNodeInternal::Whole(tx), BTreeSet::new(), <span class="number">0</span>));
-                }
+                <span class="kw">let </span>is_changed = e.get_mut().insert(anchor.clone());
+                is_changed
             }
-        }
+            hash_map::Entry::Vacant(e) =&gt; {
+                e.insert(core::iter::once(anchor.clone()).collect());
+                <span class="bool-val">true
+            </span>}
+        };
 
-        <span class="kw">for </span>(outpoint, txout) <span class="kw">in </span>additions.txouts {
-            <span class="kw">let </span>tx_entry = <span class="self">self
-                </span>.txs
-                .entry(outpoint.txid)
-                .or_insert_with(Default::default);
-
-            <span class="kw">match </span>tx_entry {
-                (TxNodeInternal::Whole(<span class="kw">_</span>), <span class="kw">_</span>, <span class="kw">_</span>) =&gt; { <span class="comment">/* do nothing since we already have full tx */
-                </span>}
-                (TxNodeInternal::Partial(txouts), <span class="kw">_</span>, <span class="kw">_</span>) =&gt; {
-                    txouts.insert(outpoint.vout, txout);
-                }
-            }
-        }
-
-        <span class="kw">for </span>(anchor, txid) <span class="kw">in </span>additions.anchors {
-            <span class="kw">if </span><span class="self">self</span>.anchors.insert((anchor.clone(), txid)) {
-                <span class="kw">let </span>(<span class="kw">_</span>, anchors, <span class="kw">_</span>) = <span class="self">self</span>.txs.entry(txid).or_insert_with(Default::default);
-                anchors.insert(anchor);
-            }
-        }
-
-        <span class="kw">for </span>(txid, new_last_seen) <span class="kw">in </span>additions.last_seen {
-            <span class="kw">let </span>(<span class="kw">_</span>, <span class="kw">_</span>, last_seen) = <span class="self">self</span>.txs.entry(txid).or_insert_with(Default::default);
-            <span class="kw">if </span>new_last_seen &gt; <span class="kw-2">*</span>last_seen {
-                <span class="kw-2">*</span>last_seen = new_last_seen;
-            }
-        }
-    }
-
-    <span class="doccomment">/// Previews the resultant [`Additions`] when [`Self`] is updated against the `update` graph.
-    ///
-    /// The [`Additions`] would be the set difference between `update` and `self` (transactions that
-    /// exist in `update` but not in `self`).
-    </span><span class="kw">pub fn </span>determine_additions(<span class="kw-2">&amp;</span><span class="self">self</span>, update: <span class="kw-2">&amp;</span>TxGraph&lt;A&gt;) -&gt; Additions&lt;A&gt; {
-        <span class="kw">let </span><span class="kw-2">mut </span>additions = Additions::default();
-
-        <span class="kw">for </span>(<span class="kw-2">&amp;</span>txid, (update_tx_node, <span class="kw">_</span>, update_last_seen)) <span class="kw">in </span><span class="kw-2">&amp;</span>update.txs {
-            <span class="kw">let </span>prev_last_seen: u64 = <span class="kw">match </span>(<span class="self">self</span>.txs.get(<span class="kw-2">&amp;</span>txid), update_tx_node) {
-                (<span class="prelude-val">None</span>, TxNodeInternal::Whole(update_tx)) =&gt; {
-                    additions.txs.insert(update_tx.clone());
-                    <span class="number">0
-                </span>}
-                (<span class="prelude-val">None</span>, TxNodeInternal::Partial(update_txos)) =&gt; {
-                    additions.txouts.extend(
-                        update_txos
-                            .iter()
-                            .map(|(<span class="kw-2">&amp;</span>vout, txo)| (OutPoint::new(txid, vout), txo.clone())),
-                    );
-                    <span class="number">0
-                </span>}
-                (<span class="prelude-val">Some</span>((TxNodeInternal::Whole(<span class="kw">_</span>), <span class="kw">_</span>, last_seen)), <span class="kw">_</span>) =&gt; <span class="kw-2">*</span>last_seen,
-                (
-                    <span class="prelude-val">Some</span>((TxNodeInternal::Partial(<span class="kw">_</span>), <span class="kw">_</span>, last_seen)),
-                    TxNodeInternal::Whole(update_tx),
-                ) =&gt; {
-                    additions.txs.insert(update_tx.clone());
-                    <span class="kw-2">*</span>last_seen
-                }
-                (
-                    <span class="prelude-val">Some</span>((TxNodeInternal::Partial(txos), <span class="kw">_</span>, last_seen)),
-                    TxNodeInternal::Partial(update_txos),
-                ) =&gt; {
-                    additions.txouts.extend(
-                        update_txos
-                            .iter()
-                            .filter(|(vout, <span class="kw">_</span>)| !txos.contains_key(<span class="kw-2">*</span>vout))
-                            .map(|(<span class="kw-2">&amp;</span>vout, txo)| (OutPoint::new(txid, vout), txo.clone())),
-                    );
-                    <span class="kw-2">*</span>last_seen
-                }
+        <span class="kw">let </span><span class="kw-2">mut </span>changeset = ChangeSet::&lt;A&gt;::default();
+        <span class="kw">if </span>is_changed {
+            <span class="kw">let </span>new_top_is_changed = <span class="kw">match </span>old_top_h {
+                <span class="prelude-val">None </span>=&gt; <span class="bool-val">true</span>,
+                <span class="prelude-val">Some</span>(old_top_h) <span class="kw">if </span>old_top_h != new_top_h =&gt; <span class="bool-val">true</span>,
+                <span class="kw">_ </span>=&gt; <span class="bool-val">false</span>,
             };
+            <span class="kw">if </span>new_top_is_changed {
+                <span class="kw">if let </span><span class="prelude-val">Some</span>(prev_top_h) = old_top_h {
+                    <span class="self">self</span>.txs_by_highest_conf_heights.remove(<span class="kw-2">&amp;</span>(prev_top_h, txid));
+                }
+                <span class="self">self</span>.txs_by_highest_conf_heights.insert((new_top_h, txid));
+            }
+            changeset.anchors.insert((anchor, txid));
+        }
+        changeset
+    }
 
-            <span class="kw">if </span><span class="kw-2">*</span>update_last_seen &gt; prev_last_seen {
-                additions.last_seen.insert(txid, <span class="kw-2">*</span>update_last_seen);
+    <span class="doccomment">/// Inserts the given `seen_at` for `txid` into [`TxGraph`].
+    ///
+    /// Note that [`TxGraph`] only keeps track of the latest `seen_at`.
+    </span><span class="kw">pub fn </span>insert_seen_at(<span class="kw-2">&amp;mut </span><span class="self">self</span>, txid: Txid, seen_at: u64) -&gt; ChangeSet&lt;A&gt; {
+        <span class="kw">let </span><span class="kw-2">mut </span>old_last_seen = <span class="prelude-val">None</span>;
+        <span class="kw">let </span>is_changed = <span class="kw">match </span><span class="self">self</span>.last_seen.entry(txid) {
+            hash_map::Entry::Occupied(<span class="kw-2">mut </span>e) =&gt; {
+                <span class="kw">let </span>last_seen = e.get_mut();
+                old_last_seen = <span class="prelude-val">Some</span>(<span class="kw-2">*</span>last_seen);
+                <span class="kw">let </span>change = <span class="kw-2">*</span>last_seen &lt; seen_at;
+                <span class="kw">if </span>change {
+                    <span class="kw-2">*</span>last_seen = seen_at;
+                }
+                change
+            }
+            hash_map::Entry::Vacant(e) =&gt; {
+                e.insert(seen_at);
+                <span class="bool-val">true
+            </span>}
+        };
+
+        <span class="kw">let </span><span class="kw-2">mut </span>changeset = ChangeSet::&lt;A&gt;::default();
+        <span class="kw">if </span>is_changed {
+            <span class="kw">if let </span><span class="prelude-val">Some</span>(old_last_seen) = old_last_seen {
+                <span class="self">self</span>.txs_by_last_seen.remove(<span class="kw-2">&amp;</span>(old_last_seen, txid));
+            }
+            <span class="self">self</span>.txs_by_last_seen.insert((seen_at, txid));
+            changeset.last_seen.insert(txid, seen_at);
+        }
+        changeset
+    }
+
+    <span class="doccomment">/// Extends this graph with the given `update`.
+    ///
+    /// The returned [`ChangeSet`] is the set difference between `update` and `self` (transactions that
+    /// exist in `update` but not in `self`).
+    </span><span class="attr">#[cfg(feature = <span class="string">"std"</span>)]
+    #[cfg_attr(docsrs, doc(cfg(feature = <span class="string">"std"</span>)))]
+    </span><span class="kw">pub fn </span>apply_update(<span class="kw-2">&amp;mut </span><span class="self">self</span>, update: TxUpdate&lt;A&gt;) -&gt; ChangeSet&lt;A&gt; {
+        <span class="kw">use </span>std::time::<span class="kw-2">*</span>;
+        <span class="kw">let </span>now = SystemTime::now()
+            .duration_since(UNIX_EPOCH)
+            .expect(<span class="string">"current time must be greater than epoch anchor"</span>);
+        <span class="self">self</span>.apply_update_at(update, <span class="prelude-val">Some</span>(now.as_secs()))
+    }
+
+    <span class="doccomment">/// Extends this graph with the given `update` alongside an optional `seen_at` timestamp.
+    ///
+    /// `seen_at` represents when the update is seen (in unix seconds). It is used to determine the
+    /// `last_seen`s for all transactions in the update which have no corresponding anchor(s). The
+    /// `last_seen` value is used internally to determine precedence of conflicting unconfirmed
+    /// transactions (where the transaction with the lower `last_seen` value is omitted from the
+    /// canonical history).
+    ///
+    /// Not setting a `seen_at` value means unconfirmed transactions introduced by this update will
+    /// not be part of the canonical history of transactions.
+    ///
+    /// Use [`apply_update`](TxGraph::apply_update) to have the `seen_at` value automatically set
+    /// to the current time.
+    </span><span class="kw">pub fn </span>apply_update_at(<span class="kw-2">&amp;mut </span><span class="self">self</span>, update: TxUpdate&lt;A&gt;, seen_at: <span class="prelude-ty">Option</span>&lt;u64&gt;) -&gt; ChangeSet&lt;A&gt; {
+        <span class="kw">let </span><span class="kw-2">mut </span>changeset = ChangeSet::&lt;A&gt;::default();
+        <span class="kw">let </span><span class="kw-2">mut </span>unanchored_txs = HashSet::&lt;Txid&gt;::new();
+        <span class="kw">for </span>tx <span class="kw">in </span>update.txs {
+            <span class="kw">if </span>unanchored_txs.insert(tx.compute_txid()) {
+                changeset.merge(<span class="self">self</span>.insert_tx(tx));
             }
         }
+        <span class="kw">for </span>(outpoint, txout) <span class="kw">in </span>update.txouts {
+            changeset.merge(<span class="self">self</span>.insert_txout(outpoint, txout));
+        }
+        <span class="kw">for </span>(anchor, txid) <span class="kw">in </span>update.anchors {
+            unanchored_txs.remove(<span class="kw-2">&amp;</span>txid);
+            changeset.merge(<span class="self">self</span>.insert_anchor(txid, anchor));
+        }
+        <span class="kw">for </span>(txid, seen_at) <span class="kw">in </span>update.seen_ats {
+            changeset.merge(<span class="self">self</span>.insert_seen_at(txid, seen_at));
+        }
+        <span class="kw">if let </span><span class="prelude-val">Some</span>(seen_at) = seen_at {
+            <span class="kw">for </span>txid <span class="kw">in </span>unanchored_txs {
+                changeset.merge(<span class="self">self</span>.insert_seen_at(txid, seen_at));
+            }
+        }
+        changeset
+    }
 
-        additions.anchors = update.anchors.difference(<span class="kw-2">&amp;</span><span class="self">self</span>.anchors).cloned().collect();
+    <span class="doccomment">/// Determines the [`ChangeSet`] between `self` and an empty [`TxGraph`].
+    </span><span class="kw">pub fn </span>initial_changeset(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; ChangeSet&lt;A&gt; {
+        ChangeSet {
+            txs: <span class="self">self</span>.full_txs().map(|tx_node| tx_node.tx).collect(),
+            txouts: <span class="self">self
+                </span>.floating_txouts()
+                .map(|(op, txout)| (op, txout.clone()))
+                .collect(),
+            anchors: <span class="self">self
+                </span>.anchors
+                .iter()
+                .flat_map(|(txid, anchors)| anchors.iter().map(|a| (a.clone(), <span class="kw-2">*</span>txid)))
+                .collect(),
+            last_seen: <span class="self">self</span>.last_seen.iter().map(|(<span class="kw-2">&amp;</span>k, <span class="kw-2">&amp;</span>v)| (k, v)).collect(),
+        }
+    }
 
-        additions
+    <span class="doccomment">/// Applies [`ChangeSet`] to [`TxGraph`].
+    </span><span class="kw">pub fn </span>apply_changeset(<span class="kw-2">&amp;mut </span><span class="self">self</span>, changeset: ChangeSet&lt;A&gt;) {
+        <span class="kw">for </span>tx <span class="kw">in </span>changeset.txs {
+            <span class="kw">let _ </span>= <span class="self">self</span>.insert_tx(tx);
+        }
+        <span class="kw">for </span>(outpoint, txout) <span class="kw">in </span>changeset.txouts {
+            <span class="kw">let _ </span>= <span class="self">self</span>.insert_txout(outpoint, txout);
+        }
+        <span class="kw">for </span>(anchor, txid) <span class="kw">in </span>changeset.anchors {
+            <span class="kw">let _ </span>= <span class="self">self</span>.insert_anchor(txid, anchor);
+        }
+        <span class="kw">for </span>(txid, seen_at) <span class="kw">in </span>changeset.last_seen {
+            <span class="kw">let _ </span>= <span class="self">self</span>.insert_seen_at(txid, seen_at);
+        }
     }
 }
 
 <span class="kw">impl</span>&lt;A: Anchor&gt; TxGraph&lt;A&gt; {
-    <span class="doccomment">/// Get the position of the transaction in `chain` with tip `chain_tip`.
-    ///
-    /// If the given transaction of `txid` does not exist in the chain of `chain_tip`, `None` is
-    /// returned.
-    ///
-    /// # Error
-    ///
-    /// An error will occur if the [`ChainOracle`] implementation (`chain`) fails. If the
-    /// [`ChainOracle`] is infallible, [`get_chain_position`] can be used instead.
-    ///
-    /// [`get_chain_position`]: Self::get_chain_position
-    </span><span class="kw">pub fn </span>try_get_chain_position&lt;C: ChainOracle&gt;(
-        <span class="kw-2">&amp;</span><span class="self">self</span>,
-        chain: <span class="kw-2">&amp;</span>C,
-        chain_tip: BlockId,
-        txid: Txid,
-    ) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="prelude-ty">Option</span>&lt;ChainPosition&lt;<span class="kw-2">&amp;</span>A&gt;&gt;, C::Error&gt; {
-        <span class="kw">let </span>(tx_node, anchors, last_seen) = <span class="kw">match </span><span class="self">self</span>.txs.get(<span class="kw-2">&amp;</span>txid) {
-            <span class="prelude-val">Some</span>(v) =&gt; v,
-            <span class="prelude-val">None </span>=&gt; <span class="kw">return </span><span class="prelude-val">Ok</span>(<span class="prelude-val">None</span>),
-        };
-
-        <span class="kw">for </span>anchor <span class="kw">in </span>anchors {
-            <span class="kw">match </span>chain.is_block_in_chain(anchor.anchor_block(), chain_tip)<span class="question-mark">? </span>{
-                <span class="prelude-val">Some</span>(<span class="bool-val">true</span>) =&gt; <span class="kw">return </span><span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(ChainPosition::Confirmed(anchor))),
-                <span class="kw">_ </span>=&gt; <span class="kw">continue</span>,
-            }
-        }
-
-        <span class="comment">// The tx is not anchored to a block which is in the best chain, let&#39;s check whether we can
-        // ignore it by checking conflicts!
-        </span><span class="kw">let </span>tx = <span class="kw">match </span>tx_node {
-            TxNodeInternal::Whole(tx) =&gt; tx,
-            TxNodeInternal::Partial(<span class="kw">_</span>) =&gt; {
-                <span class="comment">// Partial transactions (outputs only) cannot have conflicts.
-                </span><span class="kw">return </span><span class="prelude-val">Ok</span>(<span class="prelude-val">None</span>);
-            }
-        };
-
-        <span class="comment">// If a conflicting tx is in the best chain, or has `last_seen` higher than this tx, then
-        // this tx cannot exist in the best chain
-        </span><span class="kw">for </span>conflicting_tx <span class="kw">in </span><span class="self">self</span>.walk_conflicts(tx, |<span class="kw">_</span>, txid| <span class="self">self</span>.get_tx_node(txid)) {
-            <span class="kw">for </span>block <span class="kw">in </span>conflicting_tx.anchors.iter().map(A::anchor_block) {
-                <span class="kw">if </span>chain.is_block_in_chain(block, chain_tip)<span class="question-mark">? </span>== <span class="prelude-val">Some</span>(<span class="bool-val">true</span>) {
-                    <span class="comment">// conflicting tx is in best chain, so the current tx cannot be in best chain!
-                    </span><span class="kw">return </span><span class="prelude-val">Ok</span>(<span class="prelude-val">None</span>);
-                }
-            }
-            <span class="kw">if </span>conflicting_tx.last_seen_unconfirmed &gt; <span class="kw-2">*</span>last_seen {
-                <span class="kw">return </span><span class="prelude-val">Ok</span>(<span class="prelude-val">None</span>);
-            }
-        }
-
-        <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(ChainPosition::Unconfirmed(<span class="kw-2">*</span>last_seen)))
-    }
-
-    <span class="doccomment">/// Get the position of the transaction in `chain` with tip `chain_tip`.
-    ///
-    /// This is the infallible version of [`try_get_chain_position`].
-    ///
-    /// [`try_get_chain_position`]: Self::try_get_chain_position
-    </span><span class="kw">pub fn </span>get_chain_position&lt;C: ChainOracle&lt;Error = Infallible&gt;&gt;(
-        <span class="kw-2">&amp;</span><span class="self">self</span>,
-        chain: <span class="kw-2">&amp;</span>C,
-        chain_tip: BlockId,
-        txid: Txid,
-    ) -&gt; <span class="prelude-ty">Option</span>&lt;ChainPosition&lt;<span class="kw-2">&amp;</span>A&gt;&gt; {
-        <span class="self">self</span>.try_get_chain_position(chain, chain_tip, txid)
-            .expect(<span class="string">&quot;error is infallible&quot;</span>)
-    }
-
-    <span class="doccomment">/// Get the txid of the spending transaction and where the spending transaction is observed in
-    /// the `chain` of `chain_tip`.
-    ///
-    /// If no in-chain transaction spends `outpoint`, `None` will be returned.
-    ///
-    /// # Error
-    ///
-    /// An error will occur only if the [`ChainOracle`] implementation (`chain`) fails.
-    ///
-    /// If the [`ChainOracle`] is infallible, [`get_chain_spend`] can be used instead.
-    ///
-    /// [`get_chain_spend`]: Self::get_chain_spend
-    </span><span class="kw">pub fn </span>try_get_chain_spend&lt;C: ChainOracle&gt;(
-        <span class="kw-2">&amp;</span><span class="self">self</span>,
-        chain: <span class="kw-2">&amp;</span>C,
-        chain_tip: BlockId,
-        outpoint: OutPoint,
-    ) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="prelude-ty">Option</span>&lt;(ChainPosition&lt;<span class="kw-2">&amp;</span>A&gt;, Txid)&gt;, C::Error&gt; {
-        <span class="kw">if </span><span class="self">self
-            </span>.try_get_chain_position(chain, chain_tip, outpoint.txid)<span class="question-mark">?
-            </span>.is_none()
-        {
-            <span class="kw">return </span><span class="prelude-val">Ok</span>(<span class="prelude-val">None</span>);
-        }
-        <span class="kw">if let </span><span class="prelude-val">Some</span>(spends) = <span class="self">self</span>.spends.get(<span class="kw-2">&amp;</span>outpoint) {
-            <span class="kw">for </span><span class="kw-2">&amp;</span>txid <span class="kw">in </span>spends {
-                <span class="kw">if let </span><span class="prelude-val">Some</span>(observed_at) = <span class="self">self</span>.try_get_chain_position(chain, chain_tip, txid)<span class="question-mark">? </span>{
-                    <span class="kw">return </span><span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>((observed_at, txid)));
-                }
-            }
-        }
-        <span class="prelude-val">Ok</span>(<span class="prelude-val">None</span>)
-    }
-
-    <span class="doccomment">/// Get the txid of the spending transaction and where the spending transaction is observed in
-    /// the `chain` of `chain_tip`.
-    ///
-    /// This is the infallible version of [`try_get_chain_spend`]
-    ///
-    /// [`try_get_chain_spend`]: Self::try_get_chain_spend
-    </span><span class="kw">pub fn </span>get_chain_spend&lt;C: ChainOracle&lt;Error = Infallible&gt;&gt;(
-        <span class="kw-2">&amp;</span><span class="self">self</span>,
-        chain: <span class="kw-2">&amp;</span>C,
-        static_block: BlockId,
-        outpoint: OutPoint,
-    ) -&gt; <span class="prelude-ty">Option</span>&lt;(ChainPosition&lt;<span class="kw-2">&amp;</span>A&gt;, Txid)&gt; {
-        <span class="self">self</span>.try_get_chain_spend(chain, static_block, outpoint)
-            .expect(<span class="string">&quot;error is infallible&quot;</span>)
-    }
-
     <span class="doccomment">/// List graph transactions that are in `chain` with `chain_tip`.
     ///
     /// Each transaction is represented as a [`CanonicalTx`] that contains where the transaction is
@@ -1914,38 +2312,74 @@
     /// If the [`ChainOracle`] implementation (`chain`) fails, an error will be returned with the
     /// returned item.
     ///
-    /// If the [`ChainOracle`] is infallible, [`list_chain_txs`] can be used instead.
+    /// If the [`ChainOracle`] is infallible, [`list_canonical_txs`] can be used instead.
     ///
-    /// [`list_chain_txs`]: Self::list_chain_txs
-    </span><span class="kw">pub fn </span>try_list_chain_txs&lt;<span class="lifetime">&#39;a</span>, C: ChainOracle + <span class="lifetime">&#39;a</span>&gt;(
-        <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="self">self</span>,
-        chain: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>C,
+    /// [`list_canonical_txs`]: Self::list_canonical_txs
+    </span><span class="kw">pub fn </span>try_list_canonical_txs&lt;<span class="lifetime">'a</span>, C: ChainOracle + <span class="lifetime">'a</span>&gt;(
+        <span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="self">self</span>,
+        chain: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>C,
         chain_tip: BlockId,
-    ) -&gt; <span class="kw">impl </span>Iterator&lt;Item = <span class="prelude-ty">Result</span>&lt;CanonicalTx&lt;<span class="lifetime">&#39;a</span>, Transaction, A&gt;, C::Error&gt;&gt; {
-        <span class="self">self</span>.full_txs().filter_map(<span class="kw">move </span>|tx| {
-            <span class="self">self</span>.try_get_chain_position(chain, chain_tip, tx.txid)
-                .map(|v| {
-                    v.map(|observed_in| CanonicalTx {
-                        observed_as: observed_in,
-                        node: tx,
-                    })
+    ) -&gt; <span class="kw">impl </span>Iterator&lt;Item = <span class="prelude-ty">Result</span>&lt;CanonicalTx&lt;<span class="lifetime">'a</span>, Arc&lt;Transaction&gt;, A&gt;, C::Error&gt;&gt; {
+        <span class="self">self</span>.canonical_iter(chain, chain_tip).flat_map(<span class="kw">move </span>|res| {
+            res.map(|(txid, <span class="kw">_</span>, canonical_reason)| {
+                <span class="kw">let </span>tx_node = <span class="self">self</span>.get_tx_node(txid).expect(<span class="string">"must contain tx"</span>);
+                <span class="kw">let </span>chain_position = <span class="kw">match </span>canonical_reason {
+                    CanonicalReason::Anchor { anchor, descendant } =&gt; <span class="kw">match </span>descendant {
+                        <span class="prelude-val">Some</span>(<span class="kw">_</span>) =&gt; {
+                            <span class="kw">let </span>direct_anchor = tx_node
+                                .anchors
+                                .iter()
+                                .find_map(|a| -&gt; <span class="prelude-ty">Option</span>&lt;<span class="prelude-ty">Result</span>&lt;A, C::Error&gt;&gt; {
+                                    <span class="kw">match </span>chain.is_block_in_chain(a.anchor_block(), chain_tip) {
+                                        <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(<span class="bool-val">true</span>)) =&gt; <span class="prelude-val">Some</span>(<span class="prelude-val">Ok</span>(a.clone())),
+                                        <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(<span class="bool-val">false</span>)) | <span class="prelude-val">Ok</span>(<span class="prelude-val">None</span>) =&gt; <span class="prelude-val">None</span>,
+                                        <span class="prelude-val">Err</span>(err) =&gt; <span class="prelude-val">Some</span>(<span class="prelude-val">Err</span>(err)),
+                                    }
+                                })
+                                .transpose()<span class="question-mark">?</span>;
+                            <span class="kw">match </span>direct_anchor {
+                                <span class="prelude-val">Some</span>(anchor) =&gt; ChainPosition::Confirmed {
+                                    anchor,
+                                    transitively: <span class="prelude-val">None</span>,
+                                },
+                                <span class="prelude-val">None </span>=&gt; ChainPosition::Confirmed {
+                                    anchor,
+                                    transitively: descendant,
+                                },
+                            }
+                        }
+                        <span class="prelude-val">None </span>=&gt; ChainPosition::Confirmed {
+                            anchor,
+                            transitively: <span class="prelude-val">None</span>,
+                        },
+                    },
+                    CanonicalReason::ObservedIn { observed_in, .. } =&gt; <span class="kw">match </span>observed_in {
+                        ObservedIn::Mempool(last_seen) =&gt; ChainPosition::Unconfirmed {
+                            last_seen: <span class="prelude-val">Some</span>(last_seen),
+                        },
+                        ObservedIn::Block(<span class="kw">_</span>) =&gt; ChainPosition::Unconfirmed { last_seen: <span class="prelude-val">None </span>},
+                    },
+                };
+                <span class="prelude-val">Ok</span>(CanonicalTx {
+                    chain_position,
+                    tx_node,
                 })
-                .transpose()
+            })
         })
     }
 
     <span class="doccomment">/// List graph transactions that are in `chain` with `chain_tip`.
     ///
-    /// This is the infallible version of [`try_list_chain_txs`].
+    /// This is the infallible version of [`try_list_canonical_txs`].
     ///
-    /// [`try_list_chain_txs`]: Self::try_list_chain_txs
-    </span><span class="kw">pub fn </span>list_chain_txs&lt;<span class="lifetime">&#39;a</span>, C: ChainOracle + <span class="lifetime">&#39;a</span>&gt;(
-        <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="self">self</span>,
-        chain: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>C,
+    /// [`try_list_canonical_txs`]: Self::try_list_canonical_txs
+    </span><span class="kw">pub fn </span>list_canonical_txs&lt;<span class="lifetime">'a</span>, C: ChainOracle&lt;Error = Infallible&gt; + <span class="lifetime">'a</span>&gt;(
+        <span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="self">self</span>,
+        chain: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>C,
         chain_tip: BlockId,
-    ) -&gt; <span class="kw">impl </span>Iterator&lt;Item = CanonicalTx&lt;<span class="lifetime">&#39;a</span>, Transaction, A&gt;&gt; {
-        <span class="self">self</span>.try_list_chain_txs(chain, chain_tip)
-            .map(|r| r.expect(<span class="string">&quot;oracle is infallible&quot;</span>))
+    ) -&gt; <span class="kw">impl </span>Iterator&lt;Item = CanonicalTx&lt;<span class="lifetime">'a</span>, Arc&lt;Transaction&gt;, A&gt;&gt; {
+        <span class="self">self</span>.try_list_canonical_txs(chain, chain_tip)
+            .map(|res| res.expect(<span class="string">"infallible"</span>))
     }
 
     <span class="doccomment">/// Get a filtered list of outputs from the given `outpoints` that are in `chain` with
@@ -1955,7 +2389,8 @@
     /// (`OI`) for convenience. If `OI` is not necessary, the caller can use `()`, or
     /// [`Iterator::enumerate`] over a list of [`OutPoint`]s.
     ///
-    /// Floating outputs are ignored.
+    /// Floating outputs (i.e., outputs for which we don't have the full transaction in the graph)
+    /// are ignored.
     ///
     /// # Error
     ///
@@ -1966,49 +2401,85 @@
     /// instead.
     ///
     /// [`filter_chain_txouts`]: Self::filter_chain_txouts
-    </span><span class="kw">pub fn </span>try_filter_chain_txouts&lt;<span class="lifetime">&#39;a</span>, C: ChainOracle + <span class="lifetime">&#39;a</span>, OI: Clone + <span class="lifetime">&#39;a</span>&gt;(
-        <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="self">self</span>,
-        chain: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>C,
+    </span><span class="kw">pub fn </span>try_filter_chain_txouts&lt;<span class="lifetime">'a</span>, C: ChainOracle + <span class="lifetime">'a</span>, OI: Clone + <span class="lifetime">'a</span>&gt;(
+        <span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="self">self</span>,
+        chain: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>C,
         chain_tip: BlockId,
-        outpoints: <span class="kw">impl </span>IntoIterator&lt;Item = (OI, OutPoint)&gt; + <span class="lifetime">&#39;a</span>,
-    ) -&gt; <span class="kw">impl </span>Iterator&lt;Item = <span class="prelude-ty">Result</span>&lt;(OI, FullTxOut&lt;A&gt;), C::Error&gt;&gt; + <span class="lifetime">&#39;a </span>{
-        outpoints
-            .into_iter()
-            .map(
-                <span class="kw">move </span>|(spk_i, op)| -&gt; <span class="prelude-ty">Result</span>&lt;<span class="prelude-ty">Option</span>&lt;(OI, FullTxOut&lt;<span class="kw">_</span>&gt;)&gt;, C::Error&gt; {
-                    <span class="kw">let </span>tx_node = <span class="kw">match </span><span class="self">self</span>.get_tx_node(op.txid) {
-                        <span class="prelude-val">Some</span>(n) =&gt; n,
-                        <span class="prelude-val">None </span>=&gt; <span class="kw">return </span><span class="prelude-val">Ok</span>(<span class="prelude-val">None</span>),
-                    };
+        outpoints: <span class="kw">impl </span>IntoIterator&lt;Item = (OI, OutPoint)&gt; + <span class="lifetime">'a</span>,
+    ) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="kw">impl </span>Iterator&lt;Item = (OI, FullTxOut&lt;A&gt;)&gt; + <span class="lifetime">'a</span>, C::Error&gt; {
+        <span class="kw">let </span><span class="kw-2">mut </span>canon_txs = HashMap::&lt;Txid, CanonicalTx&lt;Arc&lt;Transaction&gt;, A&gt;&gt;::new();
+        <span class="kw">let </span><span class="kw-2">mut </span>canon_spends = HashMap::&lt;OutPoint, Txid&gt;::new();
+        <span class="kw">for </span>r <span class="kw">in </span><span class="self">self</span>.try_list_canonical_txs(chain, chain_tip) {
+            <span class="kw">let </span>canonical_tx = r<span class="question-mark">?</span>;
+            <span class="kw">let </span>txid = canonical_tx.tx_node.txid;
 
-                    <span class="kw">let </span>txout = <span class="kw">match </span>tx_node.tx.output.get(op.vout <span class="kw">as </span>usize) {
-                        <span class="prelude-val">Some</span>(txout) =&gt; txout.clone(),
-                        <span class="prelude-val">None </span>=&gt; <span class="kw">return </span><span class="prelude-val">Ok</span>(<span class="prelude-val">None</span>),
-                    };
-
-                    <span class="kw">let </span>chain_position =
-                        <span class="kw">match </span><span class="self">self</span>.try_get_chain_position(chain, chain_tip, op.txid)<span class="question-mark">? </span>{
-                            <span class="prelude-val">Some</span>(pos) =&gt; pos.cloned(),
-                            <span class="prelude-val">None </span>=&gt; <span class="kw">return </span><span class="prelude-val">Ok</span>(<span class="prelude-val">None</span>),
-                        };
-
-                    <span class="kw">let </span>spent_by = <span class="self">self
-                        </span>.try_get_chain_spend(chain, chain_tip, op)<span class="question-mark">?
-                        </span>.map(|(a, txid)| (a.cloned(), txid));
-
-                    <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>((
-                        spk_i,
-                        FullTxOut {
-                            outpoint: op,
-                            txout,
-                            chain_position,
-                            spent_by,
-                            is_on_coinbase: tx_node.tx.is_coin_base(),
-                        },
-                    )))
+            <span class="kw">if </span>!canonical_tx.tx_node.tx.is_coinbase() {
+                <span class="kw">for </span>txin <span class="kw">in </span><span class="kw-2">&amp;</span>canonical_tx.tx_node.tx.input {
+                    <span class="kw">let </span>_res = canon_spends.insert(txin.previous_output, txid);
+                    <span class="macro">assert!</span>(
+                        _res.is_none(),
+                        <span class="string">"tried to replace {:?} with {:?}"</span>,
+                        _res,
+                        txid
+                    );
+                }
+            }
+            canon_txs.insert(txid, canonical_tx);
+        }
+        <span class="prelude-val">Ok</span>(outpoints.into_iter().filter_map(<span class="kw">move </span>|(spk_i, outpoint)| {
+            <span class="kw">let </span>canon_tx = canon_txs.get(<span class="kw-2">&amp;</span>outpoint.txid)<span class="question-mark">?</span>;
+            <span class="kw">let </span>txout = canon_tx
+                .tx_node
+                .tx
+                .output
+                .get(outpoint.vout <span class="kw">as </span>usize)
+                .cloned()<span class="question-mark">?</span>;
+            <span class="kw">let </span>chain_position = canon_tx.chain_position.clone();
+            <span class="kw">let </span>spent_by = canon_spends.get(<span class="kw-2">&amp;</span>outpoint).map(|spend_txid| {
+                <span class="kw">let </span>spend_tx = canon_txs
+                    .get(spend_txid)
+                    .cloned()
+                    .expect(<span class="string">"must be canonical"</span>);
+                (spend_tx.chain_position, <span class="kw-2">*</span>spend_txid)
+            });
+            <span class="kw">let </span>is_on_coinbase = canon_tx.tx_node.is_coinbase();
+            <span class="prelude-val">Some</span>((
+                spk_i,
+                FullTxOut {
+                    outpoint,
+                    txout,
+                    chain_position,
+                    spent_by,
+                    is_on_coinbase,
                 },
-            )
-            .filter_map(Result::transpose)
+            ))
+        }))
+    }
+
+    <span class="doccomment">/// List txids by descending anchor height order.
+    ///
+    /// If multiple anchors exist for a txid, the highest anchor height will be used. Transactions
+    /// without anchors are excluded.
+    </span><span class="kw">pub fn </span>txids_by_descending_anchor_height(
+        <span class="kw-2">&amp;</span><span class="self">self</span>,
+    ) -&gt; <span class="kw">impl </span>ExactSizeIterator&lt;Item = (u32, Txid)&gt; + <span class="lifetime">'_ </span>{
+        <span class="self">self</span>.txs_by_highest_conf_heights.iter().copied().rev()
+    }
+
+    <span class="doccomment">/// List txids by descending last-seen order.
+    ///
+    /// Transactions without last-seens are excluded.
+    </span><span class="kw">pub fn </span>txids_by_descending_last_seen(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw">impl </span>ExactSizeIterator&lt;Item = (u64, Txid)&gt; + <span class="lifetime">'_ </span>{
+        <span class="self">self</span>.txs_by_last_seen.iter().copied().rev()
+    }
+
+    <span class="doccomment">/// Returns a [`CanonicalIter`].
+    </span><span class="kw">pub fn </span>canonical_iter&lt;<span class="lifetime">'a</span>, C: ChainOracle&gt;(
+        <span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="self">self</span>,
+        chain: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>C,
+        chain_tip: BlockId,
+    ) -&gt; CanonicalIter&lt;<span class="lifetime">'a</span>, A, C&gt; {
+        CanonicalIter::new(<span class="self">self</span>, chain, chain_tip)
     }
 
     <span class="doccomment">/// Get a filtered list of outputs from the given `outpoints` that are in `chain` with
@@ -2017,14 +2488,14 @@
     /// This is the infallible version of [`try_filter_chain_txouts`].
     ///
     /// [`try_filter_chain_txouts`]: Self::try_filter_chain_txouts
-    </span><span class="kw">pub fn </span>filter_chain_txouts&lt;<span class="lifetime">&#39;a</span>, C: ChainOracle&lt;Error = Infallible&gt; + <span class="lifetime">&#39;a</span>, OI: Clone + <span class="lifetime">&#39;a</span>&gt;(
-        <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="self">self</span>,
-        chain: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>C,
+    </span><span class="kw">pub fn </span>filter_chain_txouts&lt;<span class="lifetime">'a</span>, C: ChainOracle&lt;Error = Infallible&gt; + <span class="lifetime">'a</span>, OI: Clone + <span class="lifetime">'a</span>&gt;(
+        <span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="self">self</span>,
+        chain: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>C,
         chain_tip: BlockId,
-        outpoints: <span class="kw">impl </span>IntoIterator&lt;Item = (OI, OutPoint)&gt; + <span class="lifetime">&#39;a</span>,
-    ) -&gt; <span class="kw">impl </span>Iterator&lt;Item = (OI, FullTxOut&lt;A&gt;)&gt; + <span class="lifetime">&#39;a </span>{
+        outpoints: <span class="kw">impl </span>IntoIterator&lt;Item = (OI, OutPoint)&gt; + <span class="lifetime">'a</span>,
+    ) -&gt; <span class="kw">impl </span>Iterator&lt;Item = (OI, FullTxOut&lt;A&gt;)&gt; + <span class="lifetime">'a </span>{
         <span class="self">self</span>.try_filter_chain_txouts(chain, chain_tip, outpoints)
-            .map(|r| r.expect(<span class="string">&quot;oracle is infallible&quot;</span>))
+            .expect(<span class="string">"oracle is infallible"</span>)
     }
 
     <span class="doccomment">/// Get a filtered list of unspent outputs (UTXOs) from the given `outpoints` that are in
@@ -2045,19 +2516,15 @@
     /// instead.
     ///
     /// [`filter_chain_unspents`]: Self::filter_chain_unspents
-    </span><span class="kw">pub fn </span>try_filter_chain_unspents&lt;<span class="lifetime">&#39;a</span>, C: ChainOracle + <span class="lifetime">&#39;a</span>, OI: Clone + <span class="lifetime">&#39;a</span>&gt;(
-        <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="self">self</span>,
-        chain: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>C,
+    </span><span class="kw">pub fn </span>try_filter_chain_unspents&lt;<span class="lifetime">'a</span>, C: ChainOracle + <span class="lifetime">'a</span>, OI: Clone + <span class="lifetime">'a</span>&gt;(
+        <span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="self">self</span>,
+        chain: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>C,
         chain_tip: BlockId,
-        outpoints: <span class="kw">impl </span>IntoIterator&lt;Item = (OI, OutPoint)&gt; + <span class="lifetime">&#39;a</span>,
-    ) -&gt; <span class="kw">impl </span>Iterator&lt;Item = <span class="prelude-ty">Result</span>&lt;(OI, FullTxOut&lt;A&gt;), C::Error&gt;&gt; + <span class="lifetime">&#39;a </span>{
-        <span class="self">self</span>.try_filter_chain_txouts(chain, chain_tip, outpoints)
-            .filter(|r| <span class="kw">match </span>r {
-                <span class="comment">// keep unspents, drop spents
-                </span><span class="prelude-val">Ok</span>((<span class="kw">_</span>, full_txo)) =&gt; full_txo.spent_by.is_none(),
-                <span class="comment">// keep errors
-                </span><span class="prelude-val">Err</span>(<span class="kw">_</span>) =&gt; <span class="bool-val">true</span>,
-            })
+        outpoints: <span class="kw">impl </span>IntoIterator&lt;Item = (OI, OutPoint)&gt; + <span class="lifetime">'a</span>,
+    ) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="kw">impl </span>Iterator&lt;Item = (OI, FullTxOut&lt;A&gt;)&gt; + <span class="lifetime">'a</span>, C::Error&gt; {
+        <span class="prelude-val">Ok</span>(<span class="self">self
+            </span>.try_filter_chain_txouts(chain, chain_tip, outpoints)<span class="question-mark">?
+            </span>.filter(|(<span class="kw">_</span>, full_txo)| full_txo.spent_by.is_none()))
     }
 
     <span class="doccomment">/// Get a filtered list of unspent outputs (UTXOs) from the given `outpoints` that are in
@@ -2066,14 +2533,14 @@
     /// This is the infallible version of [`try_filter_chain_unspents`].
     ///
     /// [`try_filter_chain_unspents`]: Self::try_filter_chain_unspents
-    </span><span class="kw">pub fn </span>filter_chain_unspents&lt;<span class="lifetime">&#39;a</span>, C: ChainOracle&lt;Error = Infallible&gt; + <span class="lifetime">&#39;a</span>, OI: Clone + <span class="lifetime">&#39;a</span>&gt;(
-        <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="self">self</span>,
-        chain: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>C,
+    </span><span class="kw">pub fn </span>filter_chain_unspents&lt;<span class="lifetime">'a</span>, C: ChainOracle&lt;Error = Infallible&gt; + <span class="lifetime">'a</span>, OI: Clone + <span class="lifetime">'a</span>&gt;(
+        <span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="self">self</span>,
+        chain: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>C,
         chain_tip: BlockId,
-        txouts: <span class="kw">impl </span>IntoIterator&lt;Item = (OI, OutPoint)&gt; + <span class="lifetime">&#39;a</span>,
-    ) -&gt; <span class="kw">impl </span>Iterator&lt;Item = (OI, FullTxOut&lt;A&gt;)&gt; + <span class="lifetime">&#39;a </span>{
+        txouts: <span class="kw">impl </span>IntoIterator&lt;Item = (OI, OutPoint)&gt; + <span class="lifetime">'a</span>,
+    ) -&gt; <span class="kw">impl </span>Iterator&lt;Item = (OI, FullTxOut&lt;A&gt;)&gt; + <span class="lifetime">'a </span>{
         <span class="self">self</span>.try_filter_chain_unspents(chain, chain_tip, txouts)
-            .map(|r| r.expect(<span class="string">&quot;oracle is infallible&quot;</span>))
+            .expect(<span class="string">"oracle is infallible"</span>)
     }
 
     <span class="doccomment">/// Get the total balance of `outpoints` that are in `chain` of `chain_tip`.
@@ -2093,26 +2560,24 @@
         chain: <span class="kw-2">&amp;</span>C,
         chain_tip: BlockId,
         outpoints: <span class="kw">impl </span>IntoIterator&lt;Item = (OI, OutPoint)&gt;,
-        <span class="kw-2">mut </span>trust_predicate: <span class="kw">impl </span>FnMut(<span class="kw-2">&amp;</span>OI, <span class="kw-2">&amp;</span>Script) -&gt; bool,
+        <span class="kw-2">mut </span>trust_predicate: <span class="kw">impl </span>FnMut(<span class="kw-2">&amp;</span>OI, ScriptBuf) -&gt; bool,
     ) -&gt; <span class="prelude-ty">Result</span>&lt;Balance, C::Error&gt; {
-        <span class="kw">let </span><span class="kw-2">mut </span>immature = <span class="number">0</span>;
-        <span class="kw">let </span><span class="kw-2">mut </span>trusted_pending = <span class="number">0</span>;
-        <span class="kw">let </span><span class="kw-2">mut </span>untrusted_pending = <span class="number">0</span>;
-        <span class="kw">let </span><span class="kw-2">mut </span>confirmed = <span class="number">0</span>;
+        <span class="kw">let </span><span class="kw-2">mut </span>immature = Amount::ZERO;
+        <span class="kw">let </span><span class="kw-2">mut </span>trusted_pending = Amount::ZERO;
+        <span class="kw">let </span><span class="kw-2">mut </span>untrusted_pending = Amount::ZERO;
+        <span class="kw">let </span><span class="kw-2">mut </span>confirmed = Amount::ZERO;
 
-        <span class="kw">for </span>res <span class="kw">in </span><span class="self">self</span>.try_filter_chain_unspents(chain, chain_tip, outpoints) {
-            <span class="kw">let </span>(spk_i, txout) = res<span class="question-mark">?</span>;
-
+        <span class="kw">for </span>(spk_i, txout) <span class="kw">in </span><span class="self">self</span>.try_filter_chain_unspents(chain, chain_tip, outpoints)<span class="question-mark">? </span>{
             <span class="kw">match </span><span class="kw-2">&amp;</span>txout.chain_position {
-                ChainPosition::Confirmed(<span class="kw">_</span>) =&gt; {
+                ChainPosition::Confirmed { .. } =&gt; {
                     <span class="kw">if </span>txout.is_confirmed_and_spendable(chain_tip.height) {
                         confirmed += txout.txout.value;
                     } <span class="kw">else if </span>!txout.is_mature(chain_tip.height) {
                         immature += txout.txout.value;
                     }
                 }
-                ChainPosition::Unconfirmed(<span class="kw">_</span>) =&gt; {
-                    <span class="kw">if </span>trust_predicate(<span class="kw-2">&amp;</span>spk_i, <span class="kw-2">&amp;</span>txout.txout.script_pubkey) {
+                ChainPosition::Unconfirmed { .. } =&gt; {
+                    <span class="kw">if </span>trust_predicate(<span class="kw-2">&amp;</span>spk_i, txout.txout.script_pubkey) {
                         trusted_pending += txout.txout.value;
                     } <span class="kw">else </span>{
                         untrusted_pending += txout.txout.value;
@@ -2139,16 +2604,16 @@
         chain: <span class="kw-2">&amp;</span>C,
         chain_tip: BlockId,
         outpoints: <span class="kw">impl </span>IntoIterator&lt;Item = (OI, OutPoint)&gt;,
-        trust_predicate: <span class="kw">impl </span>FnMut(<span class="kw-2">&amp;</span>OI, <span class="kw-2">&amp;</span>Script) -&gt; bool,
+        trust_predicate: <span class="kw">impl </span>FnMut(<span class="kw-2">&amp;</span>OI, ScriptBuf) -&gt; bool,
     ) -&gt; Balance {
         <span class="self">self</span>.try_balance(chain, chain_tip, outpoints, trust_predicate)
-            .expect(<span class="string">&quot;oracle is infallible&quot;</span>)
+            .expect(<span class="string">"oracle is infallible"</span>)
     }
 }
 
-<span class="doccomment">/// A structure that represents changes to a [`TxGraph`].
+<span class="doccomment">/// The [`ChangeSet`] represents changes to a [`TxGraph`].
 ///
-/// It is named &quot;additions&quot; because [`TxGraph`] is monotone, so transactions can only be added and
+/// Since [`TxGraph`] is monotone, the "changeset" can only contain transactions to be added and
 /// not removed.
 ///
 /// Refer to [module-level documentation] for more.
@@ -2156,20 +2621,17 @@
 /// [module-level documentation]: crate::tx_graph
 </span><span class="attr">#[derive(Debug, Clone, PartialEq)]
 #[cfg_attr(
-    feature = <span class="string">&quot;serde&quot;</span>,
+    feature = <span class="string">"serde"</span>,
     derive(serde::Deserialize, serde::Serialize),
-    serde(
-        <span class="kw">crate </span>= <span class="string">&quot;serde_crate&quot;</span>,
-        bound(
-            deserialize = <span class="string">&quot;A: Ord + serde::Deserialize&lt;&#39;de&gt;&quot;</span>,
-            serialize = <span class="string">&quot;A: Ord + serde::Serialize&quot;</span>,
-        )
-    )
+    serde(bound(
+        deserialize = <span class="string">"A: Ord + serde::Deserialize&lt;'de&gt;"</span>,
+        serialize = <span class="string">"A: Ord + serde::Serialize"</span>,
+    ))
 )]
 #[must_use]
-</span><span class="kw">pub struct </span>Additions&lt;A = ()&gt; {
+</span><span class="kw">pub struct </span>ChangeSet&lt;A = ()&gt; {
     <span class="doccomment">/// Added transactions.
-    </span><span class="kw">pub </span>txs: BTreeSet&lt;Transaction&gt;,
+    </span><span class="kw">pub </span>txs: BTreeSet&lt;Arc&lt;Transaction&gt;&gt;,
     <span class="doccomment">/// Added txouts.
     </span><span class="kw">pub </span>txouts: BTreeMap&lt;OutPoint, TxOut&gt;,
     <span class="doccomment">/// Added anchors.
@@ -2178,7 +2640,7 @@
     </span><span class="kw">pub </span>last_seen: BTreeMap&lt;Txid, u64&gt;,
 }
 
-<span class="kw">impl</span>&lt;A&gt; Default <span class="kw">for </span>Additions&lt;A&gt; {
+<span class="kw">impl</span>&lt;A&gt; Default <span class="kw">for </span>ChangeSet&lt;A&gt; {
     <span class="kw">fn </span>default() -&gt; <span class="self">Self </span>{
         <span class="self">Self </span>{
             txs: Default::default(),
@@ -2189,13 +2651,8 @@
     }
 }
 
-<span class="kw">impl</span>&lt;A&gt; Additions&lt;A&gt; {
-    <span class="doccomment">/// Returns true if the [`Additions`] is empty (no transactions or txouts).
-    </span><span class="kw">pub fn </span>is_empty(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
-        <span class="self">self</span>.txs.is_empty() &amp;&amp; <span class="self">self</span>.txouts.is_empty()
-    }
-
-    <span class="doccomment">/// Iterates over all outpoints contained within [`Additions`].
+<span class="kw">impl</span>&lt;A&gt; ChangeSet&lt;A&gt; {
+    <span class="doccomment">/// Iterates over all outpoints contained within [`ChangeSet`].
     </span><span class="kw">pub fn </span>txouts(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw">impl </span>Iterator&lt;Item = (OutPoint, <span class="kw-2">&amp;</span>TxOut)&gt; {
         <span class="self">self</span>.txs
             .iter()
@@ -2203,17 +2660,38 @@
                 tx.output
                     .iter()
                     .enumerate()
-                    .map(<span class="kw">move </span>|(vout, txout)| (OutPoint::new(tx.txid(), vout <span class="kw">as _</span>), txout))
+                    .map(<span class="kw">move </span>|(vout, txout)| (OutPoint::new(tx.compute_txid(), vout <span class="kw">as _</span>), txout))
             })
             .chain(<span class="self">self</span>.txouts.iter().map(|(op, txout)| (<span class="kw-2">*</span>op, txout)))
     }
+
+    <span class="doccomment">/// Iterates over the heights of that the new transaction anchors in this changeset.
+    ///
+    /// This is useful if you want to find which heights you need to fetch data about in order to
+    /// confirm or exclude these anchors.
+    </span><span class="kw">pub fn </span>anchor_heights(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw">impl </span>Iterator&lt;Item = u32&gt; + <span class="lifetime">'_
+    </span><span class="kw">where
+        </span>A: Anchor,
+    {
+        <span class="kw">let </span><span class="kw-2">mut </span>dedup = <span class="prelude-val">None</span>;
+        <span class="self">self</span>.anchors
+            .iter()
+            .map(|(a, <span class="kw">_</span>)| a.anchor_block().height)
+            .filter(<span class="kw">move </span>|height| {
+                <span class="kw">let </span>duplicate = dedup == <span class="prelude-val">Some</span>(<span class="kw-2">*</span>height);
+                dedup = <span class="prelude-val">Some</span>(<span class="kw-2">*</span>height);
+                !duplicate
+            })
+    }
 }
 
-<span class="kw">impl</span>&lt;A: Ord&gt; Append <span class="kw">for </span>Additions&lt;A&gt; {
-    <span class="kw">fn </span>append(<span class="kw-2">&amp;mut </span><span class="self">self</span>, <span class="kw-2">mut </span>other: <span class="self">Self</span>) {
-        <span class="self">self</span>.txs.append(<span class="kw-2">&amp;mut </span>other.txs);
-        <span class="self">self</span>.txouts.append(<span class="kw-2">&amp;mut </span>other.txouts);
-        <span class="self">self</span>.anchors.append(<span class="kw-2">&amp;mut </span>other.anchors);
+<span class="kw">impl</span>&lt;A: Ord&gt; Merge <span class="kw">for </span>ChangeSet&lt;A&gt; {
+    <span class="kw">fn </span>merge(<span class="kw-2">&amp;mut </span><span class="self">self</span>, other: <span class="self">Self</span>) {
+        <span class="comment">// We use `extend` instead of `BTreeMap::append` due to performance issues with `append`.
+        // Refer to https://github.com/rust-lang/rust/issues/34666#issuecomment-675658420
+        </span><span class="self">self</span>.txs.extend(other.txs);
+        <span class="self">self</span>.txouts.extend(other.txouts);
+        <span class="self">self</span>.anchors.extend(other.anchors);
 
         <span class="comment">// last_seen timestamps should only increase
         </span><span class="self">self</span>.last_seen.extend(
@@ -2233,64 +2711,211 @@
     }
 }
 
+<span class="kw">impl</span>&lt;A: Ord&gt; ChangeSet&lt;A&gt; {
+    <span class="doccomment">/// Transform the [`ChangeSet`] to have [`Anchor`]s of another type.
+    ///
+    /// This takes in a closure of signature `FnMut(A) -&gt; A2` which is called for each [`Anchor`] to
+    /// transform it.
+    </span><span class="kw">pub fn </span>map_anchors&lt;A2: Ord, F&gt;(<span class="self">self</span>, <span class="kw-2">mut </span>f: F) -&gt; ChangeSet&lt;A2&gt;
+    <span class="kw">where
+        </span>F: FnMut(A) -&gt; A2,
+    {
+        ChangeSet {
+            txs: <span class="self">self</span>.txs,
+            txouts: <span class="self">self</span>.txouts,
+            anchors: BTreeSet::&lt;(A2, Txid)&gt;::from_iter(
+                <span class="self">self</span>.anchors.into_iter().map(|(a, txid)| (f(a), txid)),
+            ),
+            last_seen: <span class="self">self</span>.last_seen,
+        }
+    }
+}
+
 <span class="kw">impl</span>&lt;A&gt; AsRef&lt;TxGraph&lt;A&gt;&gt; <span class="kw">for </span>TxGraph&lt;A&gt; {
     <span class="kw">fn </span>as_ref(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>TxGraph&lt;A&gt; {
         <span class="self">self
     </span>}
 }
 
-<span class="kw">impl</span>&lt;A&gt; ForEachTxOut <span class="kw">for </span>Additions&lt;A&gt; {
-    <span class="kw">fn </span>for_each_txout(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw">impl </span>FnMut((OutPoint, <span class="kw-2">&amp;</span>TxOut))) {
-        <span class="self">self</span>.txouts().for_each(f)
+<span class="doccomment">/// An iterator that traverses ancestors of a given root transaction.
+///
+/// The iterator excludes partial transactions.
+///
+/// Returned by the [`walk_ancestors`] method of [`TxGraph`].
+///
+/// [`walk_ancestors`]: TxGraph::walk_ancestors
+</span><span class="kw">pub struct </span>TxAncestors&lt;<span class="lifetime">'g</span>, A, F, O&gt;
+<span class="kw">where
+    </span>F: FnMut(usize, Arc&lt;Transaction&gt;) -&gt; <span class="prelude-ty">Option</span>&lt;O&gt;,
+{
+    graph: <span class="kw-2">&amp;</span><span class="lifetime">'g </span>TxGraph&lt;A&gt;,
+    visited: HashSet&lt;Txid&gt;,
+    queue: VecDeque&lt;(usize, Arc&lt;Transaction&gt;)&gt;,
+    filter_map: F,
+}
+
+<span class="kw">impl</span>&lt;<span class="lifetime">'g</span>, A, F, O&gt; TxAncestors&lt;<span class="lifetime">'g</span>, A, F, O&gt;
+<span class="kw">where
+    </span>F: FnMut(usize, Arc&lt;Transaction&gt;) -&gt; <span class="prelude-ty">Option</span>&lt;O&gt;,
+{
+    <span class="doccomment">/// Creates a `TxAncestors` that includes the starting `Transaction` when iterating.
+    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>new_include_root(
+        graph: <span class="kw-2">&amp;</span><span class="lifetime">'g </span>TxGraph&lt;A&gt;,
+        tx: <span class="kw">impl </span>Into&lt;Arc&lt;Transaction&gt;&gt;,
+        filter_map: F,
+    ) -&gt; <span class="self">Self </span>{
+        <span class="self">Self </span>{
+            graph,
+            visited: Default::default(),
+            queue: [(<span class="number">0</span>, tx.into())].into(),
+            filter_map,
+        }
+    }
+
+    <span class="doccomment">/// Creates a `TxAncestors` that excludes the starting `Transaction` when iterating.
+    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>new_exclude_root(
+        graph: <span class="kw-2">&amp;</span><span class="lifetime">'g </span>TxGraph&lt;A&gt;,
+        tx: <span class="kw">impl </span>Into&lt;Arc&lt;Transaction&gt;&gt;,
+        filter_map: F,
+    ) -&gt; <span class="self">Self </span>{
+        <span class="kw">let </span><span class="kw-2">mut </span>ancestors = <span class="self">Self </span>{
+            graph,
+            visited: Default::default(),
+            queue: Default::default(),
+            filter_map,
+        };
+        ancestors.populate_queue(<span class="number">1</span>, tx.into());
+        ancestors
+    }
+
+    <span class="doccomment">/// Creates a `TxAncestors` from multiple starting `Transaction`s that includes the starting
+    /// `Transaction`s when iterating.
+    </span><span class="attr">#[allow(unused)]
+    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>from_multiple_include_root&lt;I&gt;(
+        graph: <span class="kw-2">&amp;</span><span class="lifetime">'g </span>TxGraph&lt;A&gt;,
+        txs: I,
+        filter_map: F,
+    ) -&gt; <span class="self">Self
+    </span><span class="kw">where
+        </span>I: IntoIterator,
+        I::Item: Into&lt;Arc&lt;Transaction&gt;&gt;,
+    {
+        <span class="self">Self </span>{
+            graph,
+            visited: Default::default(),
+            queue: txs.into_iter().map(|tx| (<span class="number">0</span>, tx.into())).collect(),
+            filter_map,
+        }
+    }
+
+    <span class="doccomment">/// Creates a `TxAncestors` from multiple starting `Transaction`s that excludes the starting
+    /// `Transaction`s when iterating.
+    </span><span class="attr">#[allow(unused)]
+    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>from_multiple_exclude_root&lt;I&gt;(
+        graph: <span class="kw-2">&amp;</span><span class="lifetime">'g </span>TxGraph&lt;A&gt;,
+        txs: I,
+        filter_map: F,
+    ) -&gt; <span class="self">Self
+    </span><span class="kw">where
+        </span>I: IntoIterator,
+        I::Item: Into&lt;Arc&lt;Transaction&gt;&gt;,
+    {
+        <span class="kw">let </span><span class="kw-2">mut </span>ancestors = <span class="self">Self </span>{
+            graph,
+            visited: Default::default(),
+            queue: Default::default(),
+            filter_map,
+        };
+        <span class="kw">for </span>tx <span class="kw">in </span>txs {
+            ancestors.populate_queue(<span class="number">1</span>, tx.into());
+        }
+        ancestors
+    }
+
+    <span class="doccomment">/// Traverse all ancestors that are not filtered out by the provided closure.
+    </span><span class="kw">pub fn </span>run_until_finished(<span class="self">self</span>) {
+        <span class="self">self</span>.for_each(|<span class="kw">_</span>| {})
+    }
+
+    <span class="kw">fn </span>populate_queue(<span class="kw-2">&amp;mut </span><span class="self">self</span>, depth: usize, tx: Arc&lt;Transaction&gt;) {
+        <span class="kw">let </span>ancestors = tx
+            .input
+            .iter()
+            .map(|txin| txin.previous_output.txid)
+            .filter(|<span class="kw-2">&amp;</span>prev_txid| <span class="self">self</span>.visited.insert(prev_txid))
+            .filter_map(|prev_txid| <span class="self">self</span>.graph.get_tx(prev_txid))
+            .map(|tx| (depth, tx));
+        <span class="self">self</span>.queue.extend(ancestors);
     }
 }
 
-<span class="kw">impl</span>&lt;A&gt; ForEachTxOut <span class="kw">for </span>TxGraph&lt;A&gt; {
-    <span class="kw">fn </span>for_each_txout(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw">impl </span>FnMut((OutPoint, <span class="kw-2">&amp;</span>TxOut))) {
-        <span class="self">self</span>.all_txouts().for_each(f)
+<span class="kw">impl</span>&lt;A, F, O&gt; Iterator <span class="kw">for </span>TxAncestors&lt;<span class="lifetime">'_</span>, A, F, O&gt;
+<span class="kw">where
+    </span>F: FnMut(usize, Arc&lt;Transaction&gt;) -&gt; <span class="prelude-ty">Option</span>&lt;O&gt;,
+{
+    <span class="kw">type </span>Item = O;
+
+    <span class="kw">fn </span>next(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="self">Self</span>::Item&gt; {
+        <span class="kw">loop </span>{
+            <span class="comment">// we have exhausted all paths when queue is empty
+            </span><span class="kw">let </span>(ancestor_depth, tx) = <span class="self">self</span>.queue.pop_front()<span class="question-mark">?</span>;
+            <span class="comment">// ignore paths when user filters them out
+            </span><span class="kw">let </span>item = <span class="kw">match </span>(<span class="self">self</span>.filter_map)(ancestor_depth, tx.clone()) {
+                <span class="prelude-val">Some</span>(item) =&gt; item,
+                <span class="prelude-val">None </span>=&gt; <span class="kw">continue</span>,
+            };
+            <span class="self">self</span>.populate_queue(ancestor_depth + <span class="number">1</span>, tx);
+            <span class="kw">return </span><span class="prelude-val">Some</span>(item);
+        }
     }
 }
 
 <span class="doccomment">/// An iterator that traverses transaction descendants.
 ///
-/// This `struct` is created by the [`walk_descendants`] method of [`TxGraph`].
+/// Returned by the [`walk_descendants`] method of [`TxGraph`].
 ///
 /// [`walk_descendants`]: TxGraph::walk_descendants
-</span><span class="kw">pub struct </span>TxDescendants&lt;<span class="lifetime">&#39;g</span>, A, F&gt; {
-    graph: <span class="kw-2">&amp;</span><span class="lifetime">&#39;g </span>TxGraph&lt;A&gt;,
+</span><span class="kw">pub struct </span>TxDescendants&lt;<span class="lifetime">'g</span>, A, F, O&gt;
+<span class="kw">where
+    </span>F: FnMut(usize, Txid) -&gt; <span class="prelude-ty">Option</span>&lt;O&gt;,
+{
+    graph: <span class="kw-2">&amp;</span><span class="lifetime">'g </span>TxGraph&lt;A&gt;,
     visited: HashSet&lt;Txid&gt;,
-    stack: Vec&lt;(usize, Txid)&gt;,
+    queue: VecDeque&lt;(usize, Txid)&gt;,
     filter_map: F,
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;g</span>, A, F&gt; TxDescendants&lt;<span class="lifetime">&#39;g</span>, A, F&gt; {
+<span class="kw">impl</span>&lt;<span class="lifetime">'g</span>, A, F, O&gt; TxDescendants&lt;<span class="lifetime">'g</span>, A, F, O&gt;
+<span class="kw">where
+    </span>F: FnMut(usize, Txid) -&gt; <span class="prelude-ty">Option</span>&lt;O&gt;,
+{
     <span class="doccomment">/// Creates a `TxDescendants` that includes the starting `txid` when iterating.
     </span><span class="attr">#[allow(unused)]
-    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>new_include_root(graph: <span class="kw-2">&amp;</span><span class="lifetime">&#39;g </span>TxGraph&lt;A&gt;, txid: Txid, filter_map: F) -&gt; <span class="self">Self </span>{
+    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>new_include_root(graph: <span class="kw-2">&amp;</span><span class="lifetime">'g </span>TxGraph&lt;A&gt;, txid: Txid, filter_map: F) -&gt; <span class="self">Self </span>{
         <span class="self">Self </span>{
             graph,
             visited: Default::default(),
-            stack: [(<span class="number">0</span>, txid)].into(),
+            queue: [(<span class="number">0</span>, txid)].into(),
             filter_map,
         }
     }
 
     <span class="doccomment">/// Creates a `TxDescendants` that excludes the starting `txid` when iterating.
-    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>new_exclude_root(graph: <span class="kw-2">&amp;</span><span class="lifetime">&#39;g </span>TxGraph&lt;A&gt;, txid: Txid, filter_map: F) -&gt; <span class="self">Self </span>{
+    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>new_exclude_root(graph: <span class="kw-2">&amp;</span><span class="lifetime">'g </span>TxGraph&lt;A&gt;, txid: Txid, filter_map: F) -&gt; <span class="self">Self </span>{
         <span class="kw">let </span><span class="kw-2">mut </span>descendants = <span class="self">Self </span>{
             graph,
             visited: Default::default(),
-            stack: Default::default(),
+            queue: Default::default(),
             filter_map,
         };
-        descendants.populate_stack(<span class="number">1</span>, txid);
+        descendants.populate_queue(<span class="number">1</span>, txid);
         descendants
     }
 
-    <span class="doccomment">/// Creates a `TxDescendants` from multiple starting transactions that include the starting
+    <span class="doccomment">/// Creates a `TxDescendants` from multiple starting transactions that includes the starting
     /// `txid`s when iterating.
     </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>from_multiple_include_root&lt;I&gt;(
-        graph: <span class="kw-2">&amp;</span><span class="lifetime">&#39;g </span>TxGraph&lt;A&gt;,
+        graph: <span class="kw-2">&amp;</span><span class="lifetime">'g </span>TxGraph&lt;A&gt;,
         txids: I,
         filter_map: F,
     ) -&gt; <span class="self">Self
@@ -2300,7 +2925,7 @@
         <span class="self">Self </span>{
             graph,
             visited: Default::default(),
-            stack: txids.into_iter().map(|txid| (<span class="number">0</span>, txid)).collect(),
+            queue: txids.into_iter().map(|txid| (<span class="number">0</span>, txid)).collect(),
             filter_map,
         }
     }
@@ -2309,7 +2934,7 @@
     /// `txid`s when iterating.
     </span><span class="attr">#[allow(unused)]
     </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>from_multiple_exclude_root&lt;I&gt;(
-        graph: <span class="kw-2">&amp;</span><span class="lifetime">&#39;g </span>TxGraph&lt;A&gt;,
+        graph: <span class="kw-2">&amp;</span><span class="lifetime">'g </span>TxGraph&lt;A&gt;,
         txids: I,
         filter_map: F,
     ) -&gt; <span class="self">Self
@@ -2319,29 +2944,32 @@
         <span class="kw">let </span><span class="kw-2">mut </span>descendants = <span class="self">Self </span>{
             graph,
             visited: Default::default(),
-            stack: Default::default(),
+            queue: Default::default(),
             filter_map,
         };
         <span class="kw">for </span>txid <span class="kw">in </span>txids {
-            descendants.populate_stack(<span class="number">1</span>, txid);
+            descendants.populate_queue(<span class="number">1</span>, txid);
         }
         descendants
     }
-}
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;g</span>, A, F&gt; TxDescendants&lt;<span class="lifetime">&#39;g</span>, A, F&gt; {
-    <span class="kw">fn </span>populate_stack(<span class="kw-2">&amp;mut </span><span class="self">self</span>, depth: usize, txid: Txid) {
+    <span class="doccomment">/// Traverse all descendants that are not filtered out by the provided closure.
+    </span><span class="kw">pub fn </span>run_until_finished(<span class="self">self</span>) {
+        <span class="self">self</span>.for_each(|<span class="kw">_</span>| {})
+    }
+
+    <span class="kw">fn </span>populate_queue(<span class="kw-2">&amp;mut </span><span class="self">self</span>, depth: usize, txid: Txid) {
         <span class="kw">let </span>spend_paths = <span class="self">self
             </span>.graph
             .spends
             .range(tx_outpoint_range(txid))
             .flat_map(|(<span class="kw">_</span>, spends)| spends)
             .map(|<span class="kw-2">&amp;</span>txid| (depth, txid));
-        <span class="self">self</span>.stack.extend(spend_paths);
+        <span class="self">self</span>.queue.extend(spend_paths);
     }
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;g</span>, A, F, O&gt; Iterator <span class="kw">for </span>TxDescendants&lt;<span class="lifetime">&#39;g</span>, A, F&gt;
+<span class="kw">impl</span>&lt;A, F, O&gt; Iterator <span class="kw">for </span>TxDescendants&lt;<span class="lifetime">'_</span>, A, F, O&gt;
 <span class="kw">where
     </span>F: FnMut(usize, Txid) -&gt; <span class="prelude-ty">Option</span>&lt;O&gt;,
 {
@@ -2349,8 +2977,8 @@
 
     <span class="kw">fn </span>next(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="self">Self</span>::Item&gt; {
         <span class="kw">let </span>(op_spends, txid, item) = <span class="kw">loop </span>{
-            <span class="comment">// we have exhausted all paths when stack is empty
-            </span><span class="kw">let </span>(op_spends, txid) = <span class="self">self</span>.stack.pop()<span class="question-mark">?</span>;
+            <span class="comment">// we have exhausted all paths when queue is empty
+            </span><span class="kw">let </span>(op_spends, txid) = <span class="self">self</span>.queue.pop_front()<span class="question-mark">?</span>;
             <span class="comment">// we do not want to visit the same transaction twice
             </span><span class="kw">if </span><span class="self">self</span>.visited.insert(txid) {
                 <span class="comment">// ignore paths when user filters them out
@@ -2360,7 +2988,7 @@
             }
         };
 
-        <span class="self">self</span>.populate_stack(op_spends + <span class="number">1</span>, txid);
+        <span class="self">self</span>.populate_queue(op_spends + <span class="number">1</span>, txid);
         <span class="prelude-val">Some</span>(item)
     }
 }
@@ -2368,5 +2996,4 @@
 <span class="kw">fn </span>tx_outpoint_range(txid: Txid) -&gt; RangeInclusive&lt;OutPoint&gt; {
     OutPoint::new(txid, u32::MIN)..=OutPoint::new(txid, u32::MAX)
 }
-</code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="bdk_chain" data-themes="" data-resource-suffix="" data-rustdoc-version="1.68.0-nightly (0f529f0f4 2022-12-13)" data-search-js="search-444266647c4dba98.js" data-settings-js="settings-bebeae96e00e4617.js" data-settings-css="settings-af96d9e2fc13e081.css" ></div></body></html>
+</code></pre></div></section></main></body></html>

@@ -1,1 +1,0 @@
-window.SIDEBAR_ITEMS = {"enum":[["Error","Errors related to the parsing and usage of descriptors"]]};
